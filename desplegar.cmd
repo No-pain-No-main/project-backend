@@ -7,9 +7,8 @@ echo           1. VERIFICANDO / DESCARGANDO REPOSITORIO
 echo ==========================================================
 
 :: Verifica si la carpeta del proyecto ya existe
-if exist "project-backend\" (
+if exist "NoPainNoMain" (
     echo Carpeta existente detectada. Actualizando codigo con Git Pull...
-    cd project-backend
     git pull origin main
 ) else (
     echo Descargando repositorio por primera vez con Git Clone...
@@ -17,9 +16,20 @@ if exist "project-backend\" (
     cd project-backend
 )
 
+echo ==========================================================
+echo           2. INICIANDO INFRAESTRUCTURA (DOCKER)
+echo ==========================================================
+
+:: Como el archivo docker-compose.yml está en la raíz de project-backend, lo ejecutamos aquí
+echo Levantando contenedor de PostgreSQL...
+docker compose up -d
+
+echo Esperando 5 segundos a que la base de datos este lista...
+timeout /t 5 /nobreak > nul
+
 echo.
 echo ==========================================================
-echo           2. COMPILANDO Y ARRANCANDO SPRING BOOT
+echo           3. COMPILANDO Y ARRANCANDO SPRING BOOT
 echo ==========================================================
 
 
