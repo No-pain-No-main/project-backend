@@ -20,7 +20,19 @@ fi
 
 echo ""
 echo "=========================================================="
-echo "           2. COMPILANDO Y ARRANCANDO SPRING BOOT"
+echo "           2. INICIANDO INFRAESTRUCTURA (DOCKER)"
+echo "=========================================================="
+
+# Levanta el contenedor en segundo plano
+echo "Levantando contenedor de PostgreSQL..."
+docker compose up -d
+
+echo "Esperando 5 segundos a que la base de datos este lista..."
+sleep 5
+
+echo ""
+echo "=========================================================="
+echo "           3. COMPILANDO Y ARRANCANDO SPRING BOOT"
 echo "=========================================================="
 
 cd NoPainNoMain
