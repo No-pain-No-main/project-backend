@@ -11,67 +11,45 @@ import com.adanext.NoPainNoMain.domain.repository.StudentRepository;
 import com.adanext.NoPainNoMain.persistence.StudentEntity;
 import com.adanext.NoPainNoMain.persistence.mappers.StudentMapper;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
-import jakarta.transaction.Transactional;
-
 @Repository
 public class StudentRepositoryImpl implements StudentRepository {
 
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final StudentJpaRepository repository;
+
+    public StudentRepositoryImpl(StudentJpaRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
-    @Transactional
     public Student save(Student student) {
         if (student == null) return null;
 
         StudentEntity entity = StudentMapper.toEntity(student);
-        if (student.getId() == null) {
-            entityManager.persist(entity);
-            entityManager.flush();
-            return StudentMapper.toDomain(entity);
-        }
-
-        StudentEntity merged = entityManager.merge(entity);
-        return StudentMapper.toDomain(merged);
+        StudentEntity saved = repository.save(entity);
+        return StudentMapper.toDomain(saved);
     }
 
     @Override
     public Optional<Student> findById(Integer id) {
-        return Optional.ofNullable(entityManager.find(StudentEntity.class, id))
+        return repository.findById(id)
             .map(StudentMapper::toDomain);
     }
 
     @Override
     public Optional<Student> findByEmail(String email) {
-        TypedQuery<StudentEntity> query = entityManager.createQuery(
-            "SELECT s FROM StudentEntity s WHERE s.email = :email", StudentEntity.class);
-        query.setParameter("email", email);
-
-        return query.getResultStream()
-            .findFirst()
+        return repository.findByEmail(email)
             .map(StudentMapper::toDomain);
     }
 
     @Override
     public List<Student> findAll() {
-        List<StudentEntity> entities = entityManager
-            .createQuery("SELECT s FROM StudentEntity s", StudentEntity.class)
-            .getResultList();
-
-        return entities.stream()
+        return repository.findAll().stream()
             .map(StudentMapper::toDomain)
             .collect(Collectors.toList());
     }
 
     @Override
-    @Transactional
     public void deleteById(Integer id) {
-        StudentEntity entity = entityManager.find(StudentEntity.class, id);
-        if (entity != null) {
-            entityManager.remove(entity);
-        }
+        repository.deleteById(id);
     }
 }
