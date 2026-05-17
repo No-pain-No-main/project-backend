@@ -1,67 +1,66 @@
 package com.adanext.NoPainNoMain.domain;
+
 import java.time.LocalDate;
+import java.util.Optional;
 
 import com.adanext.NoPainNoMain.domain.types.DocumentType;
 import com.adanext.NoPainNoMain.domain.types.Gender;
 import com.adanext.NoPainNoMain.domain.types.UserStatus;
 
-
 public class Student {
 
-    private Integer id;
-    private String firstName;
-    private String middleName;
-    private String lastName;
-    private String secondLastName;
-    private String email;
-    private DocumentType documentType;
-    private String documentNumber;
-    private LocalDate birthDate;
-    private String phone;
-    private Gender gender;
-    private UserStatus userStatus;
-    private String passwordHash;
+    private final Integer id;
+    private final String firstName;
+    private final String middleName; // Puede ser null
+    private final String lastName;
+    private final String secondLastName; // Puede ser null
+    private final String email;
+    private final DocumentType documentType;
+    private final String documentNumber;
+    private final LocalDate birthDate;
+    private final String phone;
+    private final Gender gender;
+    private final UserStatus userStatus;
+    private final String passwordHash;
 
-    // Constructor vacío
-    public Student() {}
+    // El constructor sigue recibiendo todos los campos, pero aceptará 'null' en los opcionales
+    public Student(Integer id, String firstName, String middleName, String lastName, String secondLastName, 
+                   String email, DocumentType documentType, String documentNumber, LocalDate birthDate, 
+                   String phone, Gender gender, UserStatus userStatus, String passwordHash) {
+        this.id = id;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.secondLastName = secondLastName;
+        this.email = email;
+        this.documentType = documentType;
+        this.documentNumber = documentNumber;
+        this.birthDate = birthDate;
+        this.phone = phone;
+        this.gender = gender;
+        this.userStatus = userStatus;
+        this.passwordHash = passwordHash;
+    }
 
-    // Getters y Setters
+    // Campos obligatorios devuelven el tipo directo
     public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
-
     public String getFirstName() { return firstName; }
-    public void setFirstName(String firstName) { this.firstName = firstName; }
-
-    public String getMiddleName() { return middleName; }
-    public void setMiddleName(String middleName) { this.middleName = middleName; }
-
     public String getLastName() { return lastName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
-
-    public String getSecondLastName() { return secondLastName; }
-    public void setSecondLastName(String secondLastName) { this.secondLastName = secondLastName; }
-
     public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
     public DocumentType getDocumentType() { return documentType; }
-    public void setDocumentType(DocumentType documentType) { this.documentType = documentType; }
-
     public String getDocumentNumber() { return documentNumber; }
-    public void setDocumentNumber(String documentNumber) { this.documentNumber = documentNumber; }
-
     public LocalDate getBirthDate() { return birthDate; }
-    public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
-
     public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
-
     public Gender getGender() { return gender; }
-    public void setGender(Gender gender) { this.gender = gender; }
-
     public UserStatus getUserStatus() { return userStatus; }
-    public void setUserStatus(UserStatus userStatus) { this.userStatus = userStatus; }
-
     public String getPasswordHash() { return passwordHash; }
-    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
+    // Campos opcionales devuelven un Optional para proteger el negocio
+    public Optional<String> getMiddleName() { 
+        return Optional.ofNullable(middleName); 
+    }
+
+    public Optional<String> getSecondLastName() { 
+        return Optional.ofNullable(secondLastName); 
+    }
 }
