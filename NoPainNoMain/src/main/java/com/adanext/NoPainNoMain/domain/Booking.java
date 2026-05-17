@@ -7,42 +7,41 @@ import com.adanext.NoPainNoMain.domain.types.BookingStatus;
 
 public class Booking {
 
-    private Integer id;
-    private Student student;
-    private Machine machine;
-    private LocalDateTime bookingDate;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    private BookingStatus bookingStatus;
+    private final Integer id;
+    private final Student student;
+    private final Machine machine;
+    private final LocalDateTime bookingDate;
+    private final LocalDateTime startTime;
+    private final LocalDateTime endTime;
+    private BookingStatus bookingStatus; // Cambia a lo largo del ciclo de vida
 
-    public Booking() {}
-
-    // Campo calculado dinámicamente (por ejemplo, en minutos)
-    public Integer getDuration() {
-        if (startTime != null && endTime != null) {
-            return (int) ChronoUnit.MINUTES.between(startTime, endTime);
-        }
-        return 0;
+    public Booking(Integer id, Student student, Machine machine, LocalDateTime bookingDate, 
+                   LocalDateTime startTime, LocalDateTime endTime, BookingStatus bookingStatus) {
+        this.id = id;
+        this.student = student;
+        this.machine = machine;
+        this.bookingDate = bookingDate;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.bookingStatus = bookingStatus;
     }
 
+    // Campo calculado dinámicamente en minutos (ya seguro sin riesgo de NullPointerException)
+    public Integer getDuration() {
+        return (int) ChronoUnit.MINUTES.between(startTime, endTime);
+    }
+
+    // Getters
     public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
-
     public Student getStudent() { return student; }
-    public void setStudent(Student student) { this.student = student; }
-
     public Machine getMachine() { return machine; }
-    public void setMachine(Machine machine) { this.machine = machine; }
-
     public LocalDateTime getBookingDate() { return bookingDate; }
-    public void setBookingDate(LocalDateTime bookingDate) { this.bookingDate = bookingDate; }
-
     public LocalDateTime getStartTime() { return startTime; }
-    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
-
     public LocalDateTime getEndTime() { return endTime; }
-    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
-
     public BookingStatus getBookingStatus() { return bookingStatus; }
-    public void setBookingStatus(BookingStatus bookingStatus) { this.bookingStatus = bookingStatus; }
+
+    // Método de negocio para controlar el cambio de estado de la reserva
+    public void updateStatus(BookingStatus newStatus) {
+        this.bookingStatus = newStatus;
+    }
 }

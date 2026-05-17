@@ -6,30 +6,32 @@ import com.adanext.NoPainNoMain.domain.types.MachineType;
 
 public class Machine {
 
-    private Integer id;
+    private final Integer id; // Inmutable, nunca cambia
     private String name;
     private MachineType machineType;
     private MachineStatus machineStatus;
-    private Integer maxUsageTime;
-    private Integer weeklyBookingLimit;
 
-    public Machine() {}
+    // Constructor con los campos definitivos
+    public Machine(Integer id, String name, MachineType machineType, MachineStatus machineStatus) {
+        this.id = id;
+        this.name = name;
+        this.machineType = machineType;
+        this.machineStatus = machineStatus;
+    }
 
+    // Getters
     public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
-
     public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
     public MachineType getMachineType() { return machineType; }
-    public void setMachineType(MachineType machineType) { this.machineType = machineType; }
-
     public MachineStatus getMachineStatus() { return machineStatus; }
-    public void setMachineStatus(MachineStatus machineStatus) { this.machineStatus = machineStatus; }
 
-    public Integer getMaxUsageTime() { return maxUsageTime; }
-    public void setMaxUsageTime(Integer maxUsageTime) { this.maxUsageTime = maxUsageTime; }
+    // Métodos específicos para que el Administrador modifique los datos
+    public void updateDetails(String newName, MachineType newType) {
+        this.name = newName;
+        this.machineType = newType;
+    }
 
-    public Integer getWeeklyBookingLimit() { return weeklyBookingLimit; }
-    public void setWeeklyBookingLimit(Integer weeklyBookingLimit) { this.weeklyBookingLimit = weeklyBookingLimit; }
+    public void updateStatus(MachineStatus newStatus) {
+        this.machineStatus = newStatus;
+    }
 }
