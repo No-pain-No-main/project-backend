@@ -1,4 +1,4 @@
-package com.adanext.NoPainNoMain.persistence.Repositories;
+package com.adanext.NoPainNoMain.persistence.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.repository.StudentRepository;
-import com.adanext.NoPainNoMain.persistence.StudentEntity;
-import com.adanext.NoPainNoMain.persistence.mappers.StudentMapper;
+import com.adanext.NoPainNoMain.mapper.StudentMapper;
+import com.adanext.NoPainNoMain.persistence.entities.StudentEntity;
+import com.adanext.NoPainNoMain.persistence.Repositories.StudentJpaRepository;
 
 @Repository
 public class StudentRepositoryImpl implements StudentRepository {

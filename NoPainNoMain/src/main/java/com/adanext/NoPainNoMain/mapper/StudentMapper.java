@@ -1,10 +1,10 @@
-package com.adanext.NoPainNoMain.persistence.mappers;
+package com.adanext.NoPainNoMain.mapper;
 
 import com.adanext.NoPainNoMain.domain.Student;
-import com.adanext.NoPainNoMain.persistence.StudentEntity;
-import com.adanext.NoPainNoMain.persistence.mappers.types.DocumentTypeMapper;
-import com.adanext.NoPainNoMain.persistence.mappers.types.GenderMapper;
-import com.adanext.NoPainNoMain.persistence.mappers.types.UserStatusMapper;
+import com.adanext.NoPainNoMain.mapper.types.DocumentTypeMapper;
+import com.adanext.NoPainNoMain.mapper.types.GenderMapper;
+import com.adanext.NoPainNoMain.mapper.types.UserStatusMapper;
+import com.adanext.NoPainNoMain.persistence.entities.StudentEntity;
 
 
 public class StudentMapper {

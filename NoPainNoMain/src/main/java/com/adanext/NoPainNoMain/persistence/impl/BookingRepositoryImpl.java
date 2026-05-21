@@ -1,4 +1,4 @@
-package com.adanext.NoPainNoMain.persistence.Repositories;
+package com.adanext.NoPainNoMain.persistence.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,8 +8,9 @@ import org.springframework.stereotype.Repository;
 
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
-import com.adanext.NoPainNoMain.persistence.BookingEntity;
-import com.adanext.NoPainNoMain.persistence.mappers.BookingMapper;
+import com.adanext.NoPainNoMain.mapper.BookingMapper;
+import com.adanext.NoPainNoMain.persistence.entities.BookingEntity;
+import com.adanext.NoPainNoMain.persistence.Repositories.BookingJpaRepository;
 
 @Repository
 public class BookingRepositoryImpl implements BookingRepository {

@@ -1,4 +1,4 @@
-package com.adanext.NoPainNoMain.persistence.Repositories;
+package com.adanext.NoPainNoMain.persistence.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.repository.MachineRepository;
-import com.adanext.NoPainNoMain.persistence.MachineEntity;
-import com.adanext.NoPainNoMain.persistence.mappers.MachineMapper;
+import com.adanext.NoPainNoMain.mapper.MachineMapper;
+import com.adanext.NoPainNoMain.persistence.entities.MachineEntity;
+import com.adanext.NoPainNoMain.persistence.Repositories.MachineJpaRepository;
+
 
 @Repository
 public class MachineRepositoryImpl implements MachineRepository {

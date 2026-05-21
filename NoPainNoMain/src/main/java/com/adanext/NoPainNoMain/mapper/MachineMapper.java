@@ -1,8 +1,9 @@
-package com.adanext.NoPainNoMain.persistence.mappers;
+package com.adanext.NoPainNoMain.mapper;
+
 import com.adanext.NoPainNoMain.domain.Machine;
-import com.adanext.NoPainNoMain.persistence.MachineEntity;
-import com.adanext.NoPainNoMain.persistence.mappers.types.MachineTypeMapper;
-import com.adanext.NoPainNoMain.persistence.mappers.types.MachineStatusMapper;
+import com.adanext.NoPainNoMain.mapper.types.MachineStatusMapper;
+import com.adanext.NoPainNoMain.mapper.types.MachineTypeMapper;
+import com.adanext.NoPainNoMain.persistence.entities.MachineEntity;
 
 
 public class MachineMapper {
