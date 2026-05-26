@@ -1,4 +1,4 @@
-package com.adanext.NoPainNoMain.persistence.mappers.types;
+package com.adanext.NoPainNoMain.mapper.types;
 
 import com.adanext.NoPainNoMain.domain.types.UserStatus;
 import com.adanext.NoPainNoMain.persistence.types.UserStatusEntity;

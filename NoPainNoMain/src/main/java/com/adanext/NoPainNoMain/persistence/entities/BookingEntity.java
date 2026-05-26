@@ -1,5 +1,5 @@
-package com.adanext.NoPainNoMain.persistence;
-
+package com.adanext.NoPainNoMain.persistence.entities;
+import com.adanext.NoPainNoMain.persistence.PersistenceConstants;
 import java.time.LocalDateTime;
 
 import com.adanext.NoPainNoMain.persistence.types.BookingStatusEntity;

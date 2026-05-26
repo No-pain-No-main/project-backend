@@ -1,7 +1,8 @@
-package com.adanext.NoPainNoMain.persistence;
+package com.adanext.NoPainNoMain.persistence.entities;
 
 import java.time.LocalDate;
 
+import com.adanext.NoPainNoMain.persistence.PersistenceConstants;
 import com.adanext.NoPainNoMain.persistence.types.DocumentTypeEntity;
 import com.adanext.NoPainNoMain.persistence.types.GenderEntity;
 import com.adanext.NoPainNoMain.persistence.types.UserStatusEntity;

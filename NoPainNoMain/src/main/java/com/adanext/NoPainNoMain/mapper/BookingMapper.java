@@ -1,8 +1,8 @@
-package com.adanext.NoPainNoMain.persistence.mappers;
+package com.adanext.NoPainNoMain.mapper;
 
 import com.adanext.NoPainNoMain.domain.Booking;
-import com.adanext.NoPainNoMain.persistence.BookingEntity;
-import com.adanext.NoPainNoMain.persistence.mappers.types.BookingStatusMapper;
+import com.adanext.NoPainNoMain.mapper.types.BookingStatusMapper;
+import com.adanext.NoPainNoMain.persistence.entities.BookingEntity;
 
 public class BookingMapper {
 

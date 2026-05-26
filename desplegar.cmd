@@ -37,10 +37,20 @@ cd NoPainNoMain
 
 :: Verifica que el wrapper de Maven exista antes de ejecutarlo
 if exist "mvnw.cmd" (
-    echo Ejecutando servidor mediante Maven Wrapper...
-    call mvnw.cmd spring-boot:run
+    echo Iniciando servidor Spring Boot en ventana secundaria...
+    :: 'start' evita que el script se quede bloqueado aquí
+    start "Spring Boot Server" cmd /c "mvnw.cmd clean spring-boot:run"
+    
+    echo Esperando 15 segundos a que Hibernate cree las tablas...
+    timeout /t 20 /nobreak > nul
+    
+    echo Instalando dependencias necesarias y cargando datos...
+    docker cp "src\main\resources\import.sql" nopainnomain-db:/tmp/import.sql
+    docker exec -i nopainnomain-db psql -U Admin2026 -d nopainnomain_db -f /tmp/import.sql
+    
+    echo Proceso de despliegue y carga de datos completado con éxito.
 ) else (
-    echo ERROR: No se encontro el archivo mvnw.cmd en la raiz del proyecto.
+    echo Error: No se encontró mvnw.cmd. Asegúrate de estar en la carpeta correcta y de que el proyecto esté clonado correctamente.
 )
 
 pause
