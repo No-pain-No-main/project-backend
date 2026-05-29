@@ -6,17 +6,21 @@ import com.adanext.NoPainNoMain.domain.types.DocumentType;
 
 public class Administrator {
 
-    private final Integer id;
-    private final String firstName;
-    private final String middleName; // Puede ser null
-    private final String lastName;
-    private final String secondLastName; // Puede ser null
-    private final DocumentType documentType;
-    private final String documentNumber;
-    private final String phone;
-    private final String position;
-    private final String passwordHash;
-    private final String secretPhrase;
+    private  Integer id;
+    private  String firstName;
+    private  String middleName; // Puede ser null
+    private  String lastName;
+    private  String secondLastName; // Puede ser null
+    private  DocumentType documentType;
+    private  String documentNumber;
+    private  String phone;
+    private  String position;
+    private  String passwordHash;
+    private  String secretPhrase;
+
+    public Administrator() {
+        // Constructor vacío para frameworks que lo requieran
+    }
 
     public Administrator(Integer id, String firstName, String middleName, String lastName, String secondLastName,
                          DocumentType documentType, String documentNumber, String phone, String position,

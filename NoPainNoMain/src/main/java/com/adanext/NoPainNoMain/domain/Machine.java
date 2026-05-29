@@ -6,11 +6,14 @@ import com.adanext.NoPainNoMain.domain.types.MachineType;
 
 public class Machine {
 
-    private final Integer id; // Inmutable, nunca cambia
+    private Integer id; // Inmutable, nunca cambia
     private String name;
     private MachineType machineType;
     private MachineStatus machineStatus;
 
+    public Machine() {
+        // Constructor vacío para frameworks que lo requieran
+    }
     // Constructor con los campos definitivos
     public Machine(Integer id, String name, MachineType machineType, MachineStatus machineStatus) {
         this.id = id;

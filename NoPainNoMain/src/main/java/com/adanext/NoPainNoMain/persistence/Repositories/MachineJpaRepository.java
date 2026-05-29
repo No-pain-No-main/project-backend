@@ -1,4 +1,4 @@
-package com.adanext.NoPainNoMain.persistence.Repositories;
+package com.adanext.NoPainNoMain.persistence.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
