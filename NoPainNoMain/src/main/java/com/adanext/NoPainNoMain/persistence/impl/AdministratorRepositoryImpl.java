@@ -10,7 +10,7 @@ import com.adanext.NoPainNoMain.domain.Administrator;
 import com.adanext.NoPainNoMain.domain.repository.AdministratorRepository;
 import com.adanext.NoPainNoMain.mapper.AdministratorMapper;
 import com.adanext.NoPainNoMain.persistence.entities.AdministratorEntity;
-import com.adanext.NoPainNoMain.persistence.Repositories.AdministratorJpaRepository;
+import com.adanext.NoPainNoMain.persistence.repositories.AdministratorJpaRepository;
 
 @Repository
 public class AdministratorRepositoryImpl implements AdministratorRepository {

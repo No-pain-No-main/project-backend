@@ -7,14 +7,18 @@ import com.adanext.NoPainNoMain.domain.types.BookingStatus;
 
 public class Booking {
 
-    private final Integer id;
-    private final Student student;
-    private final Machine machine;
-    private final LocalDateTime bookingDate;
-    private final LocalDateTime startTime;
-    private final LocalDateTime endTime;
+    private  Integer id;
+    private  Student student;
+    private  Machine machine;
+    private  LocalDateTime bookingDate;
+    private  LocalDateTime startTime;
+    private  LocalDateTime endTime;
     private BookingStatus bookingStatus; // Cambia a lo largo del ciclo de vida
 
+    public Booking() {
+        // Constructor vacío para frameworks que lo requieran
+    }
+    
     public Booking(Integer id, Student student, Machine machine, LocalDateTime bookingDate, 
                    LocalDateTime startTime, LocalDateTime endTime, BookingStatus bookingStatus) {
         this.id = id;

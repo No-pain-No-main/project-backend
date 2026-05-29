@@ -35,9 +35,9 @@ public class StudentMapper {
         StudentEntity entity = new StudentEntity();
         entity.setId(domain.getId());
         entity.setFirstName(domain.getFirstName());
-        entity.setMiddleName(domain.getMiddleName().orElseThrow(() -> new RuntimeException("El dato no fue encontrado")));
+        entity.setMiddleName(domain.getMiddleName());
         entity.setLastName(domain.getLastName());
-        entity.setSecondLastName(domain.getSecondLastName().orElseThrow(() -> new RuntimeException("El dato no fue encontrado")));
+        entity.setSecondLastName(domain.getSecondLastName());
         entity.setEmail(domain.getEmail());
         entity.setDocumentType(DocumentTypeMapper.toEntity(domain.getDocumentType()));
         entity.setDocumentNumber(domain.getDocumentNumber());

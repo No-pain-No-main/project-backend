@@ -10,7 +10,7 @@ import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.repository.MachineRepository;
 import com.adanext.NoPainNoMain.mapper.MachineMapper;
 import com.adanext.NoPainNoMain.persistence.entities.MachineEntity;
-import com.adanext.NoPainNoMain.persistence.Repositories.MachineJpaRepository;
+import com.adanext.NoPainNoMain.persistence.repositories.MachineJpaRepository;
 
 
 @Repository

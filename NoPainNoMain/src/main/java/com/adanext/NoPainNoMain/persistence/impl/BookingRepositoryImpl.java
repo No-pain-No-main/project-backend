@@ -10,7 +10,7 @@ import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
 import com.adanext.NoPainNoMain.mapper.BookingMapper;
 import com.adanext.NoPainNoMain.persistence.entities.BookingEntity;
-import com.adanext.NoPainNoMain.persistence.Repositories.BookingJpaRepository;
+import com.adanext.NoPainNoMain.persistence.repositories.BookingJpaRepository;
 
 @Repository
 public class BookingRepositoryImpl implements BookingRepository {

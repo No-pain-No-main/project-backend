@@ -10,7 +10,7 @@ import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.repository.StudentRepository;
 import com.adanext.NoPainNoMain.mapper.StudentMapper;
 import com.adanext.NoPainNoMain.persistence.entities.StudentEntity;
-import com.adanext.NoPainNoMain.persistence.Repositories.StudentJpaRepository;
+import com.adanext.NoPainNoMain.persistence.repositories.StudentJpaRepository;
 
 @Repository
 public class StudentRepositoryImpl implements StudentRepository {
@@ -33,7 +33,7 @@ public class StudentRepositoryImpl implements StudentRepository {
     @Override
     public Optional<Student> findById(Integer id) {
         return repository.findById(id)
-            .map(StudentMapper::toDomain);
+            .map(StudentMapper::toDomain);   
     }
 
     @Override

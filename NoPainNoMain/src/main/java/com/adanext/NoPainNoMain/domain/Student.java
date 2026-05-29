@@ -1,7 +1,6 @@
 package com.adanext.NoPainNoMain.domain;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import com.adanext.NoPainNoMain.domain.types.DocumentType;
 import com.adanext.NoPainNoMain.domain.types.Gender;
@@ -9,20 +8,21 @@ import com.adanext.NoPainNoMain.domain.types.UserStatus;
 
 public class Student {
 
-    private final Integer id;
-    private final String firstName;
-    private final String middleName; // Puede ser null
-    private final String lastName;
-    private final String secondLastName; // Puede ser null
-    private final String email;
-    private final DocumentType documentType;
-    private final String documentNumber;
-    private final LocalDate birthDate;
-    private final String phone;
-    private final Gender gender;
-    private final UserStatus userStatus;
-    private final String passwordHash;
+    private  Integer id;
+    private  String firstName;
+    private  String middleName; // Puede ser null
+    private  String lastName;
+    private  String secondLastName; // Puede ser null
+    private  String email;
+    private  DocumentType documentType;
+    private  String documentNumber;
+    private  LocalDate birthDate;
+    private  String phone;
+    private  Gender gender;
+    private  UserStatus userStatus;
+    private  String passwordHash;
 
+    public Student(){}
     // El constructor sigue recibiendo todos los campos, pero aceptará 'null' en los opcionales
     public Student(Integer id, String firstName, String middleName, String lastName, String secondLastName, 
                    String email, DocumentType documentType, String documentNumber, LocalDate birthDate, 
@@ -54,13 +54,6 @@ public class Student {
     public Gender getGender() { return gender; }
     public UserStatus getUserStatus() { return userStatus; }
     public String getPasswordHash() { return passwordHash; }
-
-    // Campos opcionales devuelven un Optional para proteger el negocio
-    public Optional<String> getMiddleName() { 
-        return Optional.ofNullable(middleName); 
-    }
-
-    public Optional<String> getSecondLastName() { 
-        return Optional.ofNullable(secondLastName); 
-    }
+    public String getMiddleName() { return middleName;}
+    public String getSecondLastName() { return secondLastName;}
 }
