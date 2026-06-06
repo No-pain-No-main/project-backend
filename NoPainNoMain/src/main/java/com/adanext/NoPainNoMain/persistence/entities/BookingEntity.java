@@ -1,6 +1,6 @@
 package com.adanext.NoPainNoMain.persistence.entities;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.adanext.NoPainNoMain.persistence.PersistenceConstants;
 import com.adanext.NoPainNoMain.persistence.types.BookingStatusEntity;
@@ -9,9 +9,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Index;
 import jakarta.persistence.Table;
 
 @Entity
@@ -42,7 +42,7 @@ public class BookingEntity {
     private TimeSlotEntity timeSlot; // Muchas reservas usan un TimeSlot
 
     @Column(name = "date", nullable = false)
-    private LocalDateTime date; // Para búsquedas por fecha
+    private LocalDate date; // Para búsquedas por fecha
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_status_id", nullable = false)
@@ -52,7 +52,7 @@ public class BookingEntity {
     public BookingEntity() {}
 
     public BookingEntity( String id, StudentEntity student, MachineEntity machine, 
-                         TimeSlotEntity timeSlot, LocalDateTime date, BookingStatusEntity bookingStatus) {
+                         TimeSlotEntity timeSlot, LocalDate date, BookingStatusEntity bookingStatus) {
         this.id = id;
         this.student = student;
         this.machine = machine;
@@ -74,8 +74,8 @@ public class BookingEntity {
     public TimeSlotEntity getTimeSlot() { return timeSlot; }
     public void setTimeSlot(TimeSlotEntity timeSlot) { this.timeSlot = timeSlot; }
 
-    public LocalDateTime getDate() { return date; }
-    public void setDate(LocalDateTime date) { this.date = date; }
+    public LocalDate getDate() { return date; }
+    public void setDate(LocalDate date) { this.date = date; }
 
     public BookingStatusEntity getBookingStatus() { return bookingStatus; }
     public void setBookingStatus(BookingStatusEntity bookingStatus) { this.bookingStatus = bookingStatus; }

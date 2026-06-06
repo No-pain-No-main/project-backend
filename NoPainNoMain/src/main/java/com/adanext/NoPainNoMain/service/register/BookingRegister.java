@@ -24,6 +24,10 @@ public class BookingRegister {
 
     public Booking save(String jsonRegister) {
         Booking booking = jsonToClass.convert(jsonRegister, Booking.class);
+        // Auto-generar id: date_machineId_slotId
+        booking.setId(booking.getDate() + "_"
+                    + booking.getMachine().getId() + "_"
+                    + booking.getTimeSlot().getId());
         return save(booking);
     }
 
@@ -44,12 +48,12 @@ public class BookingRegister {
             );
         }
 
-        if (!isValid(booking)) {
-            throw new IllegalArgumentException("Datos de reserva inválidos");
-        }
-
         if (isOverleap(booking)) {
             throw new IllegalStateException("El estudiante ya tiene una reserva solapada o la máquina está ocupada en ese intervalo");
+        }
+
+        if (booking == null) {
+            throw new IllegalArgumentException("Datos de reserva inválidos");
         }
 
         return bookingRepository.save(booking);
@@ -78,15 +82,6 @@ public class BookingRegister {
         return hasStudentReference(booking)
             && bookingRepository.countActiveByStudent(studentDocumentNumber(booking))
                >= BookingParameters.MAX_ACTIVE_BOOKINGS_PER_STUDENT;
-    }
-
-    boolean isValid(Booking booking) {
-        if (isNull(booking)) {
-            return false;
-        } else if (isOverleap(booking)) {
-            return false;
-        }
-        return true;
     }
 
     private boolean isOverleap(Booking booking) {

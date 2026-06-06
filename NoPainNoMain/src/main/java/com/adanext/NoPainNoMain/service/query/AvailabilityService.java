@@ -1,8 +1,6 @@
 package com.adanext.NoPainNoMain.service.query;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,14 +30,11 @@ public class AvailabilityService {
     }
 
     public List<TimeSlot> findFreeSlotsByMachine(Integer machineId, LocalDate date) {
-        LocalDateTime dayStart = date.atStartOfDay();
-        LocalDateTime dayEnd = date.atTime(LocalTime.MAX);
-
         // Obtener TODAS las franjas horarias disponibles (10 slots: 7am-5pm)
         List<TimeSlot> allSlots = timeSlotRepository.findAll();
 
         // Obtener reservas para esa máquina en ese día
-        List<Booking> bookings = bookingRepository.findByMachineIdAndDateBetween(machineId, dayStart, dayEnd);
+        List<Booking> bookings = bookingRepository.findByMachineIdAndDateBetween(machineId, date, date);
 
         // IDs de franjas ocupadas
         Set<Integer> bookedSlotIds = bookings.stream()

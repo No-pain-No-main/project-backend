@@ -1,6 +1,6 @@
 package com.adanext.NoPainNoMain.service.query;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class BookingQuery {
         return bookingRepository.findByMachineId(machineId);
     }
 
-    public List<Booking> byDate(LocalDateTime date) {
+    public List<Booking> byDate(LocalDate date) {
         return bookingRepository.findByDate(date);
     }
 

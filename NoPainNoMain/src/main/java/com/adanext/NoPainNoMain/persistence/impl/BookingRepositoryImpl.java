@@ -1,6 +1,6 @@
 package com.adanext.NoPainNoMain.persistence.impl;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,7 +53,7 @@ public class BookingRepositoryImpl implements BookingRepository {
     }
 
     @Override
-    public List<Booking> findByDate(LocalDateTime date) {
+    public List<Booking> findByDate(LocalDate date) {
         return repository.findByDate(date).stream()
             .map(BookingMapper::toDomain)
             .collect(Collectors.toList());
@@ -68,14 +68,14 @@ public class BookingRepositoryImpl implements BookingRepository {
     }
 
     @Override
-    public List<Booking> findByMachineIdAndDateBetween(Integer machineId, LocalDateTime start, LocalDateTime end) {
+    public List<Booking> findByMachineIdAndDateBetween(Integer machineId, LocalDate start, LocalDate end) {
         return repository.findByMachineIdAndDateBetween(machineId, start, end).stream()
             .map(BookingMapper::toDomain)
             .collect(Collectors.toList());
     }
 
     @Override
-    public List<Booking> findByDateBetween(LocalDateTime start, LocalDateTime end) {
+    public List<Booking> findByDateBetween(LocalDate start, LocalDate end) {
         return repository.findByDateBetween(start, end).stream()
             .map(BookingMapper::toDomain)
             .collect(Collectors.toList());

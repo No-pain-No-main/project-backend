@@ -1,6 +1,6 @@
 package com.adanext.NoPainNoMain.domain.repository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,9 +13,9 @@ public interface BookingRepository {
     List<Booking> findAll();
     void deleteById(String id);
     List<Booking> findByMachineId(Integer machineId);
-    List<Booking> findByDate(LocalDateTime date);
+    List<Booking> findByDate(LocalDate date);
     List<Booking> findByStudent(Student student);
-    List<Booking> findByMachineIdAndDateBetween(Integer machineId, LocalDateTime start, LocalDateTime end);
-    List<Booking> findByDateBetween(LocalDateTime start, LocalDateTime end);
+    List<Booking> findByMachineIdAndDateBetween(Integer machineId, LocalDate start, LocalDate end);
+    List<Booking> findByDateBetween(LocalDate start, LocalDate end);
     int countActiveByStudent(String documentNumber);
 }

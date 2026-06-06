@@ -1,6 +1,6 @@
 package com.adanext.NoPainNoMain.domain;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import com.adanext.NoPainNoMain.domain.types.BookingStatus;
 
@@ -9,7 +9,7 @@ public class Booking {
     private String id;
     private Student student;
     private Machine machine;
-    private LocalDateTime date;
+    private LocalDate date;
     private TimeSlot timeSlot;
     private BookingStatus bookingStatus; // Cambia a lo largo del ciclo de vida
 
@@ -17,7 +17,7 @@ public class Booking {
         // Constructor vacío para frameworks que lo requieran
     }
     
-    public Booking(String id, Student student, Machine machine, LocalDateTime date, 
+    public Booking(String id, Student student, Machine machine, LocalDate date, 
                    TimeSlot timeSlot, BookingStatus bookingStatus) {
         this.id = id;
         this.student = student;
@@ -29,9 +29,10 @@ public class Booking {
 
     // Getters
     public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
     public Student getStudent() { return student; }
     public Machine getMachine() { return machine; }
-    public LocalDateTime getDate() { return date; }
+    public LocalDate getDate() { return date; }
     public TimeSlot getTimeSlot() { return timeSlot; }
     public BookingStatus getBookingStatus() { return bookingStatus; }
 
