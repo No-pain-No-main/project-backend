@@ -10,5 +10,11 @@ import com.adanext.NoPainNoMain.persistence.entities.BookingEntity;
 public interface BookingJpaRepository extends JpaRepository<BookingEntity, String> {
     List<BookingEntity> findByMachineId(Integer machineId);
     List<BookingEntity> findByDate(LocalDateTime date);
-    List<BookingEntity> findByStudentDocumentNumber(String documentNumber);    
+    List<BookingEntity> findByStudentDocumentNumber(String documentNumber);
+
+    // Derived query methods — Hibernate genera SQL parameterizado automáticamente.
+    // Son inmunes a SQL injection porque Spring Data JPA usa PreparedStatement
+    // con bind parameters, nunca concatena valores.
+    List<BookingEntity> findByMachineIdAndDateBetween(Integer machineId, LocalDateTime start, LocalDateTime end);
+    List<BookingEntity> findByDateBetween(LocalDateTime start, LocalDateTime end);
 }

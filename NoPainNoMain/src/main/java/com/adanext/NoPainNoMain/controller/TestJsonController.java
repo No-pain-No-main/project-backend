@@ -1,6 +1,11 @@
 package com.adanext.NoPainNoMain.controller;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,9 +14,11 @@ import com.adanext.NoPainNoMain.domain.Administrator;
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.Student;
+import com.adanext.NoPainNoMain.domain.TimeSlot;
 import com.adanext.NoPainNoMain.persistence.impl.AdministratorRepositoryImpl;
 import com.adanext.NoPainNoMain.service.jsonConverter.ClassToJson;
 import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
+import com.adanext.NoPainNoMain.service.query.AvailabilityService;
 import com.adanext.NoPainNoMain.service.query.MachineQuery;
 import com.adanext.NoPainNoMain.service.query.StudentQuery;
 import com.adanext.NoPainNoMain.service.register.BookingRegister;
@@ -31,8 +38,9 @@ public class TestJsonController {
     private final MachineRegister machineRegister;
     private final MachineQuery machineQuery;
     private final AdministratorRepositoryImpl administratorRepository;
+    private final AvailabilityService availabilityService;
 
-    public TestJsonController(ClassToJson classToJson, JsonToClass jsonToClass, StudentQuery studentQuery,StudentRegister studentRegister, BookingRegister bookingRegister, MachineRegister machineRegister, MachineQuery machineQuery, AdministratorRepositoryImpl administratorRepository){
+    public TestJsonController(ClassToJson classToJson, JsonToClass jsonToClass, StudentQuery studentQuery,StudentRegister studentRegister, BookingRegister bookingRegister, MachineRegister machineRegister, MachineQuery machineQuery, AdministratorRepositoryImpl administratorRepository, AvailabilityService availabilityService){
         this.classToJson = classToJson;
         this.jsonToClass = jsonToClass;
         this.studentQuery = studentQuery;
@@ -41,6 +49,7 @@ public class TestJsonController {
         this.machineRegister = machineRegister;
         this.machineQuery = machineQuery;
         this.administratorRepository = administratorRepository;
+        this.availabilityService = availabilityService;
     }
 
     @PostMapping("/booking")
@@ -175,6 +184,23 @@ public class TestJsonController {
         String machineJson = classToJson.convert((Object)machine);
         System.out.println("Converted machine to JSON: " + machineJson);
         return machineJson;
+    }
+
+    @GetMapping("/availability/{machineId}/{date}")
+    Object getAvailability(@PathVariable Integer machineId, @PathVariable String date) {
+        LocalDate day = LocalDate.parse(date);
+        List<TimeSlot> freeSlots = availabilityService.findFreeSlotsByMachine(machineId, day);
+        return freeSlots.stream().map(TimeSlot::getName).collect(Collectors.toList());
+    }
+
+    @GetMapping("/availability/{date}")
+    Object getAllAvailability(@PathVariable String date) {
+        LocalDate day = LocalDate.parse(date);
+        var allAvailability = availabilityService.findFreeSlotsForAllMachines(day);
+        return allAvailability.stream().collect(Collectors.toMap(
+            a -> a.getMachine().getName(),
+            a -> a.getFreeSlots().stream().map(TimeSlot::getName).collect(Collectors.toList())
+        ));
     }
 
     public static class TestObject {

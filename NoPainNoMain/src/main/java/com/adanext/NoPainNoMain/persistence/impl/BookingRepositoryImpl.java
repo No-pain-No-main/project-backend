@@ -66,6 +66,21 @@ public class BookingRepositoryImpl implements BookingRepository {
             .map(BookingMapper::toDomain)
             .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Booking> findByMachineIdAndDateBetween(Integer machineId, LocalDateTime start, LocalDateTime end) {
+        return repository.findByMachineIdAndDateBetween(machineId, start, end).stream()
+            .map(BookingMapper::toDomain)
+            .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Booking> findByDateBetween(LocalDateTime start, LocalDateTime end) {
+        return repository.findByDateBetween(start, end).stream()
+            .map(BookingMapper::toDomain)
+            .collect(Collectors.toList());
+    }
+
     @Override
     public void deleteById(String id) {
         repository.deleteById(id);
