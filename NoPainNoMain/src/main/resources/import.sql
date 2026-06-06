@@ -26,7 +26,7 @@ INSERT INTO machine_type (id, name) VALUES (3, 'Bicicleta de Spinning');
 -- 6. Población de Estados de la Reserva (Booking Statuses)
 INSERT INTO booking_status (id, name) VALUES (1, 'Activa');
 INSERT INTO booking_status (id, name) VALUES (2, 'Cancelada');
-INSERT INTO booking_status (id, name) VALUES (3, 'Finalizada');
+INSERT INTO booking_status (id, name) VALUES (3, 'Confirmada');
 
 -- 7. Población de Franjas Horarias (Time Slots)
 INSERT INTO time_slot (id, name, start_time) VALUES (1, '7am-8am', '07:00:00');

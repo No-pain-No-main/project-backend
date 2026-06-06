@@ -5,34 +5,33 @@ import org.springframework.stereotype.Service;
 import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.persistence.impl.StudentRepositoryImpl;
 import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
+import com.adanext.NoPainNoMain.service.register.helpers.StudentRegisterHelper;
 
 @Service
 public class StudentRegister {
 
     private final JsonToClass<Student> jsonToClass;
     private final StudentRepositoryImpl studentRepositoryImpl;
+    private final StudentRegisterHelper helper;
 
-    // Eliminamos el atributo global 'student' del constructor
-    public StudentRegister(JsonToClass<Student> jsonToClass, StudentRepositoryImpl studentRepositoryImpl) {
+    public StudentRegister(JsonToClass<Student> jsonToClass, StudentRepositoryImpl studentRepositoryImpl,
+                           StudentRegisterHelper helper) {
         this.jsonToClass = jsonToClass;
         this.studentRepositoryImpl = studentRepositoryImpl;
+        this.helper = helper;
     }
 
     public Student save(String jsonRegister) {
-        // 1. Convertimos el JSON a objeto de dominio (variable local)
         Student student = jsonToClass.convert(jsonRegister, Student.class);
-        
-        // 2. Verificamos si ya existe por su PK (documentNumber)
-        if (studentRepositoryImpl.findByDocumentNumber(student.getDocumentNumber()).isPresent()) {
+
+        if (helper.isDuplicateDocument(student)) {
             throw new IllegalStateException("El estudiante con documento " + student.getDocumentNumber() + " ya existe en el sistema");
         }
-        
-        // 3. Verificamos si el email ya está registrado
-        if (studentRepositoryImpl.findByEmail(student.getEmail()).isPresent()) {
+
+        if (helper.isDuplicateEmail(student)) {
             throw new IllegalStateException("El email " + student.getEmail() + " ya está registrado por otro estudiante");
         }
-        
-        // 4. Guardamos en el repositorio y retornamos
+
         return studentRepositoryImpl.save(student);
     }
 }

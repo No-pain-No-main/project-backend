@@ -29,10 +29,18 @@ public final class BookingParameters {
     public static final int BOOKING_STATUS_ACTIVE = 1;
     /** ID del estado "Cancelada" en la tabla booking_status */
     public static final int BOOKING_STATUS_CANCELLED = 2;
-    /** ID del estado "Finalizada" en la tabla booking_status */
-    public static final int BOOKING_STATUS_FINISHED = 3;
+    /** ID del estado "Confirmada" en la tabla booking_status */
+    public static final int BOOKING_STATUS_CONFIRMED = 3;
 
     // ─── Cancelación ──────────────────────────────────────────────
     /** Minutos mínimos antes de la franja para permitir cancelación */
     public static final int CANCELLATION_MINUTES_BEFORE = 30;
+
+    // ─── Confirmación ─────────────────────────────────────────────
+    /** Ventana en minutos antes del inicio para poder confirmar una reserva */
+    public static final int CONFIRMATION_WINDOW_MINUTES = 10;
+
+    // ─── Tarea programada ─────────────────────────────────────────
+    /** Cron: se ejecuta al segundo 1 de cada hora entre las 8am y 5pm */
+    public static final String RELEASE_CRON = "1 0 8-17 * * *";
 }

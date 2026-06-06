@@ -1,37 +1,32 @@
 package com.adanext.NoPainNoMain.service.update;
 
-import java.time.LocalDateTime;
-
 import org.springframework.stereotype.Service;
 
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
-import com.adanext.NoPainNoMain.domain.types.BookingStatus;
 import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.BookingStatusRepositoryImpl;
+import com.adanext.NoPainNoMain.service.update.helpers.BookingCancelHelper;
 
 @Service
 public class BookingCancelService {
 
     private final BookingRepositoryImpl bookingRepository;
-    private final BookingStatusRepositoryImpl bookingStatusRepository;
+    private final BookingCancelHelper helper;
+    private final MachineUpdate machineUpdate;
 
     public BookingCancelService(BookingRepositoryImpl bookingRepository,
-                                BookingStatusRepositoryImpl bookingStatusRepository) {
+                                BookingCancelHelper helper,
+                                MachineUpdate machineUpdate) {
         this.bookingRepository = bookingRepository;
-        this.bookingStatusRepository = bookingStatusRepository;
+        this.helper = helper;
+        this.machineUpdate = machineUpdate;
     }
 
     public Booking cancel(String bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
             .orElseThrow(() -> new IllegalStateException("La reserva con ID " + bookingId + " no existe"));
 
-        // Calcular el inicio de la franja: date + startTime del slot
-        LocalDateTime slotStart = LocalDateTime.of(booking.getDate(), booking.getTimeSlot().getStartTime());
-        LocalDateTime now = LocalDateTime.now();
-
-        // Validar que falten al menos N minutos para el inicio
-        if (now.isAfter(slotStart.minusMinutes(BookingParameters.CANCELLATION_MINUTES_BEFORE))) {
+        if (!helper.canBeCancelled(booking)) {
             throw new IllegalStateException(
                 "No se puede cancelar la reserva. Deben faltar al menos " + BookingParameters.CANCELLATION_MINUTES_BEFORE
                 + " minutos para el inicio de la franja ("
@@ -39,11 +34,10 @@ public class BookingCancelService {
             );
         }
 
-        // Cambiar estado a Cancelada
-        BookingStatus cancelled = bookingStatusRepository.findById(BookingParameters.BOOKING_STATUS_CANCELLED)
-            .orElseThrow(() -> new IllegalStateException("El estado 'Cancelada' no existe en el sistema"));
+        // Liberar la máquina antes de cancelar
+        machineUpdate.updateStatus(booking.getMachine().getId(), BookingParameters.MACHINE_STATUS_AVAILABLE);
 
-        booking.updateStatus(cancelled);
+        helper.cancelBooking(booking);
         return bookingRepository.save(booking);
     }
 }

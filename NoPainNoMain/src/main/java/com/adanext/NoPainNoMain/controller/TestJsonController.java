@@ -26,6 +26,7 @@ import com.adanext.NoPainNoMain.service.register.BookingRegister;
 import com.adanext.NoPainNoMain.service.register.MachineRegister;
 import com.adanext.NoPainNoMain.service.register.StudentRegister;
 import com.adanext.NoPainNoMain.service.update.BookingCancelService;
+import com.adanext.NoPainNoMain.service.update.BookingConfirmService;
 import com.adanext.NoPainNoMain.service.update.MachineUpdate;
 
 
@@ -44,8 +45,9 @@ public class TestJsonController {
     private final AvailabilityService availabilityService;
     private final MachineUpdate machineUpdateService;
     private final BookingCancelService bookingCancelService;
+    private final BookingConfirmService bookingConfirmService;
 
-    public TestJsonController(ClassToJson classToJson, StudentQuery studentQuery,StudentRegister studentRegister, BookingRegister bookingRegister, MachineRegister machineRegister, MachineQuery machineQuery, AdministratorRegister administratorRegister, BookingRepositoryImpl bookingRepository, AvailabilityService availabilityService, MachineUpdate machineUpdateService, BookingCancelService bookingCancelService){
+    public TestJsonController(ClassToJson classToJson, StudentQuery studentQuery,StudentRegister studentRegister, BookingRegister bookingRegister, MachineRegister machineRegister, MachineQuery machineQuery, AdministratorRegister administratorRegister, BookingRepositoryImpl bookingRepository, AvailabilityService availabilityService, MachineUpdate machineUpdateService, BookingCancelService bookingCancelService, BookingConfirmService bookingConfirmService){
         this.classToJson = classToJson;
         this.studentQuery = studentQuery;
         this.studentRegister = studentRegister;
@@ -57,6 +59,7 @@ public class TestJsonController {
         this.availabilityService = availabilityService;
         this.machineUpdateService = machineUpdateService;
         this.bookingCancelService = bookingCancelService;
+        this.bookingConfirmService = bookingConfirmService;
     }
 
     @PostMapping("/booking")
@@ -97,6 +100,17 @@ public class TestJsonController {
         try {
             Booking booking = bookingCancelService.cancel(bookingId);
             System.out.println("Cancelled booking: " + booking.getId());
+            return booking;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
+    }
+
+    @PostMapping("/booking/confirm/{studentDocumentNumber}")
+    Object confirmBooking(@PathVariable String studentDocumentNumber){
+        try {
+            Booking booking = bookingConfirmService.confirm(studentDocumentNumber);
+            System.out.println("Confirmed booking: " + booking.getId());
             return booking;
         } catch (IllegalStateException e) {
             return e.getMessage();
