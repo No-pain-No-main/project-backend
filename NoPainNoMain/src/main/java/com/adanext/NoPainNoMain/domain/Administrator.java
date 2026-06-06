@@ -12,6 +12,7 @@ public class Administrator {
     private  String secondLastName; // Puede ser null
     private  DocumentType documentType;
     private  String documentNumber; // PK: número de documento
+    private  String email;
     private  String phone;
     private  String position;
     private  String passwordHash;
@@ -22,7 +23,7 @@ public class Administrator {
     }
 
     public Administrator(String documentNumber, String firstName, String middleName, String lastName, String secondLastName,
-                         DocumentType documentType, String phone, String position,
+                         DocumentType documentType, String email, String phone, String position,
                          String passwordHash, String secretPhrase) {
         this.documentNumber = documentNumber;
         this.firstName = firstName;
@@ -30,6 +31,7 @@ public class Administrator {
         this.lastName = lastName;
         this.secondLastName = secondLastName;
         this.documentType = documentType;
+        this.email = email;
         this.phone = phone;
         this.position = position;
         this.passwordHash = passwordHash;
@@ -42,6 +44,7 @@ public class Administrator {
     public String getLastName() { return lastName; }
     public DocumentType getDocumentType() { return documentType; }
     public String getDocumentNumber() { return documentNumber; }
+    public String getEmail() { return email; }
     public String getPhone() { return phone; }
     public String getPosition() { return position; }
     public String getPasswordHash() { return passwordHash; }

@@ -82,6 +82,11 @@ public class BookingRepositoryImpl implements BookingRepository {
     }
 
     @Override
+    public int countActiveByStudent(String documentNumber) {
+        return (int) repository.countByStudentDocumentNumberAndBookingStatusId(documentNumber, 1);
+    }
+
+    @Override
     public void deleteById(String id) {
         repository.deleteById(id);
     }

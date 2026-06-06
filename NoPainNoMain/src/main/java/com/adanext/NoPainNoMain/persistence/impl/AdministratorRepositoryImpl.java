@@ -38,7 +38,8 @@ public class AdministratorRepositoryImpl implements AdministratorRepository {
 
     @Override
     public Optional<Administrator> findByEmail(String email) {
-        return Optional.empty();
+        return repository.findByEmail(email)
+            .map(AdministratorMapper::toDomain);
     }
 
     @Override

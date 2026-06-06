@@ -17,4 +17,5 @@ public interface BookingRepository {
     List<Booking> findByStudent(Student student);
     List<Booking> findByMachineIdAndDateBetween(Integer machineId, LocalDateTime start, LocalDateTime end);
     List<Booking> findByDateBetween(LocalDateTime start, LocalDateTime end);
+    int countActiveByStudent(String documentNumber);
 }

@@ -16,6 +16,7 @@ public class AdministratorMapper {
             entity.getLastName(),
             entity.getSecondLastName(),
             DocumentTypeMapper.toDomain(entity.getDocumentType()),
+            entity.getEmail(),
             entity.getPhone(),
             entity.getPosition(),
             entity.getPasswordHash(),
@@ -33,6 +34,7 @@ public class AdministratorMapper {
         entity.setLastName(domain.getLastName());
         entity.setSecondLastName(domain.getSecondLastName().orElse(null));
         entity.setDocumentType(DocumentTypeMapper.toEntity(domain.getDocumentType()));
+        entity.setEmail(domain.getEmail());
         entity.setPhone(domain.getPhone());
         entity.setPosition(domain.getPosition());
         entity.setPasswordHash(domain.getPasswordHash());

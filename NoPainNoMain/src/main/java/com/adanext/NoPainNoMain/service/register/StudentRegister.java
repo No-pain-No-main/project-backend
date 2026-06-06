@@ -27,7 +27,12 @@ public class StudentRegister {
             throw new IllegalStateException("El estudiante con documento " + student.getDocumentNumber() + " ya existe en el sistema");
         }
         
-        // 3. Guardamos en el repositorio y retornamos
+        // 3. Verificamos si el email ya está registrado
+        if (studentRepositoryImpl.findByEmail(student.getEmail()).isPresent()) {
+            throw new IllegalStateException("El email " + student.getEmail() + " ya está registrado por otro estudiante");
+        }
+        
+        // 4. Guardamos en el repositorio y retornamos
         return studentRepositoryImpl.save(student);
     }
 }

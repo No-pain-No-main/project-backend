@@ -34,6 +34,9 @@ public class AdministratorEntity {
     @Column(name = "document_number", nullable = false, unique = true, length = 20)
     private String documentNumber;
 
+    @Column(nullable = false, unique = true, length = 150)
+    private String email;
+
     @Column(length = 20)
     private String phone;
 
@@ -50,7 +53,7 @@ public class AdministratorEntity {
     public AdministratorEntity() {}
 
     public AdministratorEntity(String documentNumber, String firstName, String middleName, String lastName, String secondLastName, 
-                               DocumentTypeEntity documentType, String phone, String position, 
+                               DocumentTypeEntity documentType, String email, String phone, String position, 
                                String passwordHash, String secretPhrase) {
         this.documentNumber = documentNumber;
         this.firstName = firstName;
@@ -58,6 +61,7 @@ public class AdministratorEntity {
         this.lastName = lastName;
         this.secondLastName = secondLastName;
         this.documentType = documentType;
+        this.email = email;
         this.phone = phone;
         this.position = position;
         this.passwordHash = passwordHash;
@@ -85,6 +89,9 @@ public class AdministratorEntity {
 
     public String getDocumentNumber() { return documentNumber; }
     public void setDocumentNumber(String documentNumber) { this.documentNumber = documentNumber; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
     public String getPhone() { return phone; }
     public void setPhone(String phone) { this.phone = phone; }

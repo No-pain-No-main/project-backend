@@ -12,9 +12,9 @@ public interface BookingJpaRepository extends JpaRepository<BookingEntity, Strin
     List<BookingEntity> findByDate(LocalDateTime date);
     List<BookingEntity> findByStudentDocumentNumber(String documentNumber);
 
-    // Derived query methods — Hibernate genera SQL parameterizado automáticamente.
-    // Son inmunes a SQL injection porque Spring Data JPA usa PreparedStatement
-    // con bind parameters, nunca concatena valores.
     List<BookingEntity> findByMachineIdAndDateBetween(Integer machineId, LocalDateTime start, LocalDateTime end);
     List<BookingEntity> findByDateBetween(LocalDateTime start, LocalDateTime end);
+
+    // Cuenta reservas activas (bookingStatus.id = 1) de un estudiante
+    long countByStudentDocumentNumberAndBookingStatusId(String documentNumber, Integer bookingStatusId);
 }
