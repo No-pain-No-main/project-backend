@@ -25,6 +25,7 @@ import com.adanext.NoPainNoMain.service.register.AdministratorRegister;
 import com.adanext.NoPainNoMain.service.register.BookingRegister;
 import com.adanext.NoPainNoMain.service.register.MachineRegister;
 import com.adanext.NoPainNoMain.service.register.StudentRegister;
+import com.adanext.NoPainNoMain.service.update.MachineUpdate;
 
 
 @RestController
@@ -40,8 +41,9 @@ public class TestJsonController {
     private final AdministratorRegister administratorRegister;
     private final BookingRepositoryImpl bookingRepository;
     private final AvailabilityService availabilityService;
+    private final MachineUpdate machineUpdateService;
 
-    public TestJsonController(ClassToJson classToJson, StudentQuery studentQuery,StudentRegister studentRegister, BookingRegister bookingRegister, MachineRegister machineRegister, MachineQuery machineQuery, AdministratorRegister administratorRegister, BookingRepositoryImpl bookingRepository, AvailabilityService availabilityService){
+    public TestJsonController(ClassToJson classToJson, StudentQuery studentQuery,StudentRegister studentRegister, BookingRegister bookingRegister, MachineRegister machineRegister, MachineQuery machineQuery, AdministratorRegister administratorRegister, BookingRepositoryImpl bookingRepository, AvailabilityService availabilityService, MachineUpdate machineUpdateService){
         this.classToJson = classToJson;
         this.studentQuery = studentQuery;
         this.studentRegister = studentRegister;
@@ -51,6 +53,7 @@ public class TestJsonController {
         this.administratorRegister = administratorRegister;
         this.bookingRepository = bookingRepository;
         this.availabilityService = availabilityService;
+        this.machineUpdateService = machineUpdateService;
     }
 
     @PostMapping("/booking")
@@ -69,6 +72,17 @@ public class TestJsonController {
         try {
             Machine machine = machineRegister.save(json);
             System.out.println("Registered machine: " + machine.getId());
+            return machine;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
+    }
+
+    @PostMapping("/machine/{machineId}/status/{statusId}")
+    Object updateMachineStatus(@PathVariable Integer machineId, @PathVariable Integer statusId){
+        try {
+            Machine machine = machineUpdateService.updateStatus(machineId, statusId);
+            System.out.println("Updated machine " + machineId + " status to " + statusId);
             return machine;
         } catch (IllegalStateException e) {
             return e.getMessage();
