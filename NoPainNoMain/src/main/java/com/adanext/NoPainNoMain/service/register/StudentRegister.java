@@ -22,7 +22,12 @@ public class StudentRegister {
         // 1. Convertimos el JSON a objeto de dominio (variable local)
         Student student = jsonToClass.convert(jsonRegister, Student.class);
         
-        // 2. Guardamos en el repositorio y retornamos
+        // 2. Verificamos si ya existe por su PK (documentNumber)
+        if (studentRepositoryImpl.findByDocumentNumber(student.getDocumentNumber()).isPresent()) {
+            throw new IllegalStateException("El estudiante con documento " + student.getDocumentNumber() + " ya existe en el sistema");
+        }
+        
+        // 3. Guardamos en el repositorio y retornamos
         return studentRepositoryImpl.save(student);
     }
 }

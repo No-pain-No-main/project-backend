@@ -19,9 +19,6 @@ import jakarta.persistence.Table;
 @Table(name = "Student", schema = PersistenceConstants.SCHEMA)
 public class StudentEntity {
 
-    @Id
-    private Integer id;
-
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 
@@ -41,6 +38,7 @@ public class StudentEntity {
     @JoinColumn(name = "document_type_id", nullable = false)
     private DocumentTypeEntity documentType; 
 
+    @Id
     @Column(name = "document_number", nullable = false, unique = true, length = 20)
     private String documentNumber;
 
@@ -64,17 +62,16 @@ public class StudentEntity {
     // Requerido por JPA
     public StudentEntity() {}
 
-    public StudentEntity(Integer id, String firstName, String middleName, String lastName, String secondLastName, 
-                         String email, DocumentTypeEntity documentType, String documentNumber, LocalDate birthDate, 
+    public StudentEntity(String documentNumber, String firstName, String middleName, String lastName, String secondLastName, 
+                         String email, DocumentTypeEntity documentType, LocalDate birthDate, 
                          String phone, GenderEntity gender, UserStatusEntity userStatus, String passwordHash) {
-        this.id = id;
+        this.documentNumber = documentNumber;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.secondLastName = secondLastName;
         this.email = email;
         this.documentType = documentType;
-        this.documentNumber = documentNumber;
         this.birthDate = birthDate;
         this.phone = phone;
         this.gender = gender;
@@ -83,8 +80,8 @@ public class StudentEntity {
     }
 
     // Getters y Setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public String getId() { return documentNumber; }
+    public void setId(String documentNumber) { this.documentNumber = documentNumber; }
 
     public String getFirstName() { return firstName; }
     public void setFirstName(String firstName) { this.firstName = firstName; }

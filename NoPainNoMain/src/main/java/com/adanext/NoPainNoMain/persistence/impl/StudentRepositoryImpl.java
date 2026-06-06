@@ -20,7 +20,7 @@ public class StudentRepositoryImpl implements StudentRepository {
     public StudentRepositoryImpl(StudentJpaRepository repository) {
         this.repository = repository;
     }
-
+ 
     @Override
     public Student save(Student student) {
         if (student == null) return null;
@@ -31,9 +31,9 @@ public class StudentRepositoryImpl implements StudentRepository {
     }
 
     @Override
-    public Optional<Student> findById(Integer id) {
-        return repository.findById(id)
-            .map(StudentMapper::toDomain);   
+    public Optional<Student> findByDocumentNumber(String documentNumber) {
+        return repository.findByDocumentNumber(documentNumber)
+            .map(StudentMapper::toDomain);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class StudentRepositoryImpl implements StudentRepository {
     }
 
     @Override
-    public void deleteById(Integer id) {
-        repository.deleteById(id);
+    public void deleteByDocumentNumber(String documentNumber) {
+        repository.deleteById(documentNumber);
     }
 }

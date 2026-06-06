@@ -12,8 +12,8 @@ public class StudentQuery {
         this.studentRepository = studentRepository;
     }
 
-    public Student studentByID(Integer id){
-        return studentRepository.findById(id).orElse(null);
+    public Student studentByDocumentNumber(String documentNumber){
+        return studentRepository.findByDocumentNumber(documentNumber).orElse(null);
     }
     
 }

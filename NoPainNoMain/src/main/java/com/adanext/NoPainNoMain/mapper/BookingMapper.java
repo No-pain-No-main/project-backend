@@ -9,13 +9,13 @@ public class BookingMapper {
     public static Booking toDomain(BookingEntity entity) {
         if (entity == null) return null;
 
+
         return new Booking(
             entity.getId(),
             StudentMapper.toDomain(entity.getStudent()),
             MachineMapper.toDomain(entity.getMachine()),
-            entity.getBookingDate(),
-            entity.getStartTime(),
-            entity.getEndTime(),
+            entity.getDate(),
+            TimeSlotMapper.toDomain(entity.getTimeSlot()),
             BookingStatusMapper.toDomain(entity.getBookingStatus())
         );
     }
@@ -27,9 +27,8 @@ public class BookingMapper {
         entity.setId(domain.getId());
         entity.setStudent(StudentMapper.toEntity(domain.getStudent()));
         entity.setMachine(MachineMapper.toEntity(domain.getMachine()));
-        entity.setBookingDate(domain.getBookingDate());
-        entity.setStartTime(domain.getStartTime());
-        entity.setEndTime(domain.getEndTime());
+        entity.setDate(domain.getDate());
+        entity.setTimeSlot(TimeSlotMapper.toEntity(domain.getTimeSlot()));
         entity.setBookingStatus(BookingStatusMapper.toEntity(domain.getBookingStatus()));
         
         return entity;

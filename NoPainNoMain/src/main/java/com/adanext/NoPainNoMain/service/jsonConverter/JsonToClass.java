@@ -11,7 +11,7 @@ public class JsonToClass<T>{
     public JsonToClass(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
-    
+     
     public T convert(String json, Class<T> clazz) {
         try {
             return objectMapper.readValue(json, clazz);

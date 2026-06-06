@@ -10,13 +10,12 @@ public class AdministratorMapper {
         if (entity == null) return null;
 
         return new Administrator(
-            entity.getId(),
+            entity.getId(), // documentNumber
             entity.getFirstName(),
             entity.getMiddleName(),
             entity.getLastName(),
             entity.getSecondLastName(),
             DocumentTypeMapper.toDomain(entity.getDocumentType()),
-            entity.getDocumentNumber(),
             entity.getPhone(),
             entity.getPosition(),
             entity.getPasswordHash(),
@@ -28,13 +27,12 @@ public class AdministratorMapper {
         if (domain == null) return null;
 
         AdministratorEntity entity = new AdministratorEntity();
-        entity.setId(domain.getId());
+        entity.setId(domain.getId()); // documentNumber
         entity.setFirstName(domain.getFirstName());
         entity.setMiddleName(domain.getMiddleName().orElse(null));
         entity.setLastName(domain.getLastName());
         entity.setSecondLastName(domain.getSecondLastName().orElse(null));
         entity.setDocumentType(DocumentTypeMapper.toEntity(domain.getDocumentType()));
-        entity.setDocumentNumber(domain.getDocumentNumber());
         entity.setPhone(domain.getPhone());
         entity.setPosition(domain.getPosition());
         entity.setPasswordHash(domain.getPasswordHash());
