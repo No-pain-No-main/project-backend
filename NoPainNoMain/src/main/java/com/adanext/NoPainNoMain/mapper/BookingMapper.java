@@ -2,10 +2,7 @@ package com.adanext.NoPainNoMain.mapper;
 
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.mapper.types.BookingStatusMapper;
-import com.adanext.NoPainNoMain.domain.Machine;
-import com.adanext.NoPainNoMain.domain.TimeSlot;
 import com.adanext.NoPainNoMain.persistence.entities.BookingEntity;
-
 public class BookingMapper {
 
     public static Booking toDomain(BookingEntity entity) {

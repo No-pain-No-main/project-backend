@@ -10,7 +10,8 @@ public class TimeSlotMapper {
 
         return new TimeSlot(
             entity.getId(),
-            entity.getName()
+            entity.getName(),
+            entity.getStartTime()
         );
     }
 
@@ -20,6 +21,7 @@ public class TimeSlotMapper {
         TimeSlotEntity entity = new TimeSlotEntity();
         entity.setId(domain.getId());
         entity.setName(domain.getName());
+        entity.setStartTime(domain.getStartTime());
 
         return entity;
     }

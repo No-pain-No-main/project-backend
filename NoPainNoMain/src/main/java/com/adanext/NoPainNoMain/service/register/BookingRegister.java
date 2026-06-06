@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Student;
+import com.adanext.NoPainNoMain.domain.TimeSlot;
 import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
+import com.adanext.NoPainNoMain.persistence.impl.TimeSlotRepositoryImpl;
 import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
 import com.adanext.NoPainNoMain.service.query.BookingQuery;
 
@@ -15,11 +17,14 @@ public class BookingRegister {
     private final JsonToClass<Booking> jsonToClass;
     private final BookingRepositoryImpl bookingRepository;
     private final BookingQuery bookingQuery;
+    private final TimeSlotRepositoryImpl timeSlotRepository;
 
-    public BookingRegister(JsonToClass<Booking> jsonToClass, BookingRepositoryImpl bookingRepository, BookingQuery bookingQuery) {
+    public BookingRegister(JsonToClass<Booking> jsonToClass, BookingRepositoryImpl bookingRepository,
+                           BookingQuery bookingQuery, TimeSlotRepositoryImpl timeSlotRepository) {
         this.jsonToClass = jsonToClass;
         this.bookingRepository = bookingRepository;
         this.bookingQuery = bookingQuery;
+        this.timeSlotRepository = timeSlotRepository;
     }
 
     public Booking save(String jsonRegister) {
@@ -34,6 +39,22 @@ public class BookingRegister {
     public Booking save(Booking booking) {
         if (isNull(booking)) {
             throw new IllegalArgumentException("La reserva no puede ser nula");
+        }
+
+        if (isBeforeToday(booking)) {
+            throw new IllegalStateException("No se puede reservar para una fecha anterior al día de hoy (" + java.time.LocalDate.now() + ")");
+        }
+
+        if (isSlotAlreadyPassed(booking)) {
+            throw new IllegalStateException("La franja " + booking.getTimeSlot().getName() + " ya pasó. No se puede reservar para un horario anterior al actual");
+        }
+
+        if (!isWeekday(booking)) {
+            throw new IllegalStateException("Solo se pueden hacer reservas entre semana (lunes a viernes). El " + booking.getDate().getDayOfWeek() + " no está permitido");
+        }
+
+        if (!isCurrentWeek(booking)) {
+            throw new IllegalStateException("Solo se pueden hacer reservas dentro de la semana actual. La fecha " + booking.getDate() + " está fuera de la semana vigente");
         }
 
         if (existsById(booking)) {
@@ -63,6 +84,42 @@ public class BookingRegister {
 
     private boolean isNull(Booking booking) {
         return booking == null;
+    }
+
+    private boolean isBeforeToday(Booking booking) {
+        return booking.getDate() != null && booking.getDate().isBefore(java.time.LocalDate.now());
+    }
+
+    private boolean isWeekday(Booking booking) {
+        if (booking.getDate() == null) return false;
+        java.time.DayOfWeek day = booking.getDate().getDayOfWeek();
+        return day != java.time.DayOfWeek.SATURDAY && day != java.time.DayOfWeek.SUNDAY;
+    }
+
+    private boolean isCurrentWeek(Booking booking) {
+        if (booking.getDate() == null) return false;
+        java.time.LocalDate today = java.time.LocalDate.now();
+        java.time.LocalDate monday = today.with(java.time.DayOfWeek.MONDAY);
+        java.time.LocalDate sunday = today.with(java.time.DayOfWeek.SUNDAY);
+        return !booking.getDate().isBefore(monday) && !booking.getDate().isAfter(sunday);
+    }
+
+    private boolean isSlotAlreadyPassed(Booking booking) {
+        if (booking.getDate() == null || booking.getTimeSlot() == null) {
+            return false;
+        }
+
+        // Resolver startTime desde BD si el JSON no lo trajo
+        TimeSlot resolved = booking.getTimeSlot();
+        if (resolved.getStartTime() == null && resolved.getId() != null) {
+            resolved = timeSlotRepository.findById(resolved.getId()).orElse(resolved);
+        }
+        if (resolved.getStartTime() == null) {
+            return false;
+        }
+
+        java.time.LocalDateTime slotStart = java.time.LocalDateTime.of(booking.getDate(), resolved.getStartTime());
+        return java.time.LocalDateTime.now().isAfter(slotStart);
     }
 
     private boolean existsById(Booking booking) {

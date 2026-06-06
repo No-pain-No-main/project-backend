@@ -25,6 +25,7 @@ import com.adanext.NoPainNoMain.service.register.AdministratorRegister;
 import com.adanext.NoPainNoMain.service.register.BookingRegister;
 import com.adanext.NoPainNoMain.service.register.MachineRegister;
 import com.adanext.NoPainNoMain.service.register.StudentRegister;
+import com.adanext.NoPainNoMain.service.update.BookingCancelService;
 import com.adanext.NoPainNoMain.service.update.MachineUpdate;
 
 
@@ -42,8 +43,9 @@ public class TestJsonController {
     private final BookingRepositoryImpl bookingRepository;
     private final AvailabilityService availabilityService;
     private final MachineUpdate machineUpdateService;
+    private final BookingCancelService bookingCancelService;
 
-    public TestJsonController(ClassToJson classToJson, StudentQuery studentQuery,StudentRegister studentRegister, BookingRegister bookingRegister, MachineRegister machineRegister, MachineQuery machineQuery, AdministratorRegister administratorRegister, BookingRepositoryImpl bookingRepository, AvailabilityService availabilityService, MachineUpdate machineUpdateService){
+    public TestJsonController(ClassToJson classToJson, StudentQuery studentQuery,StudentRegister studentRegister, BookingRegister bookingRegister, MachineRegister machineRegister, MachineQuery machineQuery, AdministratorRegister administratorRegister, BookingRepositoryImpl bookingRepository, AvailabilityService availabilityService, MachineUpdate machineUpdateService, BookingCancelService bookingCancelService){
         this.classToJson = classToJson;
         this.studentQuery = studentQuery;
         this.studentRegister = studentRegister;
@@ -54,6 +56,7 @@ public class TestJsonController {
         this.bookingRepository = bookingRepository;
         this.availabilityService = availabilityService;
         this.machineUpdateService = machineUpdateService;
+        this.bookingCancelService = bookingCancelService;
     }
 
     @PostMapping("/booking")
@@ -84,6 +87,17 @@ public class TestJsonController {
             Machine machine = machineUpdateService.updateStatus(machineId, statusId);
             System.out.println("Updated machine " + machineId + " status to " + statusId);
             return machine;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
+    }
+
+    @PostMapping("/booking/{bookingId}/cancel")
+    Object cancelBooking(@PathVariable String bookingId){
+        try {
+            Booking booking = bookingCancelService.cancel(bookingId);
+            System.out.println("Cancelled booking: " + booking.getId());
+            return booking;
         } catch (IllegalStateException e) {
             return e.getMessage();
         }
