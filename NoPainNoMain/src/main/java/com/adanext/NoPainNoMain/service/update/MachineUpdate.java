@@ -29,4 +29,5 @@ public class MachineUpdate {
         machine.updateStatus(newStatus);
         return machineRepository.save(machine);
     }
+
 }

@@ -10,6 +10,7 @@ import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
 import com.adanext.NoPainNoMain.persistence.impl.TimeSlotRepositoryImpl;
 import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
 import com.adanext.NoPainNoMain.service.query.BookingQuery;
+import com.adanext.NoPainNoMain.service.update.MachineUpdate;
 
 @Service
 public class BookingRegister {
@@ -18,13 +19,16 @@ public class BookingRegister {
     private final BookingRepositoryImpl bookingRepository;
     private final BookingQuery bookingQuery;
     private final TimeSlotRepositoryImpl timeSlotRepository;
+    private final MachineUpdate machineUpdate;
 
     public BookingRegister(JsonToClass<Booking> jsonToClass, BookingRepositoryImpl bookingRepository,
-                           BookingQuery bookingQuery, TimeSlotRepositoryImpl timeSlotRepository) {
+                           BookingQuery bookingQuery, TimeSlotRepositoryImpl timeSlotRepository,
+                           MachineUpdate machineUpdate) {
         this.jsonToClass = jsonToClass;
         this.bookingRepository = bookingRepository;
         this.bookingQuery = bookingQuery;
         this.timeSlotRepository = timeSlotRepository;
+        this.machineUpdate = machineUpdate;
     }
 
     public Booking save(String jsonRegister) {
@@ -76,6 +80,9 @@ public class BookingRegister {
         if (booking == null) {
             throw new IllegalArgumentException("Datos de reserva inválidos");
         }
+
+        // Cambiar estado de la máquina a "Reservada"
+        machineUpdate.updateStatus(booking.getMachine().getId(), BookingParameters.MACHINE_STATUS_RESERVED);
 
         return bookingRepository.save(booking);
     }
