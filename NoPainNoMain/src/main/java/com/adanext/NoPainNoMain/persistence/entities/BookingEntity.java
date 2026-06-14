@@ -1,26 +1,33 @@
 package com.adanext.NoPainNoMain.persistence.entities;
-import com.adanext.NoPainNoMain.persistence.PersistenceConstants;
-import java.time.LocalDateTime;
 
+import java.time.LocalDate;
+
+import com.adanext.NoPainNoMain.persistence.PersistenceConstants;
 import com.adanext.NoPainNoMain.persistence.types.BookingStatusEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Booking", schema = PersistenceConstants.SCHEMA)
+@Table(name = "Booking", schema = PersistenceConstants.SCHEMA,
+       indexes = {
+           @Index(name = "idx_booking_date", columnList = "date"),
+           @Index(name = "idx_booking_machine_id", columnList = "machine_id"),
+           @Index(name = "idx_booking_student_id", columnList = "student_id"),
+           @Index(name = "idx_booking_machine_date_slot", columnList = "machine_id, date, time_slot_id"),
+           @Index(name = "idx_booking_student_date_slot", columnList = "student_id, date, time_slot_id")
+       })
 public class BookingEntity {
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
@@ -30,14 +37,12 @@ public class BookingEntity {
     @JoinColumn(name = "machine_id", nullable = false)
     private MachineEntity machine; // Muchas reservas se hacen sobre una Máquina
 
-    @Column(name = "booking_date", nullable = false)
-    private LocalDateTime bookingDate;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "time_slot_id", nullable = false)
+    private TimeSlotEntity timeSlot; // Muchas reservas usan un TimeSlot
 
-    @Column(name = "start_time", nullable = false)
-    private LocalDateTime startTime;
-
-    @Column(name = "end_time", nullable = false)
-    private LocalDateTime endTime;
+    @Column(name = "date", nullable = false)
+    private LocalDate date; // Para búsquedas por fecha
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_status_id", nullable = false)
@@ -46,20 +51,19 @@ public class BookingEntity {
     // Requerido por JPA
     public BookingEntity() {}
 
-    public BookingEntity(Integer id, StudentEntity student, MachineEntity machine, 
-                         LocalDateTime bookingDate, LocalDateTime startTime, LocalDateTime endTime, BookingStatusEntity bookingStatus) {
+    public BookingEntity( String id, StudentEntity student, MachineEntity machine, 
+                         TimeSlotEntity timeSlot, LocalDate date, BookingStatusEntity bookingStatus) {
         this.id = id;
         this.student = student;
         this.machine = machine;
-        this.bookingDate = bookingDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.timeSlot = timeSlot;
+        this.date = date;
         this.bookingStatus = bookingStatus;
     }
 
     // Getters y Setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
     public StudentEntity getStudent() { return student; }
     public void setStudent(StudentEntity student) { this.student = student; }
@@ -67,15 +71,13 @@ public class BookingEntity {
     public MachineEntity getMachine() { return machine; }
     public void setMachine(MachineEntity machine) { this.machine = machine; }
 
-    public LocalDateTime getBookingDate() { return bookingDate; }
-    public void setBookingDate(LocalDateTime bookingDate) { this.bookingDate = bookingDate; }
+    public TimeSlotEntity getTimeSlot() { return timeSlot; }
+    public void setTimeSlot(TimeSlotEntity timeSlot) { this.timeSlot = timeSlot; }
 
-    public LocalDateTime getStartTime() { return startTime; }
-    public void setStartTime(LocalDateTime startTime) { this.startTime = startTime; }
-
-    public LocalDateTime getEndTime() { return endTime; }
-    public void setEndTime(LocalDateTime endTime) { this.endTime = endTime; }
+    public LocalDate getDate() { return date; }
+    public void setDate(LocalDate date) { this.date = date; }
 
     public BookingStatusEntity getBookingStatus() { return bookingStatus; }
     public void setBookingStatus(BookingStatusEntity bookingStatus) { this.bookingStatus = bookingStatus; }
+
 }
