@@ -31,8 +31,8 @@ public class AdministratorRepositoryImpl implements AdministratorRepository {
     }
 
     @Override
-    public Optional<Administrator> findByDocumentNumber(String documentNumber) {
-        return repository.findByDocumentNumber(documentNumber)
+    public Optional<Administrator> findById(String id) {
+        return repository.findById(id)
             .map(AdministratorMapper::toDomain);
     }
 
@@ -50,7 +50,7 @@ public class AdministratorRepositoryImpl implements AdministratorRepository {
     }
 
     @Override
-    public void deleteByDocumentNumber(String documentNumber) {
-        repository.deleteByDocumentNumber(documentNumber);
+    public void deleteById(String id) {
+        repository.deleteById(id);
     }
 }

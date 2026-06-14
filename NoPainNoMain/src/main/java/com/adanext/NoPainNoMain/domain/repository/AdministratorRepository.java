@@ -7,8 +7,8 @@ import com.adanext.NoPainNoMain.domain.Administrator;
 
 public interface AdministratorRepository {
     Administrator save(Administrator administrator);
+    Optional<Administrator> findById(String id);
     Optional<Administrator> findByEmail(String email);
     List<Administrator> findAll();
-    void deleteByDocumentNumber(String documentNumber);
-    Optional<Administrator> findByDocumentNumber(String documentNumber);
+    void deleteById(String id);
 }

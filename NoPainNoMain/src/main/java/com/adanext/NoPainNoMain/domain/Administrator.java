@@ -6,20 +6,19 @@ import com.adanext.NoPainNoMain.domain.types.DocumentType;
 
 public class Administrator {
 
-    private  String firstName;
-    private  String middleName; // Puede ser null
-    private  String lastName;
-    private  String secondLastName; // Puede ser null
-    private  DocumentType documentType;
-    private  String documentNumber; // PK: número de documento
-    private  String email;
-    private  String phone;
-    private  String position;
-    private  String passwordHash;
-    private  String secretPhrase;
+    private String firstName;
+    private String middleName; 
+    private String lastName;
+    private String secondLastName; 
+    private DocumentType documentType;
+    private String documentNumber; 
+    private String email;
+    private String phone;
+    private String position;
+    private String passwordHash;
+    private String secretPhrase;
 
     public Administrator() {
-        // Constructor vacío para frameworks que lo requieran
     }
 
     public Administrator(String documentNumber, String firstName, String middleName, String lastName, String secondLastName,
@@ -38,24 +37,47 @@ public class Administrator {
         this.secretPhrase = secretPhrase;
     }
 
-    // Campos obligatorios
     public String getId() { return documentNumber; }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public DocumentType getDocumentType() { return documentType; }
-    public String getDocumentNumber() { return documentNumber; }
-    public String getEmail() { return email; }
-    public String getPhone() { return phone; }
-    public String getPosition() { return position; }
-    public String getPasswordHash() { return passwordHash; }
-    public String getSecretPhrase() { return secretPhrase; }
+    public void setId(String documentNumber) { this.documentNumber = documentNumber; }
 
-    // Campos opcionales
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public DocumentType getDocumentType() { return documentType; }
+    public void setDocumentType(DocumentType documentType) { this.documentType = documentType; }
+
+    public String getDocumentNumber() { return documentNumber; }
+    public void setDocumentNumber(String documentNumber) { this.documentNumber = documentNumber; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
+
+    public String getPosition() { return position; }
+    public void setPosition(String position) { this.position = position; }
+
+    public String getPasswordHash() { return passwordHash; }
+    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
+    public String getSecretPhrase() { return secretPhrase; }
+    public void setSecretPhrase(String secretPhrase) { this.secretPhrase = secretPhrase; }
+
     public Optional<String> getMiddleName() {
         return Optional.ofNullable(middleName);
+    }
+    public void setMiddleName(String middleName) {
+        this.middleName = middleName;
     }
 
     public Optional<String> getSecondLastName() {
         return Optional.ofNullable(secondLastName);
+    }
+    public void setSecondLastName(String secondLastName) {
+        this.secondLastName = secondLastName;
     }
 }

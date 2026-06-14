@@ -16,7 +16,7 @@ public class AdminRegisterHelper {
 
     public boolean isDuplicateDocument(Administrator admin) {
         return admin.getDocumentNumber() != null
-            && repository.findByDocumentNumber(admin.getDocumentNumber()).isPresent();
+            && repository.findById(admin.getDocumentNumber()).isPresent();
     }
 
     public boolean isDuplicateEmail(Administrator admin) {

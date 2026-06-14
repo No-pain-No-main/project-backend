@@ -74,7 +74,7 @@ public class JacksonConfig {
             Student.class
         ));
         catalogoModule.addDeserializer(Administrator.class, new ReferenceDeserializer<>(
-            id -> administratorRepository.findByDocumentNumber(id).orElse(null),
+            id -> administratorRepository.findById(id).orElse(null),
             Administrator.class
         )); 
         catalogoModule.addDeserializer(Machine.class, new ReferenceDeserializer<>(
