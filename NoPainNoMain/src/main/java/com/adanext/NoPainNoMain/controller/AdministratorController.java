@@ -29,7 +29,7 @@ public class AdministratorController {
 
     // Endpoint para buscar uno por ID
     @GetMapping("/{id}")
-    public ResponseEntity<Administrator> getById(@PathVariable Integer id) {
+    public ResponseEntity<Administrator> getById(@PathVariable String id) {
         return administratorRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());

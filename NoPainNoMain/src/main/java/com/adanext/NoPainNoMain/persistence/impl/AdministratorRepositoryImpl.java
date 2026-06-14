@@ -31,7 +31,7 @@ public class AdministratorRepositoryImpl implements AdministratorRepository {
     }
 
     @Override
-    public Optional<Administrator> findById(Integer id) {
+    public Optional<Administrator> findById(String id) {
         return repository.findById(id)
             .map(AdministratorMapper::toDomain);
     }
@@ -49,7 +49,7 @@ public class AdministratorRepositoryImpl implements AdministratorRepository {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(String id) {
         repository.deleteById(id);
     }
 }
