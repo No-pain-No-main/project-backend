@@ -31,14 +31,15 @@ public class AdministratorRepositoryImpl implements AdministratorRepository {
     }
 
     @Override
-    public Optional<Administrator> findById(Integer id) {
-        return repository.findById(id)
+    public Optional<Administrator> findByDocumentNumber(String documentNumber) {
+        return repository.findByDocumentNumber(documentNumber)
             .map(AdministratorMapper::toDomain);
     }
 
     @Override
     public Optional<Administrator> findByEmail(String email) {
-        return Optional.empty();
+        return repository.findByEmail(email)
+            .map(AdministratorMapper::toDomain);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class AdministratorRepositoryImpl implements AdministratorRepository {
     }
 
     @Override
-    public void deleteById(Integer id) {
-        repository.deleteById(id);
+    public void deleteByDocumentNumber(String documentNumber) {
+        repository.deleteByDocumentNumber(documentNumber);
     }
 }

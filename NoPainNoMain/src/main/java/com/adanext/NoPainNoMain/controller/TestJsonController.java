@@ -1,90 +1,181 @@
 package com.adanext.NoPainNoMain.controller;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.adanext.NoPainNoMain.domain.Administrator;
+import com.adanext.NoPainNoMain.domain.Booking;
+import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.Student;
+import com.adanext.NoPainNoMain.domain.TimeSlot;
+import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
 import com.adanext.NoPainNoMain.service.jsonConverter.ClassToJson;
-import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
+import com.adanext.NoPainNoMain.service.query.AvailabilityService;
+import com.adanext.NoPainNoMain.service.query.MachineQuery;
 import com.adanext.NoPainNoMain.service.query.StudentQuery;
+import com.adanext.NoPainNoMain.service.register.AdministratorRegister;
+import com.adanext.NoPainNoMain.service.register.BookingRegister;
+import com.adanext.NoPainNoMain.service.register.MachineRegister;
 import com.adanext.NoPainNoMain.service.register.StudentRegister;
+import com.adanext.NoPainNoMain.service.update.BookingCancelService;
+import com.adanext.NoPainNoMain.service.update.BookingConfirmService;
+import com.adanext.NoPainNoMain.service.update.MachineUpdate;
+
 
 @RestController
 @RequestMapping("/api/test")
 public class TestJsonController {
 
     private final ClassToJson classToJson;
-    private final JsonToClass jsonToClass;
     private final StudentQuery studentQuery;
     private final StudentRegister studentRegister;
+    private final BookingRegister bookingRegister;
+    private final MachineRegister machineRegister;
+    private final MachineQuery machineQuery;
+    private final AdministratorRegister administratorRegister;
+    private final BookingRepositoryImpl bookingRepository;
+    private final AvailabilityService availabilityService;
+    private final MachineUpdate machineUpdateService;
+    private final BookingCancelService bookingCancelService;
+    private final BookingConfirmService bookingConfirmService;
 
-
-    public TestJsonController(ClassToJson classToJson, JsonToClass jsonToClass, StudentQuery studentQuery,StudentRegister studentRegister) {
+    public TestJsonController(ClassToJson classToJson, StudentQuery studentQuery,StudentRegister studentRegister, BookingRegister bookingRegister, MachineRegister machineRegister, MachineQuery machineQuery, AdministratorRegister administratorRegister, BookingRepositoryImpl bookingRepository, AvailabilityService availabilityService, MachineUpdate machineUpdateService, BookingCancelService bookingCancelService, BookingConfirmService bookingConfirmService){
         this.classToJson = classToJson;
-        this.jsonToClass = jsonToClass;
         this.studentQuery = studentQuery;
         this.studentRegister = studentRegister;
+        this.bookingRegister = bookingRegister;
+        this.machineRegister = machineRegister;
+        this.machineQuery = machineQuery;
+        this.administratorRegister = administratorRegister;
+        this.bookingRepository = bookingRepository;
+        this.availabilityService = availabilityService;
+        this.machineUpdateService = machineUpdateService;
+        this.bookingCancelService = bookingCancelService;
+        this.bookingConfirmService = bookingConfirmService;
+    }
+
+    @PostMapping("/booking")
+    Object registerBooking(@RequestBody String json){
+        try {
+            Booking booking = bookingRegister.save(json);
+            System.out.println("Registered booking: " + booking.getId());
+            return booking;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
+    }
+
+    @PostMapping("/machine")
+    Object registerMachine(@RequestBody String json){
+        try {
+            Machine machine = machineRegister.save(json);
+            System.out.println("Registered machine: " + machine.getId());
+            return machine;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
+    }
+
+    @PostMapping("/machine/{machineId}/status/{statusId}")
+    Object updateMachineStatus(@PathVariable Integer machineId, @PathVariable Integer statusId){
+        try {
+            Machine machine = machineUpdateService.updateStatus(machineId, statusId);
+            System.out.println("Updated machine " + machineId + " status to " + statusId);
+            return machine;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
+    }
+
+    @PostMapping("/booking/{bookingId}/cancel")
+    Object cancelBooking(@PathVariable String bookingId){
+        try {
+            Booking booking = bookingCancelService.cancel(bookingId);
+            System.out.println("Cancelled booking: " + booking.getId());
+            return booking;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
+    }
+
+    @PostMapping("/booking/confirm/{studentDocumentNumber}")
+    Object confirmBooking(@PathVariable String studentDocumentNumber){
+        try {
+            Booking booking = bookingConfirmService.confirm(studentDocumentNumber);
+            System.out.println("Confirmed booking: " + booking.getId());
+            return booking;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
     }
 
     @PostMapping("/student")
-    Student registerStudent(){
-        String json ="""
-                    {
-                    "id": 0,
-                    "firstName": "Juan",
-                    "middleName": "Carlos",
-                    "lastName": "Pérez",
-                    "secondLastName": "Gómez",
-                    "birthDate": "2000-05-15",
-                    "documentNumber": "123456789",
-                    "email": "juan.perez@example.com",
-                    "passwordHash": "xyz123hash",
-                    "phone": "+573001234567",
-                    "documentType": {
-                        "id": 1
-                    },
-                    "gender": {
-                        "id": 2
-                    },
-                    "userStatus": {
-                        "id": 1
-                    }
-                    }
-                    """;
-        Student student =studentRegister.save(json);
-        System.out.println("Registered student: " + student.getFirstName() );
-        return student;
+    Object registerStudent(@RequestBody String json){
+        try {
+            Student student = studentRegister.save(json);
+            System.out.println("Registered student: " + student.getFirstName());
+            return student;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
     }
 
+
+    @PostMapping("/administrator")
+    Object registerAdministrator(@RequestBody String json){
+        try {
+            Administrator saved = administratorRegister.save(json);
+            System.out.println("Registered administrator: " + saved.getFirstName());
+            return saved;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
+    }
 
     @GetMapping("/2")
     String getTestJson() {
-        Student student = studentQuery.studentByID(1);
+        Student student = studentQuery.studentByDocumentNumber("12345678");
         String studentJson = classToJson.convert((Object)student);
         System.out.println("Converted student to JSON: " + studentJson);
         return studentJson;
-
-           
-
     }
 
-    public static class TestObject {
-        private Integer id;
-        private String name;
+    @GetMapping("/3")
+    String getMachineJson() {
+        Machine machine = machineQuery.byId(1);
+        String machineJson = classToJson.convert((Object)machine);
+        System.out.println("Converted machine to JSON: " + machineJson);
+        return machineJson;
+    }
 
-        public TestObject() {}
+    @GetMapping("/active-bookings/{documentNumber}")
+    Object countActiveBookings(@PathVariable String documentNumber) {
+        int count = bookingRepository.countActiveByStudent(documentNumber);
+        return "El estudiante " + documentNumber + " tiene " + count + " reservas activas (máx: " + com.adanext.NoPainNoMain.config.BookingParameters.MAX_ACTIVE_BOOKINGS_PER_STUDENT + ")";
+    }
 
-        public TestObject(Integer id, String name) {
-            this.id = id;
-            this.name = name;
-        }
+    @GetMapping("/availability/{machineId}/{date}")
+    Object getAvailability(@PathVariable Integer machineId, @PathVariable String date) {
+        LocalDate day = LocalDate.parse(date);
+        List<TimeSlot> freeSlots = availabilityService.findFreeSlotsByMachine(machineId, day);
+        return freeSlots.stream().map(TimeSlot::getName).collect(Collectors.toList());
+    }
 
-        public Integer getId() { return id; }
-        public String getName() { return name; }
-
-        public void setId(Integer id) { this.id = id; }
-        public void setName(String name) { this.name = name; }
+    @GetMapping("/availability/{date}")
+    Object getAllAvailability(@PathVariable String date) {
+        LocalDate day = LocalDate.parse(date);
+        var allAvailability = availabilityService.findFreeSlotsForAllMachines(day);
+        return allAvailability.stream().collect(Collectors.toMap(
+            a -> a.getMachine().getName(),
+            a -> a.getFreeSlots().stream().map(TimeSlot::getName).collect(Collectors.toList())
+        ));
     }
 }

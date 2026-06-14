@@ -38,6 +38,12 @@ public class MachineRepositoryImpl implements MachineRepository {
     }
 
     @Override
+    public Optional<Machine> findByName(String name) {
+        return repository.findByName(name)
+            .map(MachineMapper::toDomain);
+    }
+
+    @Override
     public List<Machine> findAll() {
         return repository.findAll().stream()
             .map(MachineMapper::toDomain)

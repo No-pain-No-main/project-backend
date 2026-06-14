@@ -6,13 +6,13 @@ import com.adanext.NoPainNoMain.domain.types.DocumentType;
 
 public class Administrator {
 
-    private  Integer id;
     private  String firstName;
     private  String middleName; // Puede ser null
     private  String lastName;
     private  String secondLastName; // Puede ser null
     private  DocumentType documentType;
-    private  String documentNumber;
+    private  String documentNumber; // PK: número de documento
+    private  String email;
     private  String phone;
     private  String position;
     private  String passwordHash;
@@ -22,16 +22,16 @@ public class Administrator {
         // Constructor vacío para frameworks que lo requieran
     }
 
-    public Administrator(Integer id, String firstName, String middleName, String lastName, String secondLastName,
-                         DocumentType documentType, String documentNumber, String phone, String position,
+    public Administrator(String documentNumber, String firstName, String middleName, String lastName, String secondLastName,
+                         DocumentType documentType, String email, String phone, String position,
                          String passwordHash, String secretPhrase) {
-        this.id = id;
+        this.documentNumber = documentNumber;
         this.firstName = firstName;
         this.middleName = middleName;
         this.lastName = lastName;
         this.secondLastName = secondLastName;
         this.documentType = documentType;
-        this.documentNumber = documentNumber;
+        this.email = email;
         this.phone = phone;
         this.position = position;
         this.passwordHash = passwordHash;
@@ -39,11 +39,12 @@ public class Administrator {
     }
 
     // Campos obligatorios
-    public Integer getId() { return id; }
+    public String getId() { return documentNumber; }
     public String getFirstName() { return firstName; }
     public String getLastName() { return lastName; }
     public DocumentType getDocumentType() { return documentType; }
     public String getDocumentNumber() { return documentNumber; }
+    public String getEmail() { return email; }
     public String getPhone() { return phone; }
     public String getPosition() { return position; }
     public String getPasswordHash() { return passwordHash; }

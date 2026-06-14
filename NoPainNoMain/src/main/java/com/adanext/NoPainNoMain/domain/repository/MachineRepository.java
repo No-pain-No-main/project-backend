@@ -10,4 +10,5 @@ public interface MachineRepository {
     Optional<Machine> findById(Integer id);
     List<Machine> findAll();
     void deleteById(Integer id);
+    Optional<Machine> findByName(String name);
 }
