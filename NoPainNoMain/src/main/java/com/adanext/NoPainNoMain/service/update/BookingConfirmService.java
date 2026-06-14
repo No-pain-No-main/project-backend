@@ -2,6 +2,7 @@ package com.adanext.NoPainNoMain.service.update;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Clock;
 import java.util.List;
 
 import org.springframework.scheduling.annotation.Scheduled;
@@ -21,6 +22,11 @@ public class BookingConfirmService {
     private final BookingRepositoryImpl bookingRepository;
     private final MachineUpdate machineUpdate;
     private final BookingConfirmHelper helper;
+    private Clock clock = Clock.systemDefaultZone();
+
+    public void setClock(Clock clock) {
+        this.clock = clock;
+    }
 
     public BookingConfirmService(BookingJpaRepository bookingJpaRepository,
                                   BookingRepositoryImpl bookingRepository,
@@ -58,9 +64,10 @@ public class BookingConfirmService {
     // ─── Tarea programada ─────────────────────────────────────────
 
     @Scheduled(cron = BookingParameters.RELEASE_CRON)
+    
     public void releaseExpiredSlots() {
-        LocalDate today = LocalDate.now();
-        LocalTime currentTime = LocalTime.now();
+        LocalDate today = LocalDate.now(clock);
+        LocalTime currentTime = LocalTime.now(clock);
 
         List<BookingEntity> allToday = bookingJpaRepository.findByDate(today);
         if (allToday.isEmpty()) return;

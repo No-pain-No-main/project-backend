@@ -1,5 +1,6 @@
 package com.adanext.NoPainNoMain.service.update.helpers;
 
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
@@ -13,14 +14,20 @@ import com.adanext.NoPainNoMain.persistence.impl.BookingStatusRepositoryImpl;
 public class BookingCancelHelper {
 
     private final BookingStatusRepositoryImpl bookingStatusRepository;
+    
+    private Clock clock = Clock.systemDefaultZone();
 
     public BookingCancelHelper(BookingStatusRepositoryImpl bookingStatusRepository) {
         this.bookingStatusRepository = bookingStatusRepository;
     }
 
+    public void setClock(Clock clock) {
+        this.clock = clock;
+    }
+
     public boolean canBeCancelled(Booking booking) {
         LocalDateTime slotStart = LocalDateTime.of(booking.getDate(), booking.getTimeSlot().getStartTime());
-        return !LocalDateTime.now().isAfter(slotStart.minusMinutes(BookingParameters.CANCELLATION_MINUTES_BEFORE));
+        return !LocalDateTime.now(clock).isAfter(slotStart.minusMinutes(BookingParameters.CANCELLATION_MINUTES_BEFORE));
     }
 
     public void cancelBooking(Booking booking) {

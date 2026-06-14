@@ -2,6 +2,7 @@ package com.adanext.NoPainNoMain.service.register.helpers;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Clock;
 import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
@@ -20,6 +21,11 @@ public class BookingRegisterHelper {
     private final BookingRepositoryImpl bookingRepository;
     private final BookingQuery bookingQuery;
     private final TimeSlotRepositoryImpl timeSlotRepository;
+    private Clock clock = Clock.systemDefaultZone(); 
+
+    public void setClock(Clock clock) {
+        this.clock = clock;
+    }
 
     public BookingRegisterHelper(BookingRepositoryImpl bookingRepository,
                                   BookingQuery bookingQuery,
@@ -34,7 +40,7 @@ public class BookingRegisterHelper {
     }
 
     public boolean isBeforeToday(Booking booking) {
-        return booking.getDate() != null && booking.getDate().isBefore(LocalDate.now());
+        return booking.getDate() != null && booking.getDate().isBefore(LocalDate.now(clock));
     }
 
     public boolean isWeekday(Booking booking) {
@@ -45,7 +51,7 @@ public class BookingRegisterHelper {
 
     public boolean isCurrentWeek(Booking booking) {
         if (booking.getDate() == null) return false;
-        LocalDate today = LocalDate.now();
+        LocalDate today = LocalDate.now(clock);
         LocalDate monday = today.with(DayOfWeek.MONDAY);
         LocalDate sunday = today.with(DayOfWeek.SUNDAY);
         return !booking.getDate().isBefore(monday) && !booking.getDate().isAfter(sunday);
@@ -61,7 +67,7 @@ public class BookingRegisterHelper {
         if (resolved.getStartTime() == null) return false;
 
         LocalDateTime slotStart = LocalDateTime.of(booking.getDate(), resolved.getStartTime());
-        return LocalDateTime.now().isAfter(slotStart);
+        return LocalDateTime.now(clock).isAfter(slotStart);
     }
 
     public boolean existsById(Booking booking) {

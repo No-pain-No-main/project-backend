@@ -24,9 +24,13 @@ public class Machine {
 
     // Getters
     public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
     public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
     public MachineType getMachineType() { return machineType; }
+    public void setMachineType(MachineType machineType) { this.machineType = machineType; }
     public MachineStatus getMachineStatus() { return machineStatus; }
+    public void setMachineStatus(MachineStatus machineStatus) { this.machineStatus = machineStatus; }
 
     // Métodos específicos para que el Administrador modifique los datos
     public void updateDetails(String newName, MachineType newType) {

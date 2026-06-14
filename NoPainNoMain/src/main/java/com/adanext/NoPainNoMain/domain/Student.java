@@ -47,6 +47,7 @@ public class Student {
     public String getEmail() { return email; }
     public DocumentType getDocumentType() { return documentType; }
     public String getDocumentNumber() { return documentNumber; }
+    public void setDocumentNumber(String documentNumber) { this.documentNumber = documentNumber; }
     public LocalDate getBirthDate() { return birthDate; }
     public String getPhone() { return phone; }
     public Gender getGender() { return gender; }

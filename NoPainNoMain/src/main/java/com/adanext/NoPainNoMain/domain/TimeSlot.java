@@ -20,4 +20,8 @@ public class TimeSlot {
     public Integer getId() { return id; }
     public String getName() { return name; }
     public LocalTime getStartTime() { return startTime; }
+
+    public void setId(Integer id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setStartTime(LocalTime startTime) { this.startTime = startTime; }
 }
