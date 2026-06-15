@@ -23,6 +23,18 @@ public class Booking {
       LocalDate date,
       TimeSlot timeSlot,
       BookingStatus bookingStatus) {
+    if (id == null || id.isBlank()) {
+      throw new IllegalArgumentException("id cannot be blank");
+    }
+    if (student == null) {
+      throw new IllegalArgumentException("student cannot be null");
+    }
+    if (machine == null) {
+      throw new IllegalArgumentException("machine cannot be null");
+    }
+    if (date == null) {
+      throw new IllegalArgumentException("date cannot be null");
+    }
     this.id = id;
     this.student = student;
     this.machine = machine;

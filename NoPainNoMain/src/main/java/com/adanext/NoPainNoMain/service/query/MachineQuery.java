@@ -1,15 +1,15 @@
 package com.adanext.NoPainNoMain.service.query;
 
 import com.adanext.NoPainNoMain.domain.Machine;
-import com.adanext.NoPainNoMain.persistence.impl.MachineRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.MachineRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MachineQuery {
 
-  private final MachineRepositoryImpl machineRepository;
+  private final MachineRepository machineRepository;
 
-  public MachineQuery(MachineRepositoryImpl machineRepository) {
+  public MachineQuery(MachineRepository machineRepository) {
     this.machineRepository = machineRepository;
   }
 

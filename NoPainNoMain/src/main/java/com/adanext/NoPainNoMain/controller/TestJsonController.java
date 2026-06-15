@@ -5,7 +5,7 @@ import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.TimeSlot;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
 import com.adanext.NoPainNoMain.service.jsonconverter.ClassToJson;
 import com.adanext.NoPainNoMain.service.query.AvailabilityService;
 import com.adanext.NoPainNoMain.service.query.MachineQuery;
@@ -38,7 +38,7 @@ public class TestJsonController {
   private final MachineRegister machineRegister;
   private final MachineQuery machineQuery;
   private final AdministratorRegister administratorRegister;
-  private final BookingRepositoryImpl bookingRepository;
+  private final BookingRepository bookingRepository;
   private final AvailabilityService availabilityService;
   private final MachineUpdate machineUpdateService;
   private final BookingCancelService bookingCancelService;
@@ -52,7 +52,7 @@ public class TestJsonController {
       MachineRegister machineRegister,
       MachineQuery machineQuery,
       AdministratorRegister administratorRegister,
-      BookingRepositoryImpl bookingRepository,
+      BookingRepository bookingRepository,
       AvailabilityService availabilityService,
       MachineUpdate machineUpdateService,
       BookingCancelService bookingCancelService,

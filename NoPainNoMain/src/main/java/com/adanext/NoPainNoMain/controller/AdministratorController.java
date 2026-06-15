@@ -22,8 +22,8 @@ public class AdministratorController {
 
   // Endpoint para listar todos los administradores
   @GetMapping
-  public List<Administrator> getAll() {
-    return administratorRepository.findAll();
+  public ResponseEntity<List<Administrator>> getAll() {
+    return ResponseEntity.ok(administratorRepository.findAll());
   }
 
   // Endpoint para buscar uno por ID

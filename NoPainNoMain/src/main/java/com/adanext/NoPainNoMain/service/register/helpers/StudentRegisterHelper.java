@@ -1,15 +1,15 @@
 package com.adanext.NoPainNoMain.service.register.helpers;
 
 import com.adanext.NoPainNoMain.domain.Student;
-import com.adanext.NoPainNoMain.persistence.impl.StudentRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.StudentRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class StudentRegisterHelper {
 
-  private final StudentRepositoryImpl repository;
+  private final StudentRepository repository;
 
-  public StudentRegisterHelper(StudentRepositoryImpl repository) {
+  public StudentRegisterHelper(StudentRepository repository) {
     this.repository = repository;
   }
 

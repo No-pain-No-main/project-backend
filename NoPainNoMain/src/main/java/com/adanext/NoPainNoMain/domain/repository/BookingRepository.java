@@ -21,6 +21,8 @@ public interface BookingRepository {
 
   List<Booking> findByStudent(Student student);
 
+  List<Booking> findByStudentDocumentNumber(String documentNumber);
+
   List<Booking> findByMachineIdAndDateBetween(Integer machineId, LocalDate start, LocalDate end);
 
   List<Booking> findByDateBetween(LocalDate start, LocalDate end);

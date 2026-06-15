@@ -1,15 +1,15 @@
 package com.adanext.NoPainNoMain.service.register.helpers;
 
 import com.adanext.NoPainNoMain.domain.Administrator;
-import com.adanext.NoPainNoMain.persistence.impl.AdministratorRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.AdministratorRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AdminRegisterHelper {
 
-  private final AdministratorRepositoryImpl repository;
+  private final AdministratorRepository repository;
 
-  public AdminRegisterHelper(AdministratorRepositoryImpl repository) {
+  public AdminRegisterHelper(AdministratorRepository repository) {
     this.repository = repository;
   }
 

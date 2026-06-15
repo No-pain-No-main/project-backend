@@ -22,8 +22,6 @@ public class Student {
 
   public Student() {}
 
-  // El constructor recibe documentNumber como primer parámetro (ahora es la PK).
-  // Ya no hay campo id separado, documentNumber es el identificador.
   public Student(
       String documentNumber,
       String firstName,
@@ -37,6 +35,18 @@ public class Student {
       Gender gender,
       UserStatus userStatus,
       String passwordHash) {
+    if (documentNumber == null || documentNumber.isBlank()) {
+      throw new IllegalArgumentException("documentNumber cannot be blank");
+    }
+    if (email == null || email.isBlank()) {
+      throw new IllegalArgumentException("email cannot be blank");
+    }
+    if (firstName == null || firstName.isBlank()) {
+      throw new IllegalArgumentException("firstName cannot be blank");
+    }
+    if (lastName == null || lastName.isBlank()) {
+      throw new IllegalArgumentException("lastName cannot be blank");
+    }
     this.documentNumber = documentNumber;
     this.firstName = firstName;
     this.middleName = middleName;

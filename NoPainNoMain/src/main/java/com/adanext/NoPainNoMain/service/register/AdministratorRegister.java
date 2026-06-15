@@ -1,7 +1,7 @@
 package com.adanext.NoPainNoMain.service.register;
 
 import com.adanext.NoPainNoMain.domain.Administrator;
-import com.adanext.NoPainNoMain.persistence.impl.AdministratorRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.AdministratorRepository;
 import com.adanext.NoPainNoMain.service.jsonconverter.JsonToClass;
 import com.adanext.NoPainNoMain.service.register.helpers.AdminRegisterHelper;
 import org.springframework.stereotype.Service;
@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 public class AdministratorRegister {
 
   private final JsonToClass<Administrator> jsonToClass;
-  private final AdministratorRepositoryImpl administratorRepository;
+  private final AdministratorRepository administratorRepository;
   private final AdminRegisterHelper helper;
 
   public AdministratorRegister(
       JsonToClass<Administrator> jsonToClass,
-      AdministratorRepositoryImpl administratorRepository,
+      AdministratorRepository administratorRepository,
       AdminRegisterHelper helper) {
     this.jsonToClass = jsonToClass;
     this.administratorRepository = administratorRepository;

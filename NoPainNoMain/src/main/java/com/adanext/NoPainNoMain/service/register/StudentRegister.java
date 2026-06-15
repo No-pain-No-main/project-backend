@@ -1,7 +1,7 @@
 package com.adanext.NoPainNoMain.service.register;
 
 import com.adanext.NoPainNoMain.domain.Student;
-import com.adanext.NoPainNoMain.persistence.impl.StudentRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.StudentRepository;
 import com.adanext.NoPainNoMain.service.jsonconverter.JsonToClass;
 import com.adanext.NoPainNoMain.service.register.helpers.StudentRegisterHelper;
 import org.springframework.stereotype.Service;
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 public class StudentRegister {
 
   private final JsonToClass<Student> jsonToClass;
-  private final StudentRepositoryImpl studentRepositoryImpl;
+  private final StudentRepository studentRepository;
   private final StudentRegisterHelper helper;
 
   public StudentRegister(
       JsonToClass<Student> jsonToClass,
-      StudentRepositoryImpl studentRepositoryImpl,
+      StudentRepository studentRepository,
       StudentRegisterHelper helper) {
     this.jsonToClass = jsonToClass;
-    this.studentRepositoryImpl = studentRepositoryImpl;
+    this.studentRepository = studentRepository;
     this.helper = helper;
   }
 
@@ -37,6 +37,6 @@ public class StudentRegister {
           "El email " + student.getEmail() + " ya está registrado por otro estudiante");
     }
 
-    return studentRepositoryImpl.save(student);
+    return studentRepository.save(student);
   }
 }

@@ -2,10 +2,9 @@ package com.adanext.NoPainNoMain.service.update.helpers;
 
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
+import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
+import com.adanext.NoPainNoMain.domain.repository.TimeSlotRepository;
 import com.adanext.NoPainNoMain.domain.types.BookingStatus;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.repositories.BookingJpaRepository;
-import com.adanext.NoPainNoMain.persistence.repositories.TimeSlotJpaRepository;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -15,23 +14,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class BookingConfirmHelper {
 
-  private final BookingJpaRepository bookingJpaRepository;
-  private final BookingRepositoryImpl bookingRepository;
-  private final TimeSlotJpaRepository timeSlotJpaRepository;
+  private final BookingRepository bookingRepository;
+  private final TimeSlotRepository timeSlotRepository;
 
   public BookingConfirmHelper(
-      BookingJpaRepository bookingJpaRepository,
-      BookingRepositoryImpl bookingRepository,
-      TimeSlotJpaRepository timeSlotJpaRepository) {
-    this.bookingJpaRepository = bookingJpaRepository;
+      BookingRepository bookingRepository,
+      TimeSlotRepository timeSlotRepository) {
     this.bookingRepository = bookingRepository;
-    this.timeSlotJpaRepository = timeSlotJpaRepository;
+    this.timeSlotRepository = timeSlotRepository;
   }
 
   public List<Booking> findTodayActiveBookings(String studentDocumentNumber) {
     LocalDate today = LocalDate.now();
-    return bookingJpaRepository.findByStudentDocumentNumber(studentDocumentNumber).stream()
-        .map(entity -> bookingRepository.findById(entity.getId()).orElse(null))
+    return bookingRepository.findByStudentDocumentNumber(studentDocumentNumber).stream()
         .filter(b -> isActiveToday(b, today))
         .collect(Collectors.toList());
   }
@@ -68,11 +63,11 @@ public class BookingConfirmHelper {
       return false;
     }
     int nextSlotId = booking.getTimeSlot().getId() + 1;
-    return timeSlotJpaRepository
+    return timeSlotRepository
         .findById(nextSlotId)
         .map(
             nextSlot ->
-                bookingJpaRepository
+                bookingRepository
                     .findByMachineIdAndDateBetween(
                         booking.getMachine().getId(), booking.getDate(), booking.getDate())
                     .stream()

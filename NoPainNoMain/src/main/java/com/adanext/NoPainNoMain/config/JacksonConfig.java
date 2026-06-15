@@ -5,23 +5,23 @@ import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.TimeSlot;
+import com.adanext.NoPainNoMain.domain.repository.AdministratorRepository;
+import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
+import com.adanext.NoPainNoMain.domain.repository.BookingStatusRepository;
+import com.adanext.NoPainNoMain.domain.repository.DocumentTypeRepository;
+import com.adanext.NoPainNoMain.domain.repository.GenderRepository;
+import com.adanext.NoPainNoMain.domain.repository.MachineRepository;
+import com.adanext.NoPainNoMain.domain.repository.MachineStatusRepository;
+import com.adanext.NoPainNoMain.domain.repository.MachineTypeRepository;
+import com.adanext.NoPainNoMain.domain.repository.StudentRepository;
+import com.adanext.NoPainNoMain.domain.repository.TimeSlotRepository;
+import com.adanext.NoPainNoMain.domain.repository.UserStatusRepository;
 import com.adanext.NoPainNoMain.domain.types.BookingStatus;
 import com.adanext.NoPainNoMain.domain.types.DocumentType;
 import com.adanext.NoPainNoMain.domain.types.Gender;
 import com.adanext.NoPainNoMain.domain.types.MachineStatus;
 import com.adanext.NoPainNoMain.domain.types.MachineType;
 import com.adanext.NoPainNoMain.domain.types.UserStatus;
-import com.adanext.NoPainNoMain.persistence.impl.AdministratorRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.BookingStatusRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.DocumentTypeRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.GenderRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.MachineRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.MachineStatusRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.MachineTypeRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.StudentRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.TimeSlotRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.UserStatusRepositoryImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -33,17 +33,17 @@ public class JacksonConfig {
 
   @Bean
   public ObjectMapper objectMapper(
-      DocumentTypeRepositoryImpl docRepository,
-      GenderRepositoryImpl genderRepository,
-      UserStatusRepositoryImpl statusRepository,
-      MachineTypeRepositoryImpl machineTypeRepository,
-      MachineStatusRepositoryImpl machineStatusRepository,
-      BookingStatusRepositoryImpl bookingStatusRepository,
-      StudentRepositoryImpl studentRepository,
-      AdministratorRepositoryImpl administratorRepository,
-      MachineRepositoryImpl machineRepository,
-      BookingRepositoryImpl bookingRepository,
-      TimeSlotRepositoryImpl timeSlotRepository) {
+      DocumentTypeRepository docRepository,
+      GenderRepository genderRepository,
+      UserStatusRepository statusRepository,
+      MachineTypeRepository machineTypeRepository,
+      MachineStatusRepository machineStatusRepository,
+      BookingStatusRepository bookingStatusRepository,
+      StudentRepository studentRepository,
+      AdministratorRepository administratorRepository,
+      MachineRepository machineRepository,
+      BookingRepository bookingRepository,
+      TimeSlotRepository timeSlotRepository) {
 
     ObjectMapper mapper = new ObjectMapper();
     mapper.registerModule(new JavaTimeModule());

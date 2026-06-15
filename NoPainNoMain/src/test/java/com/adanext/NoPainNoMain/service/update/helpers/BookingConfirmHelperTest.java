@@ -12,12 +12,10 @@ import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.TimeSlot;
+import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
+import com.adanext.NoPainNoMain.domain.repository.TimeSlotRepository;
 import com.adanext.NoPainNoMain.domain.types.BookingStatus;
 import com.adanext.NoPainNoMain.persistence.entities.BookingEntity;
-import com.adanext.NoPainNoMain.persistence.entities.TimeSlotEntity;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.repositories.BookingJpaRepository;
-import com.adanext.NoPainNoMain.persistence.repositories.TimeSlotJpaRepository;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -34,11 +32,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class BookingConfirmHelperTest {
 
-  @Mock private BookingJpaRepository bookingJpaRepository;
+  @Mock private BookingRepository bookingRepository;
 
-  @Mock private BookingRepositoryImpl bookingRepository;
-
-  @Mock private TimeSlotJpaRepository timeSlotJpaRepository;
+  @Mock private TimeSlotRepository timeSlotRepository;
 
   @InjectMocks private BookingConfirmHelper helper;
 
@@ -81,9 +77,8 @@ class BookingConfirmHelperTest {
 
   @Test
   void findTodayActiveBookings_whenStudentHasActiveTodayBooking_returnsIt() {
-    when(bookingJpaRepository.findByStudentDocumentNumber(STUDENT_DOC))
-        .thenReturn(Collections.singletonList(bookingEntity));
-    when(bookingRepository.findById("booking-1")).thenReturn(Optional.of(activeBookingToday));
+    when(bookingRepository.findByStudentDocumentNumber(STUDENT_DOC))
+        .thenReturn(Collections.singletonList(activeBookingToday));
 
     List<Booking> result = helper.findTodayActiveBookings(STUDENT_DOC);
 
@@ -93,7 +88,7 @@ class BookingConfirmHelperTest {
 
   @Test
   void findTodayActiveBookings_whenStudentHasNoBookings_returnsEmptyList() {
-    when(bookingJpaRepository.findByStudentDocumentNumber(STUDENT_DOC))
+    when(bookingRepository.findByStudentDocumentNumber(STUDENT_DOC))
         .thenReturn(Collections.emptyList());
 
     List<Booking> result = helper.findTodayActiveBookings(STUDENT_DOC);
@@ -109,12 +104,8 @@ class BookingConfirmHelperTest {
     bookingYesterday.setTimeSlot(slot);
     bookingYesterday.updateStatus(new BookingStatus(BookingParameters.BOOKING_STATUS_ACTIVE, null));
 
-    BookingEntity entity2 = new BookingEntity();
-    entity2.setId("booking-2");
-
-    when(bookingJpaRepository.findByStudentDocumentNumber(STUDENT_DOC))
-        .thenReturn(Collections.singletonList(entity2));
-    when(bookingRepository.findById("booking-2")).thenReturn(Optional.of(bookingYesterday));
+    when(bookingRepository.findByStudentDocumentNumber(STUDENT_DOC))
+        .thenReturn(Collections.singletonList(bookingYesterday));
 
     List<Booking> result = helper.findTodayActiveBookings(STUDENT_DOC);
 
@@ -130,12 +121,8 @@ class BookingConfirmHelperTest {
     cancelledBooking.updateStatus(
         new BookingStatus(BookingParameters.BOOKING_STATUS_CANCELLED, null));
 
-    BookingEntity entity3 = new BookingEntity();
-    entity3.setId("booking-3");
-
-    when(bookingJpaRepository.findByStudentDocumentNumber(STUDENT_DOC))
-        .thenReturn(Collections.singletonList(entity3));
-    when(bookingRepository.findById("booking-3")).thenReturn(Optional.of(cancelledBooking));
+    when(bookingRepository.findByStudentDocumentNumber(STUDENT_DOC))
+        .thenReturn(Collections.singletonList(cancelledBooking));
 
     List<Booking> result = helper.findTodayActiveBookings(STUDENT_DOC);
 
@@ -225,17 +212,17 @@ class BookingConfirmHelperTest {
 
   @Test
   void hasNextBooking_whenNextSlotExistsAndIsBooked_returnsTrue() {
-    TimeSlotEntity nextSlotEntity = new TimeSlotEntity();
-    nextSlotEntity.setId(4);
+    TimeSlot nextSlot = new TimeSlot();
+    nextSlot.setId(4);
 
-    BookingEntity nextBookingEntity = new BookingEntity();
-    TimeSlotEntity nextSlotRef = new TimeSlotEntity();
+    Booking nextBooking= new Booking();
+    TimeSlot nextSlotRef = new TimeSlot();
     nextSlotRef.setId(4);
-    nextBookingEntity.setTimeSlot(nextSlotRef);
+    nextBooking.setTimeSlot(nextSlotRef);
 
-    when(timeSlotJpaRepository.findById(4)).thenReturn(Optional.of(nextSlotEntity));
-    when(bookingJpaRepository.findByMachineIdAndDateBetween(eq(1), eq(TODAY), eq(TODAY)))
-        .thenReturn(Collections.singletonList(nextBookingEntity));
+    when(timeSlotRepository.findById(4)).thenReturn(Optional.of(nextSlot));
+    when(bookingRepository.findByMachineIdAndDateBetween(eq(1), eq(TODAY), eq(TODAY)))
+        .thenReturn(Collections.singletonList(nextBooking));
 
     boolean result = helper.hasNextBooking(activeBookingToday);
 
@@ -244,7 +231,7 @@ class BookingConfirmHelperTest {
 
   @Test
   void hasNextBooking_whenNextSlotDoesNotExist_returnsFalse() {
-    when(timeSlotJpaRepository.findById(4)).thenReturn(Optional.empty());
+    when(timeSlotRepository.findById(4)).thenReturn(Optional.empty());
 
     boolean result = helper.hasNextBooking(activeBookingToday);
 
@@ -253,11 +240,11 @@ class BookingConfirmHelperTest {
 
   @Test
   void hasNextBooking_whenNextSlotExistsButNotBooked_returnsFalse() {
-    TimeSlotEntity nextSlotEntity = new TimeSlotEntity();
-    nextSlotEntity.setId(4);
+    TimeSlot nextSlot = new TimeSlot();
+    nextSlot.setId(4);
 
-    when(timeSlotJpaRepository.findById(4)).thenReturn(Optional.of(nextSlotEntity));
-    when(bookingJpaRepository.findByMachineIdAndDateBetween(eq(1), eq(TODAY), eq(TODAY)))
+    when(timeSlotRepository.findById(4)).thenReturn(Optional.of(nextSlot));
+    when(bookingRepository.findByMachineIdAndDateBetween(eq(1), eq(TODAY), eq(TODAY)))
         .thenReturn(Collections.emptyList());
 
     boolean result = helper.hasNextBooking(activeBookingToday);

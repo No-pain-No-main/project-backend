@@ -2,7 +2,7 @@ package com.adanext.NoPainNoMain.service.register;
 
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
 import com.adanext.NoPainNoMain.service.jsonconverter.JsonToClass;
 import com.adanext.NoPainNoMain.service.register.helpers.BookingRegisterHelper;
 import com.adanext.NoPainNoMain.service.update.MachineUpdate;
@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 public class BookingRegister {
 
   private final JsonToClass<Booking> jsonToClass;
-  private final BookingRepositoryImpl bookingRepository;
+  private final BookingRepository bookingRepository;
   private final MachineUpdate machineUpdate;
   private final BookingRegisterHelper helper;
 
   public BookingRegister(
       JsonToClass<Booking> jsonToClass,
-      BookingRepositoryImpl bookingRepository,
+      BookingRepository bookingRepository,
       MachineUpdate machineUpdate,
       BookingRegisterHelper helper) {
     this.jsonToClass = jsonToClass;

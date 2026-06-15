@@ -1,14 +1,14 @@
 package com.adanext.NoPainNoMain.service.query;
 
 import com.adanext.NoPainNoMain.domain.Student;
-import com.adanext.NoPainNoMain.persistence.impl.StudentRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StudentQuery {
-  private final StudentRepositoryImpl studentRepository;
+  private final StudentRepository studentRepository;
 
-  public StudentQuery(StudentRepositoryImpl studentRepository) {
+  public StudentQuery(StudentRepository studentRepository) {
     this.studentRepository = studentRepository;
   }
 

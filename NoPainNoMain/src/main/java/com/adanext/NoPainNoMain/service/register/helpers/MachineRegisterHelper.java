@@ -1,15 +1,15 @@
 package com.adanext.NoPainNoMain.service.register.helpers;
 
 import com.adanext.NoPainNoMain.domain.Machine;
-import com.adanext.NoPainNoMain.persistence.impl.MachineRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.MachineRepository;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MachineRegisterHelper {
 
-  private final MachineRepositoryImpl repository;
+  private final MachineRepository repository;
 
-  public MachineRegisterHelper(MachineRepositoryImpl repository) {
+  public MachineRegisterHelper(MachineRepository repository) {
     this.repository = repository;
   }
 

@@ -2,19 +2,19 @@ package com.adanext.NoPainNoMain.service.update;
 
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
 import com.adanext.NoPainNoMain.service.update.helpers.BookingCancelHelper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BookingCancelService {
 
-  private final BookingRepositoryImpl bookingRepository;
+  private final BookingRepository bookingRepository;
   private final BookingCancelHelper helper;
   private final MachineUpdate machineUpdate;
 
   public BookingCancelService(
-      BookingRepositoryImpl bookingRepository,
+      BookingRepository bookingRepository,
       BookingCancelHelper helper,
       MachineUpdate machineUpdate) {
     this.bookingRepository = bookingRepository;

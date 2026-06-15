@@ -16,6 +16,12 @@ public class Machine {
 
   // Constructor con los campos definitivos
   public Machine(Integer id, String name, MachineType machineType, MachineStatus machineStatus) {
+    if (id == null || id <= 0) {
+      throw new IllegalArgumentException("id must be a positive number");
+    }
+    if (name == null || name.isBlank()) {
+      throw new IllegalArgumentException("name cannot be blank");
+    }
     this.id = id;
     this.name = name;
     this.machineType = machineType;

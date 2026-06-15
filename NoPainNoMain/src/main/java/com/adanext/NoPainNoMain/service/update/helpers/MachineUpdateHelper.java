@@ -1,20 +1,20 @@
 package com.adanext.NoPainNoMain.service.update.helpers;
 
 import com.adanext.NoPainNoMain.domain.Machine;
+import com.adanext.NoPainNoMain.domain.repository.MachineRepository;
+import com.adanext.NoPainNoMain.domain.repository.MachineStatusRepository;
 import com.adanext.NoPainNoMain.domain.types.MachineStatus;
-import com.adanext.NoPainNoMain.persistence.impl.MachineRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.MachineStatusRepositoryImpl;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MachineUpdateHelper {
 
-  private final MachineRepositoryImpl machineRepository;
-  private final MachineStatusRepositoryImpl machineStatusRepository;
+  private final MachineRepository machineRepository;
+  private final MachineStatusRepository machineStatusRepository;
 
   public MachineUpdateHelper(
-      MachineRepositoryImpl machineRepository,
-      MachineStatusRepositoryImpl machineStatusRepository) {
+      MachineRepository machineRepository,
+      MachineStatusRepository machineStatusRepository) {
     this.machineRepository = machineRepository;
     this.machineStatusRepository = machineStatusRepository;
   }

@@ -4,8 +4,8 @@ import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.TimeSlot;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.TimeSlotRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
+import com.adanext.NoPainNoMain.domain.repository.TimeSlotRepository;
 import com.adanext.NoPainNoMain.service.query.BookingQuery;
 import java.time.Clock;
 import java.time.DayOfWeek;
@@ -16,9 +16,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class BookingRegisterHelper {
 
-  private final BookingRepositoryImpl bookingRepository;
+  private final BookingRepository bookingRepository;
   private final BookingQuery bookingQuery;
-  private final TimeSlotRepositoryImpl timeSlotRepository;
+  private final TimeSlotRepository timeSlotRepository;
   private Clock clock = Clock.systemDefaultZone();
 
   public void setClock(Clock clock) {
@@ -26,9 +26,9 @@ public class BookingRegisterHelper {
   }
 
   public BookingRegisterHelper(
-      BookingRepositoryImpl bookingRepository,
+      BookingRepository bookingRepository,
       BookingQuery bookingQuery,
-      TimeSlotRepositoryImpl timeSlotRepository) {
+      TimeSlotRepository timeSlotRepository) {
     this.bookingRepository = bookingRepository;
     this.bookingQuery = bookingQuery;
     this.timeSlotRepository = timeSlotRepository;

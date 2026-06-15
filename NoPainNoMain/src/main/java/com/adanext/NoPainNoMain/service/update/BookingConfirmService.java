@@ -2,9 +2,7 @@ package com.adanext.NoPainNoMain.service.update;
 
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
-import com.adanext.NoPainNoMain.persistence.entities.BookingEntity;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.repositories.BookingJpaRepository;
+import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
 import com.adanext.NoPainNoMain.service.update.helpers.BookingConfirmHelper;
 import java.time.Clock;
 import java.time.LocalDate;
@@ -16,8 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class BookingConfirmService {
 
-  private final BookingJpaRepository bookingJpaRepository;
-  private final BookingRepositoryImpl bookingRepository;
+  private final BookingRepository bookingRepository;
   private final MachineUpdate machineUpdate;
   private final BookingConfirmHelper helper;
   private Clock clock = Clock.systemDefaultZone();
@@ -27,11 +24,9 @@ public class BookingConfirmService {
   }
 
   public BookingConfirmService(
-      BookingJpaRepository bookingJpaRepository,
-      BookingRepositoryImpl bookingRepository,
+      BookingRepository bookingRepository,
       MachineUpdate machineUpdate,
       BookingConfirmHelper helper) {
-    this.bookingJpaRepository = bookingJpaRepository;
     this.bookingRepository = bookingRepository;
     this.machineUpdate = machineUpdate;
     this.helper = helper;
@@ -66,17 +61,12 @@ public class BookingConfirmService {
     LocalDate today = LocalDate.now(clock);
     LocalTime currentTime = LocalTime.now(clock);
 
-    List<BookingEntity> allToday = bookingJpaRepository.findByDate(today);
+    List<Booking> allToday = bookingRepository.findByDate(today);
     if (allToday.isEmpty()) {
       return;
     }
 
-    for (var entity : allToday) {
-      Booking booking = bookingRepository.findById(entity.getId()).orElse(null);
-      if (booking == null) {
-        continue;
-      }
-
+    for (Booking booking : allToday) {
       boolean isConfirmed =
           booking.getBookingStatus() != null
               && booking.getBookingStatus().getId() == BookingParameters.BOOKING_STATUS_CONFIRMED;

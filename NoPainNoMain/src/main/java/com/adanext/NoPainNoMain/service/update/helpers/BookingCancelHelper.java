@@ -2,8 +2,8 @@ package com.adanext.NoPainNoMain.service.update.helpers;
 
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
+import com.adanext.NoPainNoMain.domain.repository.BookingStatusRepository;
 import com.adanext.NoPainNoMain.domain.types.BookingStatus;
-import com.adanext.NoPainNoMain.persistence.impl.BookingStatusRepositoryImpl;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class BookingCancelHelper {
 
-  private final BookingStatusRepositoryImpl bookingStatusRepository;
+  private final BookingStatusRepository bookingStatusRepository;
 
   private Clock clock = Clock.systemDefaultZone();
 
-  public BookingCancelHelper(BookingStatusRepositoryImpl bookingStatusRepository) {
+  public BookingCancelHelper(BookingStatusRepository bookingStatusRepository) {
     this.bookingStatusRepository = bookingStatusRepository;
   }
 

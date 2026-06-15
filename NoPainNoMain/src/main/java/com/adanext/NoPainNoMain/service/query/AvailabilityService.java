@@ -3,9 +3,9 @@ package com.adanext.NoPainNoMain.service.query;
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.TimeSlot;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.MachineRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.TimeSlotRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
+import com.adanext.NoPainNoMain.domain.repository.MachineRepository;
+import com.adanext.NoPainNoMain.domain.repository.TimeSlotRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
@@ -15,14 +15,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class AvailabilityService {
 
-  private final BookingRepositoryImpl bookingRepository;
-  private final MachineRepositoryImpl machineRepository;
-  private final TimeSlotRepositoryImpl timeSlotRepository;
+  private final BookingRepository bookingRepository;
+  private final MachineRepository machineRepository;
+  private final TimeSlotRepository timeSlotRepository;
 
   public AvailabilityService(
-      BookingRepositoryImpl bookingRepository,
-      MachineRepositoryImpl machineRepository,
-      TimeSlotRepositoryImpl timeSlotRepository) {
+      BookingRepository bookingRepository,
+      MachineRepository machineRepository,
+      TimeSlotRepository timeSlotRepository) {
     this.bookingRepository = bookingRepository;
     this.machineRepository = machineRepository;
     this.timeSlotRepository = timeSlotRepository;

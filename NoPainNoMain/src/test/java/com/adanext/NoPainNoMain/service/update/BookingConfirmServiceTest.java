@@ -8,14 +8,13 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.adanext.NoPainNoMain.persistence.entities.BookingEntity;
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.TimeSlot;
 import com.adanext.NoPainNoMain.domain.types.BookingStatus;
-import com.adanext.NoPainNoMain.persistence.entities.BookingEntity;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.repositories.BookingJpaRepository;
+import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
 import com.adanext.NoPainNoMain.service.update.helpers.BookingConfirmHelper;
 import java.time.Clock;
 import java.time.Instant;
@@ -24,7 +23,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,9 +33,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class BookingConfirmServiceTest {
 
-  @Mock private BookingJpaRepository bookingJpaRepository;
-
-  @Mock private BookingRepositoryImpl bookingRepository;
+  @Mock private BookingRepository bookingRepository;
 
   @Mock private MachineUpdate machineUpdate;
 
@@ -137,7 +133,7 @@ class BookingConfirmServiceTest {
 
   @Test
   void releaseExpiredSlots_whenNoBookingsToday_doesNothing() {
-    when(bookingJpaRepository.findByDate(TODAY)).thenReturn(Collections.emptyList());
+    when(bookingRepository.findByDate(TODAY)).thenReturn(Collections.emptyList());
 
     confirmService.releaseExpiredSlots();
 
@@ -155,8 +151,7 @@ class BookingConfirmServiceTest {
     BookingEntity entity = new BookingEntity();
     entity.setId("booking-active");
 
-    when(bookingJpaRepository.findByDate(TODAY)).thenReturn(Collections.singletonList(entity));
-    when(bookingRepository.findById("booking-active")).thenReturn(Optional.of(activeBooking));
+    when(bookingRepository.findByDate(TODAY)).thenReturn(Collections.singletonList(activeBooking));
     when(helper.hasNextBooking(activeBooking)).thenReturn(false);
 
     confirmService.releaseExpiredSlots();
@@ -176,8 +171,7 @@ class BookingConfirmServiceTest {
     BookingEntity entity = new BookingEntity();
     entity.setId("booking-active");
 
-    when(bookingJpaRepository.findByDate(TODAY)).thenReturn(Collections.singletonList(entity));
-    when(bookingRepository.findById("booking-active")).thenReturn(Optional.of(activeBooking));
+    when(bookingRepository.findByDate(TODAY)).thenReturn(Collections.singletonList(activeBooking));
     when(helper.hasNextBooking(activeBooking)).thenReturn(true);
 
     confirmService.releaseExpiredSlots();
@@ -190,11 +184,7 @@ class BookingConfirmServiceTest {
     slot.setStartTime(LocalTime.of(13, 0));
     activeBooking.setTimeSlot(slot);
 
-    BookingEntity entity = new BookingEntity();
-    entity.setId("booking-active");
-
-    when(bookingJpaRepository.findByDate(TODAY)).thenReturn(Collections.singletonList(entity));
-    when(bookingRepository.findById("booking-active")).thenReturn(Optional.of(activeBooking));
+    when(bookingRepository.findByDate(TODAY)).thenReturn(Collections.singletonList(activeBooking));
 
     confirmService.releaseExpiredSlots();
 
@@ -209,11 +199,7 @@ class BookingConfirmServiceTest {
     slot.setStartTime(LocalTime.of(14, 30));
     activeBooking.setTimeSlot(slot);
 
-    BookingEntity entity = new BookingEntity();
-    entity.setId("booking-active");
-
-    when(bookingJpaRepository.findByDate(TODAY)).thenReturn(Collections.singletonList(entity));
-    when(bookingRepository.findById("booking-active")).thenReturn(Optional.of(activeBooking));
+    when(bookingRepository.findByDate(TODAY)).thenReturn(Collections.singletonList(activeBooking));
 
     confirmService.releaseExpiredSlots();
 
@@ -254,10 +240,8 @@ class BookingConfirmServiceTest {
     BookingEntity e2 = new BookingEntity();
     e2.setId("b-confirmed-active");
 
-    when(bookingJpaRepository.findByDate(TODAY)).thenReturn(Arrays.asList(e1, e2));
-    when(bookingRepository.findById("b-confirmed-expired"))
-        .thenReturn(Optional.of(confirmedExpired));
-    when(bookingRepository.findById("b-confirmed-active")).thenReturn(Optional.of(confirmedActive));
+    when(bookingRepository.findByDate(TODAY))
+        .thenReturn(Arrays.asList(confirmedExpired, confirmedActive));
     when(helper.hasNextBooking(confirmedExpired)).thenReturn(false);
 
     confirmService.releaseExpiredSlots();

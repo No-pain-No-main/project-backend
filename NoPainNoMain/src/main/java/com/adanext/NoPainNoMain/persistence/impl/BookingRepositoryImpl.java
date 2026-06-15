@@ -67,6 +67,16 @@ public class BookingRepositoryImpl implements BookingRepository {
   }
 
   @Override
+  public List<Booking> findByStudentDocumentNumber(String documentNumber) {
+    if (documentNumber == null || documentNumber.isBlank()) {
+      return List.of();
+    }
+    return repository.findByStudentDocumentNumber(documentNumber).stream()
+        .map(BookingMapper::toDomain)
+        .collect(Collectors.toList());
+  }
+
+  @Override
   public List<Booking> findByMachineIdAndDateBetween(
       Integer machineId, LocalDate start, LocalDate end) {
     return repository.findByMachineIdAndDateBetween(machineId, start, end).stream()
