@@ -1,8 +1,6 @@
 package com.adanext.NoPainNoMain.persistence.repositories;
 
+import com.adanext.NoPainNoMain.persistence.types.BookingStatusEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.adanext.NoPainNoMain.persistence.types.BookingStatusEntity;
-
-public interface BookingStatusJpaRepository extends JpaRepository<BookingStatusEntity, Integer> {
-}
+public interface BookingStatusJpaRepository extends JpaRepository<BookingStatusEntity, Integer> {}

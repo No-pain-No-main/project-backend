@@ -1,7 +1,7 @@
 package com.adanext.NoPainNoMain.persistence.entities;
+
 import com.adanext.NoPainNoMain.persistence.PersistenceConstants;
 import com.adanext.NoPainNoMain.persistence.types.DocumentTypeEntity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -14,94 +14,163 @@ import jakarta.persistence.Table;
 @Table(name = "Administrator", schema = PersistenceConstants.SCHEMA)
 public class AdministratorEntity {
 
-    @Column(name = "first_name", nullable = false, length = 50)
-    private String firstName;
+  @Column(name = "first_name", nullable = false, length = 50)
+  private String firstName;
 
-    @Column(name = "middle_name", length = 50)
-    private String middleName; // Permite null en la BD
+  @Column(name = "middle_name", length = 50)
+  private String middleName; // Permite null en la BD
 
-    @Column(name = "last_name", nullable = false, length = 50)
-    private String lastName;
+  @Column(name = "last_name", nullable = false, length = 50)
+  private String lastName;
 
-    @Column(name = "second_last_name", length = 50)
-    private String secondLastName; // Permite null en la BD
+  @Column(name = "second_last_name", length = 50)
+  private String secondLastName; // Permite null en la BD
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "document_type_id", nullable = false)
-    private DocumentTypeEntity documentType; // Relación con la tabla maestra
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "document_type_id", nullable = false)
+  private DocumentTypeEntity documentType; // Relación con la tabla maestra
 
-    @Id
-    @Column(name = "document_number", nullable = false, unique = true, length = 20)
-    private String documentNumber;
+  @Id
+  @Column(name = "document_number", nullable = false, unique = true, length = 20)
+  private String documentNumber;
 
-    @Column(nullable = false, unique = true, length = 150)
-    private String email;
+  @Column(nullable = false, unique = true, length = 150)
+  private String email;
 
-    @Column(length = 20)
-    private String phone;
+  @Column(length = 20)
+  private String phone;
 
-    @Column(nullable = false, length = 100)
-    private String position; // Cargo del administrador
+  @Column(nullable = false, length = 100)
+  private String position; // Cargo del administrador
 
-    @Column(name = "password_hash", nullable = false, length = 255)
-    private String passwordHash;
+  @Column(name = "password_hash", nullable = false, length = 255)
+  private String passwordHash;
 
-    @Column(name = "secret_phrase", nullable = false, length = 255)
-    private String secretPhrase; // Frase de recuperación o seguridad
+  @Column(name = "secret_phrase", nullable = false, length = 255)
+  private String secretPhrase; // Frase de recuperación o seguridad
 
-    // Requerido por JPA
-    public AdministratorEntity() {}
+  // Requerido por JPA
+  public AdministratorEntity() {}
 
-    public AdministratorEntity(String documentNumber, String firstName, String middleName, String lastName, String secondLastName, 
-                               DocumentTypeEntity documentType, String email, String phone, String position, 
-                               String passwordHash, String secretPhrase) {
-        this.documentNumber = documentNumber;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.secondLastName = secondLastName;
-        this.documentType = documentType;
-        this.email = email;
-        this.phone = phone;
-        this.position = position;
-        this.passwordHash = passwordHash;
-        this.secretPhrase = secretPhrase;
-    }
+  public AdministratorEntity(
+      String documentNumber,
+      String firstName,
+      String middleName,
+      String lastName,
+      String secondLastName,
+      DocumentTypeEntity documentType,
+      String email,
+      String phone,
+      String position,
+      String passwordHash,
+      String secretPhrase) {
+    this.documentNumber = documentNumber;
+    this.firstName = firstName;
+    this.middleName = middleName;
+    this.lastName = lastName;
+    this.secondLastName = secondLastName;
+    this.documentType = documentType;
+    this.email = email;
+    this.phone = phone;
+    this.position = position;
+    this.passwordHash = passwordHash;
+    this.secretPhrase = secretPhrase;
+  }
 
-    // Getters y Setters
-    public String getId() { return documentNumber; }
-    public void setId(String documentNumber) { this.documentNumber = documentNumber; }
+  // Getters y Setters
+  public String getId() {
+    return documentNumber;
+  }
 
-    public String getFirstName() { return firstName; }
-    public void setFirstName(String firstName) { this.firstName = firstName; }
+  public void setId(String documentNumber) {
+    this.documentNumber = documentNumber;
+  }
 
-    public String getMiddleName() { return middleName; }
-    public void setMiddleName(String middleName) { this.middleName = middleName; }
+  public String getFirstName() {
+    return firstName;
+  }
 
-    public String getLastName() { return lastName; }
-    public void setLastName(String lastName) { this.lastName = lastName; }
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
-    public String getSecondLastName() { return secondLastName; }
-    public void setSecondLastName(String secondLastName) { this.secondLastName = secondLastName; }
+  public String getMiddleName() {
+    return middleName;
+  }
 
-    public DocumentTypeEntity getDocumentType() { return documentType; }
-    public void setDocumentType(DocumentTypeEntity documentType) { this.documentType = documentType; }
+  public void setMiddleName(String middleName) {
+    this.middleName = middleName;
+  }
 
-    public String getDocumentNumber() { return documentNumber; }
-    public void setDocumentNumber(String documentNumber) { this.documentNumber = documentNumber; }
+  public String getLastName() {
+    return lastName;
+  }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
-    public String getPhone() { return phone; }
-    public void setPhone(String phone) { this.phone = phone; }
+  public String getSecondLastName() {
+    return secondLastName;
+  }
 
-    public String getPosition() { return position; }
-    public void setPosition(String position) { this.position = position; }
+  public void setSecondLastName(String secondLastName) {
+    this.secondLastName = secondLastName;
+  }
 
-    public String getPasswordHash() { return passwordHash; }
-    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+  public DocumentTypeEntity getDocumentType() {
+    return documentType;
+  }
 
-    public String getSecretPhrase() { return secretPhrase; }
-    public void setSecretPhrase(String secretPhrase) { this.secretPhrase = secretPhrase; }
+  public void setDocumentType(DocumentTypeEntity documentType) {
+    this.documentType = documentType;
+  }
+
+  public String getDocumentNumber() {
+    return documentNumber;
+  }
+
+  public void setDocumentNumber(String documentNumber) {
+    this.documentNumber = documentNumber;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getPosition() {
+    return position;
+  }
+
+  public void setPosition(String position) {
+    this.position = position;
+  }
+
+  public String getPasswordHash() {
+    return passwordHash;
+  }
+
+  public void setPasswordHash(String passwordHash) {
+    this.passwordHash = passwordHash;
+  }
+
+  public String getSecretPhrase() {
+    return secretPhrase;
+  }
+
+  public void setSecretPhrase(String secretPhrase) {
+    this.secretPhrase = secretPhrase;
+  }
 }

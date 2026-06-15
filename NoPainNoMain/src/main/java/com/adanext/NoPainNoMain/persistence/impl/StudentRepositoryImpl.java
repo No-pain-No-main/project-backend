@@ -1,56 +1,52 @@
 package com.adanext.NoPainNoMain.persistence.impl;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import org.springframework.stereotype.Repository;
-
 import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.repository.StudentRepository;
 import com.adanext.NoPainNoMain.mapper.StudentMapper;
 import com.adanext.NoPainNoMain.persistence.entities.StudentEntity;
 import com.adanext.NoPainNoMain.persistence.repositories.StudentJpaRepository;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import org.springframework.stereotype.Repository;
 
 @Repository
 public class StudentRepositoryImpl implements StudentRepository {
 
-    private final StudentJpaRepository repository;
+  private final StudentJpaRepository repository;
 
-    public StudentRepositoryImpl(StudentJpaRepository repository) {
-        this.repository = repository;
-    }
- 
-    @Override
-    public Student save(Student student) {
-        if (student == null) return null;
+  public StudentRepositoryImpl(StudentJpaRepository repository) {
+    this.repository = repository;
+  }
 
-        StudentEntity entity = StudentMapper.toEntity(student);
-        StudentEntity saved = repository.save(entity);
-        return StudentMapper.toDomain(saved);
+  @Override
+  public Student save(Student student) {
+    if (student == null) {
+      return null;
     }
 
-    @Override
-    public Optional<Student> findByDocumentNumber(String documentNumber) {
-        return repository.findByDocumentNumber(documentNumber)
-            .map(StudentMapper::toDomain);
-    }
+    StudentEntity entity = StudentMapper.toEntity(student);
+    StudentEntity saved = repository.save(entity);
+    return StudentMapper.toDomain(saved);
+  }
 
-    @Override
-    public Optional<Student> findByEmail(String email) {
-        return repository.findByEmail(email)
-            .map(StudentMapper::toDomain);
-    }
+  @Override
+  public Optional<Student> findByDocumentNumber(String documentNumber) {
+    return repository.findByDocumentNumber(documentNumber).map(StudentMapper::toDomain);
+  }
 
-    @Override
-    public List<Student> findAll() {
-        return repository.findAll().stream()
-            .map(StudentMapper::toDomain)
-            .collect(Collectors.toList());
-    }
+  @Override
+  public Optional<Student> findByEmail(String email) {
+    return repository.findByEmail(email).map(StudentMapper::toDomain);
+  }
 
-    @Override
-    public void deleteByDocumentNumber(String documentNumber) {
-        repository.deleteById(documentNumber);
-    }
+  @Override
+  public List<Student> findAll() {
+    return repository.findAll().stream().map(StudentMapper::toDomain).collect(Collectors.toList());
+  }
+
+  @Override
+  public void deleteByDocumentNumber(String documentNumber) {
+    repository.deleteById(documentNumber);
+  }
 }

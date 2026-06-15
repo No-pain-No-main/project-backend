@@ -8,8 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableScheduling
 public class NoPainNoMainApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(NoPainNoMainApplication.class, args);
-	}
-
+  public static void main(String[] args) {
+    SpringApplication.run(NoPainNoMainApplication.class, args);
+  }
 }

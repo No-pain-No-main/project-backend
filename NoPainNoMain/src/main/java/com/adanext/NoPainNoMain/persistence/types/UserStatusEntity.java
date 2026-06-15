@@ -10,22 +10,31 @@ import jakarta.persistence.Table;
 @Table(name = "UserStatus", schema = PersistenceConstants.SCHEMA)
 public class UserStatusEntity {
 
-    @Id
-    private Integer id; // Se llena desde tu script (ej: 1, 2)
+  @Id private Integer id; // Se llena desde tu script (ej: 1, 2)
 
-    @Column(nullable = false, unique = true, length = 50)
-    private String name; // Ej: "ACTIVE", "INACTIVE"
+  @Column(nullable = false, unique = true, length = 50)
+  private String name; // Ej: "ACTIVE", "INACTIVE"
 
-    public UserStatusEntity() {}
+  public UserStatusEntity() {}
 
-    public UserStatusEntity(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+  public UserStatusEntity(Integer id, String name) {
+    this.id = id;
+    this.name = name;
+  }
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+  public Integer getId() {
+    return id;
+  }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }
