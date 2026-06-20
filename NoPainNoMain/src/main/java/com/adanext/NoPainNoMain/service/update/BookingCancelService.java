@@ -4,21 +4,22 @@ import org.springframework.stereotype.Service;
 
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
+import com.adanext.NoPainNoMain.domain.types.BookingStatus;
 import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
-import com.adanext.NoPainNoMain.service.update.helpers.BookingCancelHelper;
+import com.adanext.NoPainNoMain.persistence.impl.BookingStatusRepositoryImpl;
 
 @Service
 public class BookingCancelService {
 
     private final BookingRepositoryImpl bookingRepository;
-    private final BookingCancelHelper helper;
+    private final BookingStatusRepositoryImpl bookingStatusRepository;
     private final MachineUpdate machineUpdate;
 
     public BookingCancelService(BookingRepositoryImpl bookingRepository,
-                                BookingCancelHelper helper,
+                                BookingStatusRepositoryImpl bookingStatusRepository,
                                 MachineUpdate machineUpdate) {
         this.bookingRepository = bookingRepository;
-        this.helper = helper;
+        this.bookingStatusRepository = bookingStatusRepository;
         this.machineUpdate = machineUpdate;
     }
 
@@ -26,7 +27,8 @@ public class BookingCancelService {
         Booking booking = bookingRepository.findById(bookingId)
             .orElseThrow(() -> new IllegalStateException("La reserva con ID " + bookingId + " no existe"));
 
-        if (!helper.canBeCancelled(booking)) {
+        // Comportamiento del dominio: la entidad sabe si puede cancelarse
+        if (!booking.canBeCancelled(BookingParameters.CANCELLATION_MINUTES_BEFORE)) {
             throw new IllegalStateException(
                 "No se puede cancelar la reserva. Deben faltar al menos " + BookingParameters.CANCELLATION_MINUTES_BEFORE
                 + " minutos para el inicio de la franja ("
@@ -37,7 +39,11 @@ public class BookingCancelService {
         // Liberar la máquina antes de cancelar
         machineUpdate.updateStatus(booking.getMachine().getId(), BookingParameters.MACHINE_STATUS_AVAILABLE);
 
-        helper.cancelBooking(booking);
+        // Comportamiento del dominio: cancelar la reserva
+        BookingStatus cancelled = bookingStatusRepository.findById(BookingParameters.BOOKING_STATUS_CANCELLED)
+            .orElseThrow(() -> new IllegalStateException("El estado 'Cancelada' no existe en el sistema"));
+        booking.cancel(cancelled);
+
         return bookingRepository.save(booking);
     }
 }

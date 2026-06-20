@@ -1,4 +1,7 @@
 package com.adanext.NoPainNoMain.service.query;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.adanext.NoPainNoMain.domain.Student;
@@ -14,6 +17,10 @@ public class StudentQuery {
 
     public Student studentByDocumentNumber(String documentNumber){
         return studentRepository.findByDocumentNumber(documentNumber).orElse(null);
+    }
+
+    public List<Student> findAll() {
+        return studentRepository.findAll();
     }
     
 }

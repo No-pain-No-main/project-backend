@@ -1,5 +1,7 @@
 package com.adanext.NoPainNoMain.service.query;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.adanext.NoPainNoMain.domain.Machine;
@@ -20,5 +22,9 @@ public class MachineQuery {
 
     public Machine byName(String machineName) {
         return machineRepository.findByName(machineName).orElse(null);
+    }
+
+    public List<Machine> findAll() {
+        return machineRepository.findAll();
     }
 }

@@ -4,9 +4,10 @@ import org.springframework.stereotype.Service;
 
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
+import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
 import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
-import com.adanext.NoPainNoMain.service.register.helpers.BookingRegisterHelper;
+import com.adanext.NoPainNoMain.service.query.BookingQuery;
 import com.adanext.NoPainNoMain.service.update.MachineUpdate;
 
 @Service
@@ -15,14 +16,14 @@ public class BookingRegister {
     private final JsonToClass<Booking> jsonToClass;
     private final BookingRepositoryImpl bookingRepository;
     private final MachineUpdate machineUpdate;
-    private final BookingRegisterHelper helper;
+    private final BookingQuery bookingQuery;
 
     public BookingRegister(JsonToClass<Booking> jsonToClass, BookingRepositoryImpl bookingRepository,
-                           MachineUpdate machineUpdate, BookingRegisterHelper helper) {
+                           MachineUpdate machineUpdate, BookingQuery bookingQuery) {
         this.jsonToClass = jsonToClass;
         this.bookingRepository = bookingRepository;
         this.machineUpdate = machineUpdate;
-        this.helper = helper;
+        this.bookingQuery = bookingQuery;
     }
 
     public Booking save(String jsonRegister) {
@@ -35,44 +36,45 @@ public class BookingRegister {
     }
 
     public Booking save(Booking booking) {
-        if (helper.isNull(booking)) {
+        if (booking == null) {
             throw new IllegalArgumentException("La reserva no puede ser nula");
         }
 
-        if (helper.isBeforeToday(booking)) {
+        // Validaciones de dominio → la entidad las sabe hacer
+        if (booking.isBeforeToday()) {
             throw new IllegalStateException("No se puede reservar para una fecha anterior al día de hoy (" + java.time.LocalDate.now() + ")");
         }
 
-        if (helper.isSlotAlreadyPassed(booking)) {
+        if (booking.hasSlotPassed()) {
             throw new IllegalStateException("La franja " + booking.getTimeSlot().getName() + " ya pasó. No se puede reservar para un horario anterior al actual");
         }
 
-        if (!helper.isWeekday(booking)) {
+        if (!booking.isWeekday()) {
             throw new IllegalStateException("Solo se pueden hacer reservas entre semana (lunes a viernes). El " + booking.getDate().getDayOfWeek() + " no está permitido");
         }
 
-        if (!helper.isCurrentWeek(booking)) {
+        if (!booking.isCurrentWeek()) {
             throw new IllegalStateException("Solo se pueden hacer reservas dentro de la semana actual. La fecha " + booking.getDate() + " está fuera de la semana vigente");
         }
 
-        if (helper.existsById(booking)) {
+        // Validaciones que requieren repositorio → se quedan en el Service
+        if (booking.getId() != null && bookingRepository.findById(booking.getId()).isPresent()) {
             throw new IllegalStateException("La reserva con ID " + booking.getId() + " ya existe en el sistema");
         }
 
-        if (helper.hasReachedActiveLimit(booking)) {
-            int active = bookingRepository.countActiveByStudent(helper.studentDocumentNumber(booking));
-            throw new IllegalStateException(
-                "El estudiante " + helper.studentDocumentNumber(booking)
-                + " ya tiene " + active + " reservas activas (máximo: " + BookingParameters.MAX_ACTIVE_BOOKINGS_PER_STUDENT + ")"
-            );
+        Student student = booking.getStudent();
+        if (student != null && student.getDocumentNumber() != null) {
+            int active = bookingRepository.countActiveByStudent(student.getDocumentNumber());
+            if (active >= BookingParameters.MAX_ACTIVE_BOOKINGS_PER_STUDENT) {
+                throw new IllegalStateException(
+                    "El estudiante " + student.getDocumentNumber()
+                    + " ya tiene " + active + " reservas activas (máximo: " + BookingParameters.MAX_ACTIVE_BOOKINGS_PER_STUDENT + ")"
+                );
+            }
         }
 
-        if (helper.isOverleap(booking)) {
+        if (bookingQuery.hasOverlappingBooking(booking)) {
             throw new IllegalStateException("El estudiante ya tiene una reserva solapada o la máquina está ocupada en ese intervalo");
-        }
-
-        if (booking == null) {
-            throw new IllegalArgumentException("Datos de reserva inválidos");
         }
 
         // Cambiar estado de la máquina a "Reservada"
@@ -81,4 +83,3 @@ public class BookingRegister {
         return bookingRepository.save(booking);
     }
 }
-
