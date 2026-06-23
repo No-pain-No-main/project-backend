@@ -53,10 +53,7 @@ public class Student {
         this.passwordHash = passwordHash;
     }
 
-    /**
-     * Registra (o cambia) la contraseña del estudiante.
-     * Recibe el hash ya computado desde la capa de infraestructura.
-     */
+   
     public void registerPassword(String newHash) {
         if (newHash == null || newHash.isBlank()) {
             throw new IllegalArgumentException("El hash de contraseña no puede ser nulo o vacío");
@@ -64,7 +61,6 @@ public class Student {
         this.passwordHash = newHash;
     }
 
-    // Getters
     public String getFirstName() { return firstName; }
     public String getMiddleName() { return middleName; }
     public String getLastName() { return lastName; }
@@ -78,7 +74,6 @@ public class Student {
     public UserStatus getUserStatus() { return userStatus; }
     public String getPasswordHash() { return passwordHash; }
 
-    // Setters (needed for deserialization from JSON)
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public void setMiddleName(String middleName) { this.middleName = middleName; }
     public void setLastName(String lastName) { this.lastName = lastName; }

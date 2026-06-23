@@ -59,7 +59,6 @@ public class StudentEntity {
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
-    // Requerido por JPA
     public StudentEntity() {}
 
     public StudentEntity(String documentNumber, String firstName, String middleName, String lastName, String secondLastName, 
@@ -79,7 +78,6 @@ public class StudentEntity {
         this.passwordHash = passwordHash;
     }
 
-    // Getters y Setters
     public String getId() { return documentNumber; }
     public void setId(String documentNumber) { this.documentNumber = documentNumber; }
 

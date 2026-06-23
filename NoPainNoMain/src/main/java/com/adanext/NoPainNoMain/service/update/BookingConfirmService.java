@@ -41,7 +41,6 @@ public class BookingConfirmService {
             );
         }
 
-        // Comportamiento del dominio: confirmar la reserva
         bookingToConfirm.confirm(
             new BookingStatus(BookingParameters.BOOKING_STATUS_CONFIRMED, null)
         );

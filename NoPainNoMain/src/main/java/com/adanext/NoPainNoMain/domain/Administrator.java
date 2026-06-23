@@ -46,10 +46,6 @@ public class Administrator {
         this.secretPhrase = secretPhrase;
     }
 
-    /**
-     * Registra (o cambia) la contraseña del administrador.
-     * Recibe el hash ya computado desde la capa de infraestructura.
-     */
     public void registerPassword(String newHash) {
         if (newHash == null || newHash.isBlank()) {
             throw new IllegalArgumentException("El hash de contraseña no puede ser nulo o vacío");
@@ -57,7 +53,6 @@ public class Administrator {
         this.passwordHash = newHash;
     }
 
-    // Campos obligatorios
     public String getId() { return documentNumber; }
     public String getFirstName() { return firstName; }
     public String getMiddleName() { return middleName; }
@@ -71,7 +66,6 @@ public class Administrator {
     public String getPasswordHash() { return passwordHash; }
     public String getSecretPhrase() { return secretPhrase; }
 
-    // Setters (needed for deserialization from JSON)
     public void setFirstName(String firstName) { this.firstName = firstName; }
     public void setMiddleName(String middleName) { this.middleName = middleName; }
     public void setLastName(String lastName) { this.lastName = lastName; }

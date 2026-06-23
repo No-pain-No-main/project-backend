@@ -30,18 +30,14 @@ public class AvailabilityService {
     }
 
     public List<TimeSlot> findFreeSlotsByMachine(Integer machineId, LocalDate date) {
-        // Obtener TODAS las franjas horarias disponibles (10 slots: 7am-5pm)
         List<TimeSlot> allSlots = timeSlotRepository.findAll();
 
-        // Obtener reservas para esa máquina en ese día
         List<Booking> bookings = bookingRepository.findByMachineIdAndDateBetween(machineId, date, date);
 
-        // IDs de franjas ocupadas
         Set<Integer> bookedSlotIds = bookings.stream()
                 .map(b -> b.getTimeSlot().getId())
                 .collect(Collectors.toSet());
 
-        // Franjas NO ocupadas
         return allSlots.stream()
                 .filter(slot -> !bookedSlotIds.contains(slot.getId()))
                 .collect(Collectors.toList());

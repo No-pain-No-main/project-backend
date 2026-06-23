@@ -5,7 +5,6 @@ import com.adanext.NoPainNoMain.persistence.types.GenderEntity;
 
 public class GenderMapper {
 
-    // Convierte de Entidad de Base de Datos a Objeto de Dominio
     public static Gender toDomain(GenderEntity entity) {
         if (entity == null) return null;
         
@@ -15,7 +14,6 @@ public class GenderMapper {
         );
     }
 
-    // Convierte de Objeto de Dominio a Entidad de Base de Datos
     public static GenderEntity toEntity(Gender domain) {
         if (domain == null) return null;
         

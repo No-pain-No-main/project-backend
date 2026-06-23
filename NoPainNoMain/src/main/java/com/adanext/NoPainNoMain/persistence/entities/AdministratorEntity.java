@@ -18,17 +18,17 @@ public class AdministratorEntity {
     private String firstName;
 
     @Column(name = "middle_name", length = 50)
-    private String middleName; // Permite null en la BD
+    private String middleName; 
 
     @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
     @Column(name = "second_last_name", length = 50)
-    private String secondLastName; // Permite null en la BD
+    private String secondLastName; 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "document_type_id", nullable = false)
-    private DocumentTypeEntity documentType; // Relación con la tabla maestra
+    private DocumentTypeEntity documentType; 
 
     @Id
     @Column(name = "document_number", nullable = false, unique = true, length = 20)
@@ -41,15 +41,14 @@ public class AdministratorEntity {
     private String phone;
 
     @Column(nullable = false, length = 100)
-    private String position; // Cargo del administrador
+    private String position; 
 
     @Column(name = "password_hash", nullable = false, length = 255)
     private String passwordHash;
 
     @Column(name = "secret_phrase", nullable = false, length = 255)
-    private String secretPhrase; // Frase de recuperación o seguridad
-
-    // Requerido por JPA
+    private String secretPhrase;
+    
     public AdministratorEntity() {}
 
     public AdministratorEntity(String documentNumber, String firstName, String middleName, String lastName, String secondLastName, 

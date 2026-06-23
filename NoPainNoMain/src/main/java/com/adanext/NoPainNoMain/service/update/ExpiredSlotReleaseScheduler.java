@@ -10,21 +10,17 @@ import org.springframework.stereotype.Service;
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
-import com.adanext.NoPainNoMain.domain.repository.TimeSlotRepository;
 
 @Service
 public class ExpiredSlotReleaseScheduler {
 
     private final BookingRepository bookingRepository;
     private final MachineUpdate machineUpdate;
-    private final TimeSlotRepository timeSlotRepository;
 
     public ExpiredSlotReleaseScheduler(BookingRepository bookingRepository,
-                                        MachineUpdate machineUpdate,
-                                        TimeSlotRepository timeSlotRepository) {
+                                        MachineUpdate machineUpdate) {
         this.bookingRepository = bookingRepository;
         this.machineUpdate = machineUpdate;
-        this.timeSlotRepository = timeSlotRepository;
     }
 
     @Scheduled(cron = BookingParameters.RELEASE_CRON)

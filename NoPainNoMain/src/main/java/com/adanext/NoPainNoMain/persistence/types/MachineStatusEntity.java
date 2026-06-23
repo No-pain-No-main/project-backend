@@ -12,10 +12,10 @@ import jakarta.persistence.Table;
 public class MachineStatusEntity {
 
     @Id
-    private Integer id; // Se llena desde tu script (ej: 1, 2)
+    private Integer id; 
 
     @Column(nullable = false, unique = true, length = 50)
-    private String name; // Ej: "AVAILABLE", "MAINTENANCE", "OUT_OF_SERVICE"
+    private String name;
 
     public MachineStatusEntity() {}
 

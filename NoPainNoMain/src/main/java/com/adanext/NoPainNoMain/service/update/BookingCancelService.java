@@ -27,7 +27,6 @@ public class BookingCancelService {
         Booking booking = bookingRepository.findById(bookingId)
             .orElseThrow(() -> new IllegalStateException("La reserva con ID " + bookingId + " no existe"));
 
-        // Comportamiento del dominio: la entidad sabe si puede cancelarse
         if (!booking.canBeCancelled(BookingParameters.CANCELLATION_MINUTES_BEFORE)) {
             throw new IllegalStateException(
                 "No se puede cancelar la reserva. Deben faltar al menos " + BookingParameters.CANCELLATION_MINUTES_BEFORE
@@ -36,10 +35,8 @@ public class BookingCancelService {
             );
         }
 
-        // Liberar la máquina antes de cancelar
         machineUpdate.updateStatus(booking.getMachine().getId(), BookingParameters.MACHINE_STATUS_AVAILABLE);
 
-        // Comportamiento del dominio: cancelar la reserva
         BookingStatus cancelled = bookingStatusRepository.findById(BookingParameters.BOOKING_STATUS_CANCELLED)
             .orElseThrow(() -> new IllegalStateException("El estado 'Cancelada' no existe en el sistema"));
         booking.cancel(cancelled);

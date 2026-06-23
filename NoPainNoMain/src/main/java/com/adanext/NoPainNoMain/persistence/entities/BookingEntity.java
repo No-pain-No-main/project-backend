@@ -31,24 +31,23 @@ public class BookingEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id", nullable = false)
-    private StudentEntity student; // Muchas reservas pertenecen a un Estudiante
+    private StudentEntity student; 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "machine_id", nullable = false)
-    private MachineEntity machine; // Muchas reservas se hacen sobre una Máquina
+    private MachineEntity machine; 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "time_slot_id", nullable = false)
-    private TimeSlotEntity timeSlot; // Muchas reservas usan un TimeSlot
+    private TimeSlotEntity timeSlot; 
 
     @Column(name = "date", nullable = false)
-    private LocalDate date; // Para búsquedas por fecha
+    private LocalDate date; 
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "booking_status_id", nullable = false)
-    private BookingStatusEntity bookingStatus; // Muchas reservas comparten un Estado
+    private BookingStatusEntity bookingStatus; 
 
-    // Requerido por JPA
     public BookingEntity() {}
 
     public BookingEntity( String id, StudentEntity student, MachineEntity machine, 
@@ -61,7 +60,6 @@ public class BookingEntity {
         this.bookingStatus = bookingStatus;
     }
 
-    // Getters y Setters
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
