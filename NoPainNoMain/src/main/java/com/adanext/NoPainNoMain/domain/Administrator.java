@@ -1,24 +1,26 @@
 package com.adanext.NoPainNoMain.domain;
 
-import java.util.Optional;
-
 import com.adanext.NoPainNoMain.domain.types.DocumentType;
-import com.adanext.NoPainNoMain.domain.valueobjects.Email;
-import com.adanext.NoPainNoMain.domain.valueobjects.FullName;
 
 public class Administrator {
 
-    private final FullName fullName;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String secondLastName;
     private final DocumentType documentType;
     private final String documentNumber; // PK: número de documento
-    private final Email email;
+    private String email;
     private final String phone;
     private final String position;
     private String passwordHash;
     private final String secretPhrase;
 
     public Administrator() {
-        this.fullName = null;
+        this.firstName = null;
+        this.middleName = null;
+        this.lastName = null;
+        this.secondLastName = null;
         this.documentType = null;
         this.documentNumber = null;
         this.email = null;
@@ -32,19 +34,10 @@ public class Administrator {
                          DocumentType documentType, String email, String phone, String position,
                          String passwordHash, String secretPhrase) {
         this.documentNumber = documentNumber;
-        this.fullName = new FullName(firstName, middleName, lastName, secondLastName);
-        this.documentType = documentType;
-        this.email = new Email(email);
-        this.phone = phone;
-        this.position = position;
-        this.passwordHash = passwordHash;
-        this.secretPhrase = secretPhrase;
-    }
-
-    public Administrator(String documentNumber, FullName fullName, DocumentType documentType, Email email,
-                         String phone, String position, String passwordHash, String secretPhrase) {
-        this.documentNumber = documentNumber;
-        this.fullName = fullName;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.secondLastName = secondLastName;
         this.documentType = documentType;
         this.email = email;
         this.phone = phone;
@@ -66,26 +59,22 @@ public class Administrator {
 
     // Campos obligatorios
     public String getId() { return documentNumber; }
-    public String getFirstName() { return fullName.getFirstName(); }
-    public String getLastName() { return fullName.getLastName(); }
+    public String getFirstName() { return firstName; }
+    public String getMiddleName() { return middleName; }
+    public String getLastName() { return lastName; }
+    public String getSecondLastName() { return secondLastName; }
     public DocumentType getDocumentType() { return documentType; }
     public String getDocumentNumber() { return documentNumber; }
-    public String getEmail() { return email.value(); }
+    public String getEmail() { return email; }
     public String getPhone() { return phone; }
     public String getPosition() { return position; }
     public String getPasswordHash() { return passwordHash; }
     public String getSecretPhrase() { return secretPhrase; }
 
-    // Campos opcionales
-    public Optional<String> getMiddleName() {
-        return fullName.getMiddleName();
-    }
-
-    public Optional<String> getSecondLastName() {
-        return fullName.getSecondLastName();
-    }
-
-    // Acceso a Value Objects
-    public FullName getFullName() { return fullName; }
-    public Email getEmailObject() { return email; }
+    // Setters (needed for deserialization from JSON)
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setMiddleName(String middleName) { this.middleName = middleName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setSecondLastName(String secondLastName) { this.secondLastName = secondLastName; }
+    public void setEmail(String email) { this.email = email; }
 }

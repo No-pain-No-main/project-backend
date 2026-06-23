@@ -7,14 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Student;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
 
 @Service
 public class BookingQuery {
 
-    private final BookingRepositoryImpl bookingRepository;
+    private final BookingRepository bookingRepository;
 
-    public BookingQuery(BookingRepositoryImpl bookingRepository) {
+    public BookingQuery(BookingRepository bookingRepository) {
         this.bookingRepository = bookingRepository;
     }
 

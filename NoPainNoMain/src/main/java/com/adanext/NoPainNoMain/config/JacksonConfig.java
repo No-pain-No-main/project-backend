@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.adanext.NoPainNoMain.domain.Administrator;
-import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.TimeSlot;
@@ -15,7 +14,6 @@ import com.adanext.NoPainNoMain.domain.types.MachineStatus;
 import com.adanext.NoPainNoMain.domain.types.MachineType;
 import com.adanext.NoPainNoMain.domain.types.UserStatus;
 import com.adanext.NoPainNoMain.persistence.impl.AdministratorRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
 import com.adanext.NoPainNoMain.persistence.impl.BookingStatusRepositoryImpl;
 import com.adanext.NoPainNoMain.persistence.impl.DocumentTypeRepositoryImpl;
 import com.adanext.NoPainNoMain.persistence.impl.GenderRepositoryImpl;
@@ -45,7 +43,6 @@ public class JacksonConfig {
             StudentRepositoryImpl studentRepository,
             AdministratorRepositoryImpl administratorRepository,
             MachineRepositoryImpl machineRepository,
-            BookingRepositoryImpl bookingRepository,
             TimeSlotRepositoryImpl timeSlotRepository) {
         
         ObjectMapper mapper = new ObjectMapper();
@@ -88,10 +85,6 @@ public class JacksonConfig {
         catalogoModule.addDeserializer(MachineStatus.class, new ReferenceDeserializer<>(
             id -> machineStatusRepository.findById(Integer.parseInt(id)).orElse(null),
             MachineStatus.class
-        ));
-        catalogoModule.addDeserializer(Booking.class, new ReferenceDeserializer<>(
-            id -> bookingRepository.findById(id).orElse(null),
-            Booking.class
         ));
         catalogoModule.addDeserializer(BookingStatus.class, new ReferenceDeserializer<>(
             id -> bookingStatusRepository.findById(Integer.parseInt(id)).orElse(null),

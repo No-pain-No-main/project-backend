@@ -10,10 +10,10 @@ import com.adanext.NoPainNoMain.domain.types.BookingStatus;
 public class Booking {
 
     private String id;
-    private final Student student;
-    private final Machine machine;
-    private final LocalDate date;
-    private final TimeSlot timeSlot;
+    private Student student;
+    private Machine machine;
+    private LocalDate date;
+    private TimeSlot timeSlot;
     private BookingStatus bookingStatus; // Cambia a lo largo del ciclo de vida
 
     public Booking() {
@@ -77,6 +77,18 @@ public class Booking {
 
         LocalDateTime slotStart = LocalDateTime.of(date, startTime);
         return LocalDateTime.now().isAfter(slotStart);
+    }
+
+    /**
+     * Verifica si ya es demasiado tarde para registrar la reserva.
+     * Deben faltar al menos {@code minutesBefore} minutos para el inicio de la franja.
+     */
+    public boolean isTooLateToRegister(int minutesBefore) {
+        if (date == null || timeSlot == null) return true;
+        LocalTime startTime = timeSlot.getStartTime();
+        if (startTime == null) return true;
+        LocalDateTime slotStart = LocalDateTime.of(date, startTime);
+        return LocalDateTime.now().isAfter(slotStart.minusMinutes(minutesBefore));
     }
 
     /**
@@ -146,4 +158,10 @@ public class Booking {
     public LocalDate getDate() { return date; }
     public TimeSlot getTimeSlot() { return timeSlot; }
     public BookingStatus getBookingStatus() { return bookingStatus; }
+
+    // Setters para deserialización Jackson
+    public void setStudent(Student student) { this.student = student; }
+    public void setMachine(Machine machine) { this.machine = machine; }
+    public void setDate(LocalDate date) { this.date = date; }
+    public void setTimeSlot(TimeSlot timeSlot) { this.timeSlot = timeSlot; }
 }

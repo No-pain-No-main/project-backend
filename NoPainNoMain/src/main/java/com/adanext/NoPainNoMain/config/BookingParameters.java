@@ -32,6 +32,10 @@ public final class BookingParameters {
     /** ID del estado "Confirmada" en la tabla booking_status */
     public static final int BOOKING_STATUS_CONFIRMED = 3;
 
+    // ─── Registro ─────────────────────────────────────────────────
+    /** Minutos mínimos de anticipación para registrar una reserva */
+    public static final int REGISTRATION_MINUTES_BEFORE = 20;
+
     // ─── Cancelación ──────────────────────────────────────────────
     /** Minutos mínimos antes de la franja para permitir cancelación */
     public static final int CANCELLATION_MINUTES_BEFORE = 30;

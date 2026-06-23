@@ -5,14 +5,14 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.adanext.NoPainNoMain.domain.Administrator;
-import com.adanext.NoPainNoMain.persistence.impl.AdministratorRepositoryImpl;
+import com.adanext.NoPainNoMain.domain.repository.AdministratorRepository;
 
 @Service
 public class AdministratorQuery {
 
-    private final AdministratorRepositoryImpl administratorRepository;
+    private final AdministratorRepository administratorRepository;
 
-    public AdministratorQuery(AdministratorRepositoryImpl administratorRepository) {
+    public AdministratorQuery(AdministratorRepository administratorRepository) {
         this.administratorRepository = administratorRepository;
     }
 

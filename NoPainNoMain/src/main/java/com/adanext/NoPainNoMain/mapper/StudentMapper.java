@@ -24,7 +24,7 @@ public class StudentMapper {
             entity.getPhone(),
             GenderMapper.toDomain(entity.getGender()),
             UserStatusMapper.toDomain(entity.getUserStatus()),
-            entity.getPasswordHash() // Mapea al campo de contraseña de tu dominio
+            entity.getPasswordHash()
         );
     }
 
@@ -32,7 +32,7 @@ public class StudentMapper {
         if (domain == null) return null;
 
         StudentEntity entity = new StudentEntity();
-        entity.setDocumentNumber(domain.getDocumentNumber()); // documentNumber
+        entity.setDocumentNumber(domain.getDocumentNumber());
         entity.setFirstName(domain.getFirstName());
         entity.setMiddleName(domain.getMiddleName());
         entity.setLastName(domain.getLastName());

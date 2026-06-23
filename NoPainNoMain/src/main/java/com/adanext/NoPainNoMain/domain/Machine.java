@@ -28,6 +28,12 @@ public class Machine {
     public MachineType getMachineType() { return machineType; }
     public MachineStatus getMachineStatus() { return machineStatus; }
 
+    // Setters para deserialización Jackson
+    public void setId(Integer id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setMachineType(MachineType machineType) { this.machineType = machineType; }
+    public void setMachineStatus(MachineStatus machineStatus) { this.machineStatus = machineStatus; }
+
     // Métodos específicos para que el Administrador modifique los datos
     public void updateDetails(String newName, MachineType newType) {
         this.name = newName;

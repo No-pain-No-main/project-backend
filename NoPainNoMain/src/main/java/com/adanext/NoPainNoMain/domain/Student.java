@@ -5,13 +5,14 @@ import java.time.LocalDate;
 import com.adanext.NoPainNoMain.domain.types.DocumentType;
 import com.adanext.NoPainNoMain.domain.types.Gender;
 import com.adanext.NoPainNoMain.domain.types.UserStatus;
-import com.adanext.NoPainNoMain.domain.valueobjects.Email;
-import com.adanext.NoPainNoMain.domain.valueobjects.FullName;
 
 public class Student {
 
-    private final FullName fullName;
-    private final Email email;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String secondLastName;
+    private String email;
     private final DocumentType documentType;
     private final String documentNumber; // PK: número de documento
     private final LocalDate birthDate;
@@ -21,7 +22,10 @@ public class Student {
     private String passwordHash;
 
     public Student() {
-        this.fullName = null;
+        this.firstName = null;
+        this.middleName = null;
+        this.lastName = null;
+        this.secondLastName = null;
         this.email = null;
         this.documentType = null;
         this.documentNumber = null;
@@ -32,26 +36,14 @@ public class Student {
         this.passwordHash = null;
     }
 
-    // Constructor que recibe datos planos (desde JSON o Mapper)
     public Student(String documentNumber, String firstName, String middleName, String lastName, String secondLastName,
                    String email, DocumentType documentType, LocalDate birthDate,
                    String phone, Gender gender, UserStatus userStatus, String passwordHash) {
         this.documentNumber = documentNumber;
-        this.fullName = new FullName(firstName, middleName, lastName, secondLastName);
-        this.email = new Email(email);
-        this.documentType = documentType;
-        this.birthDate = birthDate;
-        this.phone = phone;
-        this.gender = gender;
-        this.userStatus = userStatus;
-        this.passwordHash = passwordHash;
-    }
-
-    // Constructor completo con Value Objects
-    public Student(String documentNumber, FullName fullName, Email email, DocumentType documentType,
-                   LocalDate birthDate, String phone, Gender gender, UserStatus userStatus, String passwordHash) {
-        this.documentNumber = documentNumber;
-        this.fullName = fullName;
+        this.firstName = firstName;
+        this.middleName = middleName;
+        this.lastName = lastName;
+        this.secondLastName = secondLastName;
         this.email = email;
         this.documentType = documentType;
         this.birthDate = birthDate;
@@ -73,9 +65,11 @@ public class Student {
     }
 
     // Getters
-    public String getFirstName() { return fullName.getFirstName(); }
-    public String getLastName() { return fullName.getLastName(); }
-    public String getEmail() { return email.value(); }
+    public String getFirstName() { return firstName; }
+    public String getMiddleName() { return middleName; }
+    public String getLastName() { return lastName; }
+    public String getSecondLastName() { return secondLastName; }
+    public String getEmail() { return email; }
     public DocumentType getDocumentType() { return documentType; }
     public String getDocumentNumber() { return documentNumber; }
     public LocalDate getBirthDate() { return birthDate; }
@@ -83,10 +77,11 @@ public class Student {
     public Gender getGender() { return gender; }
     public UserStatus getUserStatus() { return userStatus; }
     public String getPasswordHash() { return passwordHash; }
-    public String getMiddleName() { return fullName.getMiddleName().orElse(null); }
-    public String getSecondLastName() { return fullName.getSecondLastName().orElse(null); }
 
-    // Acceso a los Value Objects
-    public FullName getFullName() { return fullName; }
-    public Email getEmailObject() { return email; }
+    // Setters (needed for deserialization from JSON)
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setMiddleName(String middleName) { this.middleName = middleName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setSecondLastName(String secondLastName) { this.secondLastName = secondLastName; }
+    public void setEmail(String email) { this.email = email; }
 }

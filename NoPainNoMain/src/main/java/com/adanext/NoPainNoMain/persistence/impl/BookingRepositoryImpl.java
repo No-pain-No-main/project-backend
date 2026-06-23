@@ -62,7 +62,12 @@ public class BookingRepositoryImpl implements BookingRepository {
     @Override
     public List<Booking> findByStudent(Student student) {
         if (student == null || student.getDocumentNumber() == null) return List.of();
-        return repository.findByStudentDocumentNumber(student.getDocumentNumber()).stream()
+        return findByStudentDocumentNumber(student.getDocumentNumber());
+    }
+
+    @Override
+    public List<Booking> findByStudentDocumentNumber(String documentNumber) {
+        return repository.findByStudentDocumentNumber(documentNumber).stream()
             .map(BookingMapper::toDomain)
             .collect(Collectors.toList());
     }

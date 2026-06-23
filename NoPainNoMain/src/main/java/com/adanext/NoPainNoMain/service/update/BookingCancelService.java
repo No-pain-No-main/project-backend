@@ -4,19 +4,19 @@ import org.springframework.stereotype.Service;
 
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
+import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
+import com.adanext.NoPainNoMain.domain.repository.BookingStatusRepository;
 import com.adanext.NoPainNoMain.domain.types.BookingStatus;
-import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
-import com.adanext.NoPainNoMain.persistence.impl.BookingStatusRepositoryImpl;
 
 @Service
 public class BookingCancelService {
 
-    private final BookingRepositoryImpl bookingRepository;
-    private final BookingStatusRepositoryImpl bookingStatusRepository;
+    private final BookingRepository bookingRepository;
+    private final BookingStatusRepository bookingStatusRepository;
     private final MachineUpdate machineUpdate;
 
-    public BookingCancelService(BookingRepositoryImpl bookingRepository,
-                                BookingStatusRepositoryImpl bookingStatusRepository,
+    public BookingCancelService(BookingRepository bookingRepository,
+                                BookingStatusRepository bookingStatusRepository,
                                 MachineUpdate machineUpdate) {
         this.bookingRepository = bookingRepository;
         this.bookingStatusRepository = bookingStatusRepository;
