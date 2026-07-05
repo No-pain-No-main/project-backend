@@ -4,6 +4,7 @@ import com.adanext.NoPainNoMain.domain.Administrator;
 import com.adanext.NoPainNoMain.domain.repository.AdministratorRepository;
 import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
 import com.adanext.NoPainNoMain.service.register.helpers.PasswordHashHelper;
+import org.springframework.stereotype.Service;
 
 @Service
 public class AdministratorRegister {

@@ -5,6 +5,7 @@ import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
 import com.adanext.NoPainNoMain.domain.repository.BookingStatusRepository;
 import com.adanext.NoPainNoMain.domain.types.BookingStatus;
+import org.springframework.stereotype.Service;
 
 @Service
 public class BookingCancelService {

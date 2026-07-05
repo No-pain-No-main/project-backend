@@ -7,7 +7,7 @@ import java.util.Optional;
 public interface AdministratorRepository {
   Administrator save(Administrator administrator);
 
-  Optional<Administrator> findById(String id);
+  Optional<Administrator> findByDocumentNumber(String documentNumber);
 
   Optional<Administrator> findByEmail(String email);
 

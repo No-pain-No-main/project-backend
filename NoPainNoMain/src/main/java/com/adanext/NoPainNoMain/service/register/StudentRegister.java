@@ -4,6 +4,7 @@ import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.repository.StudentRepository;
 import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
 import com.adanext.NoPainNoMain.service.register.helpers.PasswordHashHelper;
+import org.springframework.stereotype.Service;
 
 @Service
 public class StudentRegister {

@@ -1,4 +1,4 @@
-package com.adanext.NoPainNoMain.service.jsonconverter;
+package com.adanext.NoPainNoMain.service.jsonConverter;
 
 import com.adanext.NoPainNoMain.domain.Student;
 

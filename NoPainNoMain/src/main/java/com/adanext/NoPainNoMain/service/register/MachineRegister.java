@@ -3,6 +3,7 @@ package com.adanext.NoPainNoMain.service.register;
 import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.repository.MachineRepository;
 import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
+import org.springframework.stereotype.Service;
 
 @Service
 public class MachineRegister {
