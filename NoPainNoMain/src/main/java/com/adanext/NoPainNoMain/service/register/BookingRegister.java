@@ -1,7 +1,5 @@
 package com.adanext.NoPainNoMain.service.register;
 
-import org.springframework.stereotype.Service;
-
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Student;
@@ -9,6 +7,7 @@ import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
 import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
 import com.adanext.NoPainNoMain.service.query.BookingQuery;
 import com.adanext.NoPainNoMain.service.update.MachineUpdate;
+import org.springframework.stereotype.Service;
 
 @Service
 public class BookingRegister {
@@ -83,6 +82,6 @@ public class BookingRegister {
 
         machineUpdate.updateStatus(booking.getMachine().getId(), BookingParameters.MACHINE_STATUS_RESERVED);
 
-        return bookingRepository.save(booking);
-    }
+    return bookingRepository.save(booking);
+  }
 }

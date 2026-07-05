@@ -1,10 +1,9 @@
 package com.adanext.NoPainNoMain.domain;
 
-import java.time.LocalDate;
-
 import com.adanext.NoPainNoMain.domain.types.DocumentType;
 import com.adanext.NoPainNoMain.domain.types.Gender;
 import com.adanext.NoPainNoMain.domain.types.UserStatus;
+import java.time.LocalDate;
 
 public class Student {
 

@@ -25,21 +25,20 @@ public class BookingConfirmService {
     public Booking confirm(String studentDocumentNumber) {
         List<Booking> todayActive = todayBookingsQuery.findTodayActiveBookings(studentDocumentNumber);
 
-        if (todayActive.isEmpty()) {
-            throw new IllegalStateException(
-                "El estudiante " + studentDocumentNumber + " no tiene reservas activas para hoy"
-            );
-        }
+    if (todayActive.isEmpty()) {
+      throw new IllegalStateException(
+          "El estudiante " + studentDocumentNumber + " no tiene reservas activas para hoy");
+    }
 
         Booking bookingToConfirm = findBookingReadyToStart(todayActive);
 
-        if (bookingToConfirm == null) {
-            throw new IllegalStateException(
-                "No hay ninguna reserva próxima a confirmar. Solo se pueden confirmar reservas dentro de los "
-                + BookingParameters.CONFIRMATION_WINDOW_MINUTES
-                + " minutos antes de su inicio"
-            );
-        }
+    if (bookingToConfirm == null) {
+      throw new IllegalStateException(
+          "No hay ninguna reserva próxima a confirmar."
+              + " Solo se pueden confirmar reservas dentro de los "
+              + BookingParameters.CONFIRMATION_WINDOW_MINUTES
+              + " minutos antes de su inicio");
+    }
 
         bookingToConfirm.confirm(
             new BookingStatus(BookingParameters.BOOKING_STATUS_CONFIRMED, null)

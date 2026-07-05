@@ -1,16 +1,5 @@
 package com.adanext.NoPainNoMain.controller;
 
-import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.adanext.NoPainNoMain.domain.Administrator;
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Machine;
@@ -29,7 +18,15 @@ import com.adanext.NoPainNoMain.service.register.StudentRegister;
 import com.adanext.NoPainNoMain.service.update.BookingCancelService;
 import com.adanext.NoPainNoMain.service.update.BookingConfirmService;
 import com.adanext.NoPainNoMain.service.update.MachineUpdate;
-
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/test")
@@ -134,60 +131,60 @@ public class TestJsonController {
 
     // ─── POST endpoints (registro) ───────────────────────────────
 
-    @PostMapping("/booking")
-    Object registerBooking(@RequestBody String json){
-        try {
-            Booking booking = bookingRegister.save(json);
-            System.out.println("Registered booking: " + booking.getId());
-            return booking;
-        } catch (IllegalStateException e) {
-            return e.getMessage();
-        }
+  @PostMapping("/booking")
+  Object registerBooking(@RequestBody String json) {
+    try {
+      Booking booking = bookingRegister.save(json);
+      System.out.println("Registered booking: " + booking.getId());
+      return booking;
+    } catch (IllegalStateException e) {
+      return e.getMessage();
     }
+  }
 
-    @PostMapping("/machine")
-    Object registerMachine(@RequestBody String json){
-        try {
-            Machine machine = machineRegister.save(json);
-            System.out.println("Registered machine: " + machine.getId());
-            return machine;
-        } catch (IllegalStateException e) {
-            return e.getMessage();
-        }
+  @PostMapping("/machine")
+  Object registerMachine(@RequestBody String json) {
+    try {
+      Machine machine = machineRegister.save(json);
+      System.out.println("Registered machine: " + machine.getId());
+      return machine;
+    } catch (IllegalStateException e) {
+      return e.getMessage();
     }
+  }
 
-    @PostMapping("/machine/{machineId}/status/{statusId}")
-    Object updateMachineStatus(@PathVariable Integer machineId, @PathVariable Integer statusId){
-        try {
-            Machine machine = machineUpdateService.updateStatus(machineId, statusId);
-            System.out.println("Updated machine " + machineId + " status to " + statusId);
-            return machine;
-        } catch (IllegalStateException e) {
-            return e.getMessage();
-        }
+  @PostMapping("/machine/{machineId}/status/{statusId}")
+  Object updateMachineStatus(@PathVariable Integer machineId, @PathVariable Integer statusId) {
+    try {
+      Machine machine = machineUpdateService.updateStatus(machineId, statusId);
+      System.out.println("Updated machine " + machineId + " status to " + statusId);
+      return machine;
+    } catch (IllegalStateException e) {
+      return e.getMessage();
     }
+  }
 
-    @PostMapping("/booking/{bookingId}/cancel")
-    Object cancelBooking(@PathVariable String bookingId){
-        try {
-            Booking booking = bookingCancelService.cancel(bookingId);
-            System.out.println("Cancelled booking: " + booking.getId());
-            return booking;
-        } catch (IllegalStateException e) {
-            return e.getMessage();
-        }
+  @PostMapping("/booking/{bookingId}/cancel")
+  Object cancelBooking(@PathVariable String bookingId) {
+    try {
+      Booking booking = bookingCancelService.cancel(bookingId);
+      System.out.println("Cancelled booking: " + booking.getId());
+      return booking;
+    } catch (IllegalStateException e) {
+      return e.getMessage();
     }
+  }
 
-    @PostMapping("/booking/confirm/{studentDocumentNumber}")
-    Object confirmBooking(@PathVariable String studentDocumentNumber){
-        try {
-            Booking booking = bookingConfirmService.confirm(studentDocumentNumber);
-            System.out.println("Confirmed booking: " + booking.getId());
-            return booking;
-        } catch (IllegalStateException e) {
-            return e.getMessage();
-        }
+  @PostMapping("/booking/confirm/{studentDocumentNumber}")
+  Object confirmBooking(@PathVariable String studentDocumentNumber) {
+    try {
+      Booking booking = bookingConfirmService.confirm(studentDocumentNumber);
+      System.out.println("Confirmed booking: " + booking.getId());
+      return booking;
+    } catch (IllegalStateException e) {
+      return e.getMessage();
     }
+  }
 
     @PostMapping("/student")
     Object registerStudent(@RequestBody String json){
@@ -200,16 +197,16 @@ public class TestJsonController {
         }
     }
 
-    @PostMapping("/administrator")
-    Object registerAdministrator(@RequestBody String json){
-        try {
-            Administrator saved = administratorRegister.save(json);
-            System.out.println("Registered administrator: " + saved.getFirstName());
-            return saved;
-        } catch (IllegalStateException e) {
-            return e.getMessage();
-        }
+  @PostMapping("/administrator")
+  Object registerAdministrator(@RequestBody String json) {
+    try {
+      Administrator saved = administratorRegister.save(json);
+      System.out.println("Registered administrator: " + saved.getFirstName());
+      return saved;
+    } catch (IllegalStateException e) {
+      return e.getMessage();
     }
+  }
 
     // ─── Reportes y consultas específicas ────────────────────────
 
@@ -219,20 +216,22 @@ public class TestJsonController {
         return "El estudiante " + documentNumber + " tiene " + count + " reservas activas";
     }
 
-    @GetMapping("/availability/{machineId}/{date}")
-    Object getAvailability(@PathVariable Integer machineId, @PathVariable String date) {
-        LocalDate day = LocalDate.parse(date);
-        List<TimeSlot> freeSlots = availabilityService.findFreeSlotsByMachine(machineId, day);
-        return freeSlots.stream().map(TimeSlot::getName).collect(Collectors.toList());
-    }
+  @GetMapping("/availability/{machineId}/{date}")
+  Object getAvailability(@PathVariable Integer machineId, @PathVariable String date) {
+    LocalDate day = LocalDate.parse(date);
+    List<TimeSlot> freeSlots = availabilityService.findFreeSlotsByMachine(machineId, day);
+    return freeSlots.stream().map(TimeSlot::getName).collect(Collectors.toList());
+  }
 
-    @GetMapping("/availability/{date}")
-    Object getAllAvailability(@PathVariable String date) {
-        LocalDate day = LocalDate.parse(date);
-        var allAvailability = availabilityService.findFreeSlotsForAllMachines(day);
-        return allAvailability.stream().collect(Collectors.toMap(
-            a -> a.getMachine().getName(),
-            a -> a.getFreeSlots().stream().map(TimeSlot::getName).collect(Collectors.toList())
-        ));
-    }
+  @GetMapping("/availability/{date}")
+  Object getAllAvailability(@PathVariable String date) {
+    LocalDate day = LocalDate.parse(date);
+    var allAvailability = availabilityService.findFreeSlotsForAllMachines(day);
+    return allAvailability.stream()
+        .collect(
+            Collectors.toMap(
+                a -> a.getMachine().getName(),
+                a ->
+                    a.getFreeSlots().stream().map(TimeSlot::getName).collect(Collectors.toList())));
+  }
 }

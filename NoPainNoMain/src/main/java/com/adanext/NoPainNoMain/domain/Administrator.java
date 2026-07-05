@@ -30,21 +30,42 @@ public class Administrator {
         this.secretPhrase = null;
     }
 
-    public Administrator(String documentNumber, String firstName, String middleName, String lastName, String secondLastName,
-                         DocumentType documentType, String email, String phone, String position,
-                         String passwordHash, String secretPhrase) {
-        this.documentNumber = documentNumber;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.secondLastName = secondLastName;
-        this.documentType = documentType;
-        this.email = email;
-        this.phone = phone;
-        this.position = position;
-        this.passwordHash = passwordHash;
-        this.secretPhrase = secretPhrase;
+  public Administrator(
+      String documentNumber,
+      String firstName,
+      String middleName,
+      String lastName,
+      String secondLastName,
+      DocumentType documentType,
+      String email,
+      String phone,
+      String position,
+      String passwordHash,
+      String secretPhrase) {
+    if (documentNumber == null || documentNumber.isBlank()) {
+      throw new IllegalArgumentException("documentNumber cannot be blank");
     }
+    if (email == null || email.isBlank()) {
+      throw new IllegalArgumentException("email cannot be blank");
+    }
+    if (firstName == null || firstName.isBlank()) {
+      throw new IllegalArgumentException("firstName cannot be blank");
+    }
+    if (lastName == null || lastName.isBlank()) {
+      throw new IllegalArgumentException("lastName cannot be blank");
+    }
+    this.documentNumber = documentNumber;
+    this.firstName = firstName;
+    this.middleName = middleName;
+    this.lastName = lastName;
+    this.secondLastName = secondLastName;
+    this.documentType = documentType;
+    this.email = email;
+    this.phone = phone;
+    this.position = position;
+    this.passwordHash = passwordHash;
+    this.secretPhrase = secretPhrase;
+  }
 
     public void registerPassword(String newHash) {
         if (newHash == null || newHash.isBlank()) {

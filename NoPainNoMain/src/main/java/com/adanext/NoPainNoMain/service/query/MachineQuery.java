@@ -16,9 +16,9 @@ public class MachineQuery {
         this.machineRepository = machineRepository;
     }
 
-    public Machine byId(Integer machineId) {
-        return machineRepository.findById(machineId).orElse(null);
-    }
+  public Machine byId(Integer machineId) {
+    return machineRepository.findById(machineId).orElse(null);
+  }
 
     public Machine byName(String machineName) {
         return machineRepository.findByName(machineName).orElse(null);

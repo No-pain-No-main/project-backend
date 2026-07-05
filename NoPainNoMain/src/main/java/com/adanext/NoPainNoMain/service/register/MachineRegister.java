@@ -1,7 +1,5 @@
 package com.adanext.NoPainNoMain.service.register;
 
-import org.springframework.stereotype.Service;
-
 import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.repository.MachineRepository;
 import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
@@ -17,8 +15,8 @@ public class MachineRegister {
         this.machineRepository = machineRepository;
     }
 
-    public Machine save(String jsonRegister) {
-        Machine machine = jsonToClass.convert(jsonRegister, Machine.class);
+  public Machine save(String jsonRegister) {
+    Machine machine = jsonToClass.convert(jsonRegister, Machine.class);
 
         if (machine.getName() != null
                 && machineRepository.findByName(machine.getName()).isPresent()) {

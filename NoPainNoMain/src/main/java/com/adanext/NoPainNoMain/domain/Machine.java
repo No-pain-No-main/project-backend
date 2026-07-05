@@ -3,7 +3,6 @@ package com.adanext.NoPainNoMain.domain;
 import com.adanext.NoPainNoMain.domain.types.MachineStatus;
 import com.adanext.NoPainNoMain.domain.types.MachineType;
 
-
 public class Machine {
 
     private Integer id; 
@@ -35,7 +34,7 @@ public class Machine {
         this.machineType = newType;
     }
 
-    public void updateStatus(MachineStatus newStatus) {
-        this.machineStatus = newStatus;
-    }
+  public void updateStatus(MachineStatus newStatus) {
+    this.machineStatus = newStatus;
+  }
 }

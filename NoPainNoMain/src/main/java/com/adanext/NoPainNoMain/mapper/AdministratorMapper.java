@@ -6,26 +6,29 @@ import com.adanext.NoPainNoMain.persistence.entities.AdministratorEntity;
 
 public class AdministratorMapper {
 
-    public static Administrator toDomain(AdministratorEntity entity) {
-        if (entity == null) return null;
-
-        return new Administrator(
-            entity.getId(), // documentNumber
-            entity.getFirstName(),
-            entity.getMiddleName(),
-            entity.getLastName(),
-            entity.getSecondLastName(),
-            DocumentTypeMapper.toDomain(entity.getDocumentType()),
-            entity.getEmail(),
-            entity.getPhone(),
-            entity.getPosition(),
-            entity.getPasswordHash(),
-            entity.getSecretPhrase()
-        );
+  public static Administrator toDomain(AdministratorEntity entity) {
+    if (entity == null) {
+      return null;
     }
 
-    public static AdministratorEntity toEntity(Administrator domain) {
-        if (domain == null) return null;
+    return new Administrator(
+        entity.getId(), // documentNumber
+        entity.getFirstName(),
+        entity.getMiddleName(),
+        entity.getLastName(),
+        entity.getSecondLastName(),
+        DocumentTypeMapper.toDomain(entity.getDocumentType()),
+        entity.getEmail(),
+        entity.getPhone(),
+        entity.getPosition(),
+        entity.getPasswordHash(),
+        entity.getSecretPhrase());
+  }
+
+  public static AdministratorEntity toEntity(Administrator domain) {
+    if (domain == null) {
+      return null;
+    }
 
         AdministratorEntity entity = new AdministratorEntity();
         entity.setId(domain.getId()); // documentNumber
@@ -40,6 +43,6 @@ public class AdministratorMapper {
         entity.setPasswordHash(domain.getPasswordHash());
         entity.setSecretPhrase(domain.getSecretPhrase());
 
-        return entity;
-    }
+    return entity;
+  }
 }

@@ -1,7 +1,6 @@
 package com.adanext.NoPainNoMain.persistence.types;
 
 import com.adanext.NoPainNoMain.persistence.PersistenceConstants;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -15,20 +14,30 @@ public class BookingStatusEntity {
     
     private Integer id;
 
-    @Column(nullable = false, unique = true, length = 50)
-    private String name;
+  @Column(nullable = false, unique = true, length = 50)
+  private String name;
 
     public BookingStatusEntity() {}
 
-    public BookingStatusEntity(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+  public BookingStatusEntity(Integer id, String name) {
+    this.id = id;
+    this.name = name;
+  }
 
-    // Getters y Setters
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+  // Getters y Setters
+  public Integer getId() {
+    return id;
+  }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+  public void setId(Integer id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 }

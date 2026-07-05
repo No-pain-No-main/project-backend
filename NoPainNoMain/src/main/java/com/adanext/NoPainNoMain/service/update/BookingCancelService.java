@@ -1,7 +1,5 @@
 package com.adanext.NoPainNoMain.service.update;
 
-import org.springframework.stereotype.Service;
-
 import com.adanext.NoPainNoMain.config.BookingParameters;
 import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
@@ -23,9 +21,12 @@ public class BookingCancelService {
         this.machineUpdate = machineUpdate;
     }
 
-    public Booking cancel(String bookingId) {
-        Booking booking = bookingRepository.findById(bookingId)
-            .orElseThrow(() -> new IllegalStateException("La reserva con ID " + bookingId + " no existe"));
+  public Booking cancel(String bookingId) {
+    Booking booking =
+        bookingRepository
+            .findById(bookingId)
+            .orElseThrow(
+                () -> new IllegalStateException("La reserva con ID " + bookingId + " no existe"));
 
         if (!booking.canBeCancelled(BookingParameters.CANCELLATION_MINUTES_BEFORE)) {
             throw new IllegalStateException(

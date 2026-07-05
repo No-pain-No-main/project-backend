@@ -6,11 +6,12 @@ import com.adanext.NoPainNoMain.mapper.types.GenderMapper;
 import com.adanext.NoPainNoMain.mapper.types.UserStatusMapper;
 import com.adanext.NoPainNoMain.persistence.entities.StudentEntity;
 
-
 public class StudentMapper {
 
-    public static Student toDomain(StudentEntity entity) {
-        if (entity == null) return null;
+  public static Student toDomain(StudentEntity entity) {
+    if (entity == null) {
+      return null;
+    }
 
         return new Student(
             entity.getDocumentNumber(),
@@ -26,10 +27,12 @@ public class StudentMapper {
             UserStatusMapper.toDomain(entity.getUserStatus()),
             entity.getPasswordHash()
         );
-    }
+  }
 
-    public static StudentEntity toEntity(Student domain) {
-        if (domain == null) return null;
+  public static StudentEntity toEntity(Student domain) {
+    if (domain == null) {
+      return null;
+    }
 
         StudentEntity entity = new StudentEntity();
         entity.setDocumentNumber(domain.getDocumentNumber());

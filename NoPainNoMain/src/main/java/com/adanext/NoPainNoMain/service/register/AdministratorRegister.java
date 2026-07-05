@@ -1,7 +1,5 @@
 package com.adanext.NoPainNoMain.service.register;
 
-import org.springframework.stereotype.Service;
-
 import com.adanext.NoPainNoMain.domain.Administrator;
 import com.adanext.NoPainNoMain.domain.repository.AdministratorRepository;
 import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
@@ -25,14 +23,14 @@ public class AdministratorRegister {
         this.passwordHashHelper = passwordHashHelper;
     }
 
-    public Administrator save(String jsonRegister) {
-        Administrator admin = jsonToClass.convert(jsonRegister, Administrator.class);
+  public Administrator save(String jsonRegister) {
+    Administrator admin = jsonToClass.convert(jsonRegister, Administrator.class);
 
         administratorValidator.validate(admin);
 
         String hashed = passwordHashHelper.hashPassword(admin.getPasswordHash());
         admin.registerPassword(hashed);
 
-        return administratorRepository.save(admin);
-    }
+    return administratorRepository.save(admin);
+  }
 }

@@ -1,7 +1,5 @@
 package com.adanext.NoPainNoMain.service.register;
 
-import org.springframework.stereotype.Service;
-
 import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.repository.StudentRepository;
 import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
@@ -23,8 +21,8 @@ public class StudentRegister {
         this.passwordHashHelper = passwordHashHelper;
     }
 
-    public Student save(String jsonRegister) {
-        Student student = jsonToClass.convert(jsonRegister, Student.class);
+  public Student save(String jsonRegister) {
+    Student student = jsonToClass.convert(jsonRegister, Student.class);
 
         studentValidator.validate(student);
 
