@@ -1,51 +1,37 @@
 #!/bin/bash
 
-# Limpiar la pantalla
-clear
-
-echo "=========================================================="
-echo "           1. VERIFICANDO / DESCARGANDO REPOSITORIO"
-echo "=========================================================="
-
-# Verifica si la carpeta del proyecto ya existe
-if [ -d "project-backend" ]; then
-    echo "Carpeta existente detectada. Actualizando codigo con Git Pull..."
-    cd project-backend
-    git pull origin main
-else
-    echo "Descargando repositorio por primera vez con Git Clone..."
-    git clone https://github.com/No-pain-No-main/project-backend.git
-    cd project-backend
-fi
-
-echo ""
 echo "=========================================================="
 echo "           2. INICIANDO INFRAESTRUCTURA (DOCKER)"
 echo "=========================================================="
 
-# Levanta el contenedor en segundo plano
 echo "Levantando contenedor de PostgreSQL..."
 docker compose up -d
 
-echo "Esperando 5 segundos a que la base de datos este lista..."
+echo "Esperando 5 segundos a que la base de datos esté lista..."
 sleep 5
 
 echo ""
 echo "=========================================================="
 echo "           3. COMPILANDO Y ARRANCANDO SPRING BOOT"
 echo "=========================================================="
-
 cd NoPainNoMain
-
-# Verifica que el wrapper de Maven exista antes de ejecutarlo
+# Verificamos si mvnw existe en la carpeta actual
 if [ -f "mvnw" ]; then
-    echo "Ejecutando servidor mediante Maven Wrapper..."
-    # Da permisos de ejecucion al mvnw por si acaso y lo arranca
     chmod +x mvnw
-    ./mvnw spring-boot:run
+    
+    echo "Abriendo ventana de terminal para el servidor Spring Boot..."
+    
+    # Abre una nueva ventana de terminal y ejecuta Spring Boot ahí
+    gnome-terminal --title="Spring Boot Server" -- ./mvnw clean spring-boot:run
+    
+    echo "Esperando 20 segundos a que Hibernate cree las tablas..."
+    sleep 20
+    
+    echo "Instalando dependencias necesarias y cargando datos..."
+    docker cp "src/main/resources/import.sql" nopainnomain-db:/tmp/import.sql
+    docker exec -i nopainnomain-db psql -U Admin2026 -d nopainnomain_db -f /tmp/import.sql
+    
+    echo "Proceso de despliegue y carga de datos completado con éxito."
 else
-    echo "ERROR: No se encontro el archivo mvnw en la raiz del proyecto."
+    echo "Error: No se encontró mvnw. Asegúrate de estar en la carpeta donde está el pom.xml."
 fi
-
-echo ""
-read -p "Presiona [Enter] para salir..."
