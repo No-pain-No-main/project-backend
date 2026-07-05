@@ -1,7 +1,6 @@
 package com.adanext.NoPainNoMain.config;
 
 import com.adanext.NoPainNoMain.domain.Administrator;
-import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.TimeSlot;
@@ -22,6 +21,16 @@ import com.adanext.NoPainNoMain.domain.types.Gender;
 import com.adanext.NoPainNoMain.domain.types.MachineStatus;
 import com.adanext.NoPainNoMain.domain.types.MachineType;
 import com.adanext.NoPainNoMain.domain.types.UserStatus;
+import com.adanext.NoPainNoMain.persistence.impl.AdministratorRepositoryImpl;
+import com.adanext.NoPainNoMain.persistence.impl.BookingStatusRepositoryImpl;
+import com.adanext.NoPainNoMain.persistence.impl.DocumentTypeRepositoryImpl;
+import com.adanext.NoPainNoMain.persistence.impl.GenderRepositoryImpl;
+import com.adanext.NoPainNoMain.persistence.impl.MachineRepositoryImpl;
+import com.adanext.NoPainNoMain.persistence.impl.MachineStatusRepositoryImpl;
+import com.adanext.NoPainNoMain.persistence.impl.MachineTypeRepositoryImpl;
+import com.adanext.NoPainNoMain.persistence.impl.StudentRepositoryImpl;
+import com.adanext.NoPainNoMain.persistence.impl.TimeSlotRepositoryImpl;
+import com.adanext.NoPainNoMain.persistence.impl.UserStatusRepositoryImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -31,24 +40,23 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class JacksonConfig {
 
-  @Bean
-  public ObjectMapper objectMapper(
-      DocumentTypeRepository docRepository,
-      GenderRepository genderRepository,
-      UserStatusRepository statusRepository,
-      MachineTypeRepository machineTypeRepository,
-      MachineStatusRepository machineStatusRepository,
-      BookingStatusRepository bookingStatusRepository,
-      StudentRepository studentRepository,
-      AdministratorRepository administratorRepository,
-      MachineRepository machineRepository,
-      BookingRepository bookingRepository,
-      TimeSlotRepository timeSlotRepository) {
-
-    ObjectMapper mapper = new ObjectMapper();
-    mapper.registerModule(new JavaTimeModule());
-
-    SimpleModule catalogoModule = new SimpleModule();
+    @Bean
+    public ObjectMapper objectMapper(
+            DocumentTypeRepositoryImpl docRepository,
+            GenderRepositoryImpl genderRepository,
+            UserStatusRepositoryImpl statusRepository,
+            MachineTypeRepositoryImpl machineTypeRepository,
+            MachineStatusRepositoryImpl machineStatusRepository,
+            BookingStatusRepositoryImpl bookingStatusRepository,
+            StudentRepositoryImpl studentRepository,
+            AdministratorRepositoryImpl administratorRepository,
+            MachineRepositoryImpl machineRepository,
+            TimeSlotRepositoryImpl timeSlotRepository) {
+        
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        
+        SimpleModule catalogoModule = new SimpleModule();
 
     // Usamos una expresión lambda para desempaquetar el Optional de tus repositorios
     catalogoModule.addDeserializer(
@@ -73,7 +81,7 @@ public class JacksonConfig {
     catalogoModule.addDeserializer(
         Administrator.class,
         new ReferenceDeserializer<>(
-            id -> administratorRepository.findById(id).orElse(null), Administrator.class));
+            id -> administratorRepository.findByDocumentNumber(id).orElse(null), Administrator.class));
     catalogoModule.addDeserializer(
         Machine.class,
         new ReferenceDeserializer<>(
@@ -87,14 +95,9 @@ public class JacksonConfig {
         MachineStatus.class,
         new ReferenceDeserializer<>(
             id -> machineStatusRepository.findById(Integer.parseInt(id)).orElse(null),
-            MachineStatus.class));
-    catalogoModule.addDeserializer(
-        Booking.class,
-        new ReferenceDeserializer<>(
-            id -> bookingRepository.findById(id).orElse(null), Booking.class));
-    catalogoModule.addDeserializer(
-        BookingStatus.class,
-        new ReferenceDeserializer<>(
+            MachineStatus.class
+        ));
+        catalogoModule.addDeserializer(BookingStatus.class, new ReferenceDeserializer<>(
             id -> bookingStatusRepository.findById(Integer.parseInt(id)).orElse(null),
             BookingStatus.class));
     catalogoModule.addDeserializer(

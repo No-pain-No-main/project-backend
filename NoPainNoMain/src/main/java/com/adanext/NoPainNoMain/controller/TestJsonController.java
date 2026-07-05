@@ -5,9 +5,10 @@ import com.adanext.NoPainNoMain.domain.Booking;
 import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.TimeSlot;
-import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
-import com.adanext.NoPainNoMain.service.jsonconverter.ClassToJson;
+import com.adanext.NoPainNoMain.service.jsonConverter.ClassToJson;
+import com.adanext.NoPainNoMain.service.query.AdministratorQuery;
 import com.adanext.NoPainNoMain.service.query.AvailabilityService;
+import com.adanext.NoPainNoMain.service.query.BookingQuery;
 import com.adanext.NoPainNoMain.service.query.MachineQuery;
 import com.adanext.NoPainNoMain.service.query.StudentQuery;
 import com.adanext.NoPainNoMain.service.register.AdministratorRegister;
@@ -31,45 +32,104 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/test")
 public class TestJsonController {
 
-  private final ClassToJson classToJson;
-  private final StudentQuery studentQuery;
-  private final StudentRegister studentRegister;
-  private final BookingRegister bookingRegister;
-  private final MachineRegister machineRegister;
-  private final MachineQuery machineQuery;
-  private final AdministratorRegister administratorRegister;
-  private final BookingRepository bookingRepository;
-  private final AvailabilityService availabilityService;
-  private final MachineUpdate machineUpdateService;
-  private final BookingCancelService bookingCancelService;
-  private final BookingConfirmService bookingConfirmService;
+    private final ClassToJson classToJson;
+    private final StudentQuery studentQuery;
+    private final StudentRegister studentRegister;
+    private final BookingRegister bookingRegister;
+    private final MachineRegister machineRegister;
+    private final MachineQuery machineQuery;
+    private final AdministratorRegister administratorRegister;
+    private final AdministratorQuery administratorQuery;
+    private final BookingQuery bookingQuery;
+    private final AvailabilityService availabilityService;
+    private final MachineUpdate machineUpdateService;
+    private final BookingCancelService bookingCancelService;
+    private final BookingConfirmService bookingConfirmService;
 
-  public TestJsonController(
-      ClassToJson classToJson,
-      StudentQuery studentQuery,
-      StudentRegister studentRegister,
-      BookingRegister bookingRegister,
-      MachineRegister machineRegister,
-      MachineQuery machineQuery,
-      AdministratorRegister administratorRegister,
-      BookingRepository bookingRepository,
-      AvailabilityService availabilityService,
-      MachineUpdate machineUpdateService,
-      BookingCancelService bookingCancelService,
-      BookingConfirmService bookingConfirmService) {
-    this.classToJson = classToJson;
-    this.studentQuery = studentQuery;
-    this.studentRegister = studentRegister;
-    this.bookingRegister = bookingRegister;
-    this.machineRegister = machineRegister;
-    this.machineQuery = machineQuery;
-    this.administratorRegister = administratorRegister;
-    this.bookingRepository = bookingRepository;
-    this.availabilityService = availabilityService;
-    this.machineUpdateService = machineUpdateService;
-    this.bookingCancelService = bookingCancelService;
-    this.bookingConfirmService = bookingConfirmService;
-  }
+    public TestJsonController(ClassToJson classToJson,
+                              StudentQuery studentQuery,
+                              StudentRegister studentRegister,
+                              BookingRegister bookingRegister,
+                              MachineRegister machineRegister,
+                              MachineQuery machineQuery,
+                              AdministratorRegister administratorRegister,
+                              AdministratorQuery administratorQuery,
+                              BookingQuery bookingQuery,
+                              AvailabilityService availabilityService,
+                              MachineUpdate machineUpdateService,
+                              BookingCancelService bookingCancelService,
+                              BookingConfirmService bookingConfirmService){
+        this.classToJson = classToJson;
+        this.studentQuery = studentQuery;
+        this.studentRegister = studentRegister;
+        this.bookingRegister = bookingRegister;
+        this.machineRegister = machineRegister;
+        this.machineQuery = machineQuery;
+        this.administratorRegister = administratorRegister;
+        this.administratorQuery = administratorQuery;
+        this.bookingQuery = bookingQuery;
+        this.availabilityService = availabilityService;
+        this.machineUpdateService = machineUpdateService;
+        this.bookingCancelService = bookingCancelService;
+        this.bookingConfirmService = bookingConfirmService;
+    }
+
+    // ─── GET endpoints (consulta por ID) ─────────────────────────
+
+    @GetMapping("/student/{documentNumber}")
+    Object getStudent(@PathVariable String documentNumber) {
+        Student student = studentQuery.studentByDocumentNumber(documentNumber);
+        if (student == null) {
+            return "Estudiante con documento " + documentNumber + " no encontrado";
+        }
+        return student;
+    }
+
+    @GetMapping("/administrator/{documentNumber}")
+    Object getAdministrator(@PathVariable String documentNumber) {
+        Administrator admin = administratorQuery.byDocumentNumber(documentNumber);
+        if (admin == null) {
+            return "Administrador con documento " + documentNumber + " no encontrado";
+        }
+        return admin;
+    }
+
+    @GetMapping("/machine/{machineId}")
+    Object getMachine(@PathVariable Integer machineId) {
+        Machine machine = machineQuery.byId(machineId);
+        if (machine == null) {
+            return "Máquina con ID " + machineId + " no encontrada";
+        }
+        return machine;
+    }
+
+    @GetMapping("/booking/{bookingId}")
+    Object getBooking(@PathVariable String bookingId) {
+        Booking booking = bookingQuery.byId(bookingId);
+        if (booking == null) {
+            return "Reserva con ID " + bookingId + " no encontrada";
+        }
+        return booking;
+    }
+
+    // ─── GET endpoints (listados) ────────────────────────────────
+
+    @GetMapping("/students")
+    List<Student> getAllStudents() {
+        return studentQuery.findAll();
+    }
+
+    @GetMapping("/machines")
+    List<Machine> getAllMachines() {
+        return machineQuery.findAll();
+    }
+
+    @GetMapping("/administrators")
+    List<Administrator> getAllAdministrators() {
+        return administratorQuery.findAll();
+    }
+
+    // ─── POST endpoints (registro) ───────────────────────────────
 
   @PostMapping("/booking")
   Object registerBooking(@RequestBody String json) {
@@ -126,16 +186,16 @@ public class TestJsonController {
     }
   }
 
-  @PostMapping("/student")
-  Object registerStudent(@RequestBody String json) {
-    try {
-      Student student = studentRegister.save(json);
-      System.out.println("Registered student: " + student.getFirstName());
-      return student;
-    } catch (IllegalStateException e) {
-      return e.getMessage();
+    @PostMapping("/student")
+    Object registerStudent(@RequestBody String json){
+        try {
+            Student student = studentRegister.save(json);
+            System.out.println("Registered student: " + student.getFirstName());
+            return student;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
     }
-  }
 
   @PostMapping("/administrator")
   Object registerAdministrator(@RequestBody String json) {
@@ -148,33 +208,13 @@ public class TestJsonController {
     }
   }
 
-  @GetMapping("/2")
-  String getTestJson() {
-    Student student = studentQuery.studentByDocumentNumber("12345678");
-    String studentJson = classToJson.convert((Object) student);
-    System.out.println("Converted student to JSON: " + studentJson);
-    return studentJson;
-  }
+    // ─── Reportes y consultas específicas ────────────────────────
 
-  @GetMapping("/3")
-  String getMachineJson() {
-    Machine machine = machineQuery.byId(1);
-    String machineJson = classToJson.convert((Object) machine);
-    System.out.println("Converted machine to JSON: " + machineJson);
-    return machineJson;
-  }
-
-  @GetMapping("/active-bookings/{documentNumber}")
-  Object countActiveBookings(@PathVariable String documentNumber) {
-    int count = bookingRepository.countActiveByStudent(documentNumber);
-    return "El estudiante "
-        + documentNumber
-        + " tiene "
-        + count
-        + " reservas activas (máx: "
-        + com.adanext.NoPainNoMain.config.BookingParameters.MAX_ACTIVE_BOOKINGS_PER_STUDENT
-        + ")";
-  }
+    @GetMapping("/active-bookings/{documentNumber}")
+    Object countActiveBookings(@PathVariable String documentNumber) {
+        int count = bookingQuery.countActiveByStudent(documentNumber);
+        return "El estudiante " + documentNumber + " tiene " + count + " reservas activas";
+    }
 
   @GetMapping("/availability/{machineId}/{date}")
   Object getAvailability(@PathVariable Integer machineId, @PathVariable String date) {

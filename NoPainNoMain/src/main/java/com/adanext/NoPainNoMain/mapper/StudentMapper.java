@@ -13,19 +13,19 @@ public class StudentMapper {
       return null;
     }
 
-    return new Student(
-        entity.getDocumentNumber(),
-        entity.getFirstName(),
-        entity.getMiddleName(),
-        entity.getLastName(),
-        entity.getSecondLastName(),
-        entity.getEmail(),
-        DocumentTypeMapper.toDomain(entity.getDocumentType()),
-        entity.getBirthDate(),
-        entity.getPhone(),
-        GenderMapper.toDomain(entity.getGender()),
-        UserStatusMapper.toDomain(entity.getUserStatus()),
-        entity.getPasswordHash() // Mapea al campo de contraseña de tu dominio
+        return new Student(
+            entity.getDocumentNumber(),
+            entity.getFirstName(),
+            entity.getMiddleName(),
+            entity.getLastName(),
+            entity.getSecondLastName(),
+            entity.getEmail(),
+            DocumentTypeMapper.toDomain(entity.getDocumentType()),
+            entity.getBirthDate(),
+            entity.getPhone(),
+            GenderMapper.toDomain(entity.getGender()),
+            UserStatusMapper.toDomain(entity.getUserStatus()),
+            entity.getPasswordHash()
         );
   }
 
@@ -34,20 +34,20 @@ public class StudentMapper {
       return null;
     }
 
-    StudentEntity entity = new StudentEntity();
-    entity.setDocumentNumber(domain.getDocumentNumber()); // documentNumber
-    entity.setFirstName(domain.getFirstName());
-    entity.setMiddleName(domain.getMiddleName());
-    entity.setLastName(domain.getLastName());
-    entity.setSecondLastName(domain.getSecondLastName());
-    entity.setEmail(domain.getEmail());
-    entity.setDocumentType(DocumentTypeMapper.toEntity(domain.getDocumentType()));
-    entity.setBirthDate(domain.getBirthDate());
-    entity.setPhone(domain.getPhone());
-    entity.setGender(GenderMapper.toEntity(domain.getGender()));
-    entity.setUserStatus(UserStatusMapper.toEntity(domain.getUserStatus()));
-    entity.setPasswordHash(domain.getPasswordHash());
-
-    return entity;
-  }
+        StudentEntity entity = new StudentEntity();
+        entity.setDocumentNumber(domain.getDocumentNumber());
+        entity.setFirstName(domain.getFirstName());
+        entity.setMiddleName(domain.getMiddleName());
+        entity.setLastName(domain.getLastName());
+        entity.setSecondLastName(domain.getSecondLastName());
+        entity.setEmail(domain.getEmail());
+        entity.setDocumentType(DocumentTypeMapper.toEntity(domain.getDocumentType()));
+        entity.setBirthDate(domain.getBirthDate());
+        entity.setPhone(domain.getPhone());
+        entity.setGender(GenderMapper.toEntity(domain.getGender()));
+        entity.setUserStatus(UserStatusMapper.toEntity(domain.getUserStatus()));
+        entity.setPasswordHash(domain.getPasswordHash());
+        
+        return entity;
+    }
 }

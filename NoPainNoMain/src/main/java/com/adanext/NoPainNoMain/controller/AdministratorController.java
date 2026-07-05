@@ -1,37 +1,52 @@
 package com.adanext.NoPainNoMain.controller;
 
-import com.adanext.NoPainNoMain.domain.Administrator;
-import com.adanext.NoPainNoMain.domain.repository.AdministratorRepository;
 import java.util.List;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.adanext.NoPainNoMain.domain.Administrator;
+import com.adanext.NoPainNoMain.service.query.AdministratorQuery;
+import com.adanext.NoPainNoMain.service.register.AdministratorRegister;
 
 @RestController
 @RequestMapping("/api/administrators")
 public class AdministratorController {
 
-  private final AdministratorRepository administratorRepository;
+    private final AdministratorQuery administratorQuery;
+    private final AdministratorRegister administratorRegister;
 
-  // Spring inyecta automáticamente tu AdministratorRepositoryImpl aquí
-  public AdministratorController(AdministratorRepository administratorRepository) {
-    this.administratorRepository = administratorRepository;
-  }
+    public AdministratorController(AdministratorQuery administratorQuery,
+                                    AdministratorRegister administratorRegister) {
+        this.administratorQuery = administratorQuery;
+        this.administratorRegister = administratorRegister;
+    }
 
-  // Endpoint para listar todos los administradores
-  @GetMapping
-  public ResponseEntity<List<Administrator>> getAll() {
-    return ResponseEntity.ok(administratorRepository.findAll());
-  }
+    @GetMapping
+    public List<Administrator> getAll() {
+        return administratorQuery.findAll();
+    }
 
-  // Endpoint para buscar uno por ID
-  @GetMapping("/{id}")
-  public ResponseEntity<Administrator> getById(@PathVariable String id) {
-    return administratorRepository
-        .findById(id)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
-  }
+    @GetMapping("/{documentNumber}")
+    public Object getByDocumentNumber(@PathVariable String documentNumber) {
+        Administrator admin = administratorQuery.byDocumentNumber(documentNumber);
+        if (admin == null) {
+            return "Administrador con documento " + documentNumber + " no encontrado";
+        }
+        return admin;
+    }
+
+    @PostMapping
+    public Object register(@RequestBody String json) {
+        try {
+            Administrator saved = administratorRegister.save(json);
+            return saved;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
+    }
 }

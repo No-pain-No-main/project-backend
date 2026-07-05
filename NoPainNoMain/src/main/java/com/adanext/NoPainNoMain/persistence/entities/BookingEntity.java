@@ -27,27 +27,26 @@ public class BookingEntity {
 
   @Id private String id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "student_id", nullable = false)
-  private StudentEntity student; // Muchas reservas pertenecen a un Estudiante
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "student_id", nullable = false)
+    private StudentEntity student; 
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "machine_id", nullable = false)
-  private MachineEntity machine; // Muchas reservas se hacen sobre una Máquina
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "machine_id", nullable = false)
+    private MachineEntity machine; 
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "time_slot_id", nullable = false)
-  private TimeSlotEntity timeSlot; // Muchas reservas usan un TimeSlot
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "time_slot_id", nullable = false)
+    private TimeSlotEntity timeSlot; 
 
-  @Column(name = "date", nullable = false)
-  private LocalDate date; // Para búsquedas por fecha
+    @Column(name = "date", nullable = false)
+    private LocalDate date; 
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "booking_status_id", nullable = false)
-  private BookingStatusEntity bookingStatus; // Muchas reservas comparten un Estado
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "booking_status_id", nullable = false)
+    private BookingStatusEntity bookingStatus; 
 
-  // Requerido por JPA
-  public BookingEntity() {}
+    public BookingEntity() {}
 
   public BookingEntity(
       String id,
@@ -64,14 +63,8 @@ public class BookingEntity {
     this.bookingStatus = bookingStatus;
   }
 
-  // Getters y Setters
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
 
   public StudentEntity getStudent() {
     return student;

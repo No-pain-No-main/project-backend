@@ -1,6 +1,7 @@
 package com.adanext.NoPainNoMain.persistence.types;
 
 import com.adanext.NoPainNoMain.persistence.PersistenceConstants;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -10,10 +11,11 @@ import jakarta.persistence.Table;
 @Table(name = "UserStatus", schema = PersistenceConstants.SCHEMA)
 public class UserStatusEntity {
 
-  @Id private Integer id; // Se llena desde tu script (ej: 1, 2)
+    @Id
+    private Integer id; 
 
-  @Column(nullable = false, unique = true, length = 50)
-  private String name; // Ej: "ACTIVE", "INACTIVE"
+    @Column(nullable = false, unique = true, length = 50)
+    private String name; 
 
   public UserStatusEntity() {}
 

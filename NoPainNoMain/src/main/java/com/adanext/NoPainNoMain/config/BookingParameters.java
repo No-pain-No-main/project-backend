@@ -25,15 +25,17 @@ public final class BookingParameters {
   /** ID del estado "Reservada" en la tabla machine_status */
   public static final int MACHINE_STATUS_RESERVED = 3;
 
-  // ─── Estados de reserva ───────────────────────────────────────
-  /** ID del estado "Activa" en la tabla booking_status */
-  public static final int BOOKING_STATUS_ACTIVE = 1;
+    // ─── Estados de reserva ───────────────────────────────────────
+    /** ID del estado "Activa" en la tabla booking_status */
+    public static final int BOOKING_STATUS_ACTIVE = 1;
+    /** ID del estado "Cancelada" en la tabla booking_status */
+    public static final int BOOKING_STATUS_CANCELLED = 2;
+    /** ID del estado "Confirmada" en la tabla booking_status */
+    public static final int BOOKING_STATUS_CONFIRMED = 3;
 
-  /** ID del estado "Cancelada" en la tabla booking_status */
-  public static final int BOOKING_STATUS_CANCELLED = 2;
-
-  /** ID del estado "Confirmada" en la tabla booking_status */
-  public static final int BOOKING_STATUS_CONFIRMED = 3;
+    // ─── Registro ─────────────────────────────────────────────────
+    /** Minutos mínimos de anticipación para registrar una reserva */
+    public static final int REGISTRATION_MINUTES_BEFORE = 20;
 
   // ─── Cancelación ──────────────────────────────────────────────
   /** Minutos mínimos antes de la franja para permitir cancelación */

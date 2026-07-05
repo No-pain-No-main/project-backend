@@ -1,99 +1,131 @@
 package com.adanext.NoPainNoMain.domain;
 
-import com.adanext.NoPainNoMain.domain.types.BookingStatus;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
+import com.adanext.NoPainNoMain.domain.types.BookingStatus;
 
 public class Booking {
 
-  private String id;
-  private Student student;
-  private Machine machine;
-  private LocalDate date;
-  private TimeSlot timeSlot;
-  private BookingStatus bookingStatus;
-
-  public Booking() {
-    // Constructor vacío para frameworks que lo requieran
-  }
-
-  public Booking(
-      String id,
-      Student student,
-      Machine machine,
-      LocalDate date,
-      TimeSlot timeSlot,
-      BookingStatus bookingStatus) {
-    if (id == null || id.isBlank()) {
-      throw new IllegalArgumentException("id cannot be blank");
+    private String id;
+    private Student student;
+    private Machine machine;
+    private LocalDate date;
+    private TimeSlot timeSlot;
+    private BookingStatus bookingStatus; 
+    public Booking() {
+        this.id = null;
+        this.student = null;
+        this.machine = null;
+        this.date = null;
+        this.timeSlot = null;
+        this.bookingStatus = null;
     }
-    if (student == null) {
-      throw new IllegalArgumentException("student cannot be null");
+
+    public Booking(String id, Student student, Machine machine, LocalDate date,
+                   TimeSlot timeSlot, BookingStatus bookingStatus) {
+        this.id = id;
+        this.student = student;
+        this.machine = machine;
+        this.date = date;
+        this.timeSlot = timeSlot;
+        this.bookingStatus = bookingStatus;
     }
-    if (machine == null) {
-      throw new IllegalArgumentException("machine cannot be null");
+
+   
+    public boolean isBeforeToday() {
+        return date != null && date.isBefore(LocalDate.now());
     }
-    if (date == null) {
-      throw new IllegalArgumentException("date cannot be null");
+
+   
+    public boolean isWeekday() {
+        if (date == null) return false;
+        DayOfWeek day = date.getDayOfWeek();
+        return day != DayOfWeek.SATURDAY && day != DayOfWeek.SUNDAY;
     }
-    this.id = id;
-    this.student = student;
-    this.machine = machine;
-    this.date = date;
-    this.timeSlot = timeSlot;
-    this.bookingStatus = bookingStatus;
-  }
 
-  // Getters y Setters
-  public String getId() {
-    return id;
-  }
+   
+    public boolean isCurrentWeek() {
+        if (date == null) return false;
+        LocalDate today = LocalDate.now();
+        LocalDate monday = today.with(DayOfWeek.MONDAY);
+        LocalDate sunday = today.with(DayOfWeek.SUNDAY);
+        return !date.isBefore(monday) && !date.isAfter(sunday);
+    }
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    
+    private LocalDateTime getSlotStartDateTime() {
+        if (date == null || timeSlot == null) return null;
+        LocalTime startTime = timeSlot.getStartTime();
+        if (startTime == null) return null;
+        return LocalDateTime.of(date, startTime);
+    }
 
-  public Student getStudent() {
-    return student;
-  }
+    public boolean hasSlotPassed() {
+        LocalDateTime slotStart = getSlotStartDateTime();
+        return slotStart != null && LocalDateTime.now().isAfter(slotStart);
+    }
 
-  public void setStudent(Student student) {
-    this.student = student;
-  }
+    
+    public boolean isTooLateToRegister(int minutesBefore) {
+        LocalDateTime slotStart = getSlotStartDateTime();
+        return slotStart == null || LocalDateTime.now().isAfter(slotStart.minusMinutes(minutesBefore));
+    }
 
-  public Machine getMachine() {
-    return machine;
-  }
+    
+    public boolean canBeCancelled(int minutesBefore) {
+        LocalDateTime slotStart = getSlotStartDateTime();
+        return slotStart != null && !LocalDateTime.now().isAfter(slotStart.minusMinutes(minutesBefore));
+    }
 
-  public void setMachine(Machine machine) {
-    this.machine = machine;
-  }
+   
+    public void cancel(BookingStatus cancelledStatus) {
+        if (cancelledStatus == null) {
+            throw new IllegalArgumentException("El estado 'Cancelada' no puede ser nulo");
+        }
+        this.bookingStatus = cancelledStatus;
+    }
 
-  public LocalDate getDate() {
-    return date;
-  }
+   
+    public boolean isActiveOnDate(LocalDate date) {
+        return this.date != null && this.date.equals(date)
+            && bookingStatus != null && bookingStatus.getId() == 1; // BOOKING_STATUS_ACTIVE
+    }
 
-  public void setDate(LocalDate date) {
-    this.date = date;
-  }
+   
+    public boolean isReadyForConfirmation(int windowMinutes) {
+        if (timeSlot == null || timeSlot.getStartTime() == null) return false;
+        LocalTime now = LocalTime.now();
+        LocalTime slotStart = timeSlot.getStartTime();
+        LocalTime windowStart = slotStart.minusMinutes(windowMinutes);
+        return !now.isBefore(windowStart) && !now.isAfter(slotStart);
+    }
 
-  public TimeSlot getTimeSlot() {
-    return timeSlot;
-  }
+    
+    public void confirm(BookingStatus confirmedStatus) {
+        if (confirmedStatus == null) {
+            throw new IllegalArgumentException("El estado 'Confirmada' no puede ser nulo");
+        }
+        this.bookingStatus = confirmedStatus;
+    }
 
-  public void setTimeSlot(TimeSlot timeSlot) {
-    this.timeSlot = timeSlot;
-  }
+    
+    public void updateStatus(BookingStatus newStatus) {
+        this.bookingStatus = newStatus;
+    }
 
-  public BookingStatus getBookingStatus() {
-    return bookingStatus;
-  }
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+    public Student getStudent() { return student; }
+    public Machine getMachine() { return machine; }
+    public LocalDate getDate() { return date; }
+    public TimeSlot getTimeSlot() { return timeSlot; }
+    public BookingStatus getBookingStatus() { return bookingStatus; }
 
-  public void setBookingStatus(BookingStatus bookingStatus) {
-    this.bookingStatus = bookingStatus;
-  }
-
-  // Método de negocio para controlar el cambio de estado de la reserva
-  public void updateStatus(BookingStatus newStatus) {
-    this.bookingStatus = newStatus;
-  }
+    public void setStudent(Student student) { this.student = student; }
+    public void setMachine(Machine machine) { this.machine = machine; }
+    public void setDate(LocalDate date) { this.date = date; }
+    public void setTimeSlot(TimeSlot timeSlot) { this.timeSlot = timeSlot; }
 }

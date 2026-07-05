@@ -10,16 +10,14 @@ import jakarta.persistence.Table;
 @Table(name = "BookingStatus", schema = PersistenceConstants.SCHEMA)
 public class BookingStatusEntity {
 
-  @Id
-  // NOTA: No usamos GeneratedValue aquí porque los IDs (1, 2, 3)
-  // vendrán fijos desde tu script SQL de inicialización.
-  private Integer id;
+    @Id
+    
+    private Integer id;
 
   @Column(nullable = false, unique = true, length = 50)
   private String name;
 
-  // Requerido por JPA
-  public BookingStatusEntity() {}
+    public BookingStatusEntity() {}
 
   public BookingStatusEntity(Integer id, String name) {
     this.id = id;

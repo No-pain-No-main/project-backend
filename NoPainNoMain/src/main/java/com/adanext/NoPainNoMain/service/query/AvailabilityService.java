@@ -12,38 +12,36 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
+
+
 @Service
 public class AvailabilityService {
 
-  private final BookingRepository bookingRepository;
-  private final MachineRepository machineRepository;
-  private final TimeSlotRepository timeSlotRepository;
+    private final BookingRepository bookingRepository;
+    private final MachineRepository machineRepository;
+    private final TimeSlotRepository timeSlotRepository;
 
-  public AvailabilityService(
-      BookingRepository bookingRepository,
-      MachineRepository machineRepository,
-      TimeSlotRepository timeSlotRepository) {
-    this.bookingRepository = bookingRepository;
-    this.machineRepository = machineRepository;
-    this.timeSlotRepository = timeSlotRepository;
-  }
+    public AvailabilityService(BookingRepository bookingRepository,
+                               MachineRepository machineRepository,
+                               TimeSlotRepository timeSlotRepository) {
+        this.bookingRepository = bookingRepository;
+        this.machineRepository = machineRepository;
+        this.timeSlotRepository = timeSlotRepository;
+    }
 
-  public List<TimeSlot> findFreeSlotsByMachine(Integer machineId, LocalDate date) {
-    // Obtener TODAS las franjas horarias disponibles (10 slots: 7am-5pm)
-    List<TimeSlot> allSlots = timeSlotRepository.findAll();
+    public List<TimeSlot> findFreeSlotsByMachine(Integer machineId, LocalDate date) {
+        List<TimeSlot> allSlots = timeSlotRepository.findAll();
 
-    // Obtener reservas para esa máquina en ese día
-    List<Booking> bookings = bookingRepository.findByMachineIdAndDateBetween(machineId, date, date);
+        List<Booking> bookings = bookingRepository.findByMachineIdAndDateBetween(machineId, date, date);
 
-    // IDs de franjas ocupadas
-    Set<Integer> bookedSlotIds =
-        bookings.stream().map(b -> b.getTimeSlot().getId()).collect(Collectors.toSet());
+        Set<Integer> bookedSlotIds = bookings.stream()
+                .map(b -> b.getTimeSlot().getId())
+                .collect(Collectors.toSet());
 
-    // Franjas NO ocupadas
-    return allSlots.stream()
-        .filter(slot -> !bookedSlotIds.contains(slot.getId()))
-        .collect(Collectors.toList());
-  }
+        return allSlots.stream()
+                .filter(slot -> !bookedSlotIds.contains(slot.getId()))
+                .collect(Collectors.toList());
+    }
 
   public List<MachineAvailability> findFreeSlotsForAllMachines(LocalDate date) {
     List<Machine> allMachines = machineRepository.findAll();
@@ -66,12 +64,7 @@ public class AvailabilityService {
       this.freeSlots = freeSlots;
     }
 
-    public Machine getMachine() {
-      return machine;
+        public Machine getMachine() { return machine; }
+        public List<TimeSlot> getFreeSlots() { return freeSlots; }
     }
-
-    public List<TimeSlot> getFreeSlots() {
-      return freeSlots;
-    }
-  }
 }

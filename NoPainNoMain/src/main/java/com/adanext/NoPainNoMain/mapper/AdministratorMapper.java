@@ -30,18 +30,18 @@ public class AdministratorMapper {
       return null;
     }
 
-    AdministratorEntity entity = new AdministratorEntity();
-    entity.setId(domain.getId()); // documentNumber
-    entity.setFirstName(domain.getFirstName());
-    entity.setMiddleName(domain.getMiddleName().orElse(null));
-    entity.setLastName(domain.getLastName());
-    entity.setSecondLastName(domain.getSecondLastName().orElse(null));
-    entity.setDocumentType(DocumentTypeMapper.toEntity(domain.getDocumentType()));
-    entity.setEmail(domain.getEmail());
-    entity.setPhone(domain.getPhone());
-    entity.setPosition(domain.getPosition());
-    entity.setPasswordHash(domain.getPasswordHash());
-    entity.setSecretPhrase(domain.getSecretPhrase());
+        AdministratorEntity entity = new AdministratorEntity();
+        entity.setId(domain.getId()); // documentNumber
+        entity.setFirstName(domain.getFirstName());
+        entity.setMiddleName(domain.getMiddleName());
+        entity.setLastName(domain.getLastName());
+        entity.setSecondLastName(domain.getSecondLastName());
+        entity.setDocumentType(DocumentTypeMapper.toEntity(domain.getDocumentType()));
+        entity.setEmail(domain.getEmail());
+        entity.setPhone(domain.getPhone());
+        entity.setPosition(domain.getPosition());
+        entity.setPasswordHash(domain.getPasswordHash());
+        entity.setSecretPhrase(domain.getSecretPhrase());
 
     return entity;
   }

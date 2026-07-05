@@ -39,3 +39,7 @@ INSERT INTO time_slot (id, name, start_time) VALUES (7, '1pm-2pm', '13:00:00');
 INSERT INTO time_slot (id, name, start_time) VALUES (8, '2pm-3pm', '14:00:00');
 INSERT INTO time_slot (id, name, start_time) VALUES (9, '3pm-4pm', '15:00:00');
 INSERT INTO time_slot (id, name, start_time) VALUES (10, '4pm-5pm', '16:00:00');
+
+-- 8. Validador por defecto (contraseña: 123456, hasheada con BCrypt)
+INSERT INTO booking_validator (document_number, first_name, last_name, password_hash, active)
+VALUES ('1000000001', 'Validador', 'Gimnasio', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', true);

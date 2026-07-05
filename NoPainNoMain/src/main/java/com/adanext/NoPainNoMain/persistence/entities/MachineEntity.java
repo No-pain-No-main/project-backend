@@ -32,8 +32,7 @@ public class MachineEntity {
   @JoinColumn(name = "machine_status_id", nullable = false)
   private MachineStatusEntity machineStatus; // Muchos aparatos tienen un Estado
 
-  // Requerido por JPA
-  public MachineEntity() {}
+    public MachineEntity() {}
 
   public MachineEntity(
       Integer id, String name, MachineTypeEntity machineType, MachineStatusEntity machineStatus) {
@@ -43,14 +42,8 @@ public class MachineEntity {
     this.machineStatus = machineStatus;
   }
 
-  // Getters y Setters
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
   public String getName() {
     return name;

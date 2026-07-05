@@ -31,8 +31,8 @@ public class AdministratorRepositoryImpl implements AdministratorRepository {
   }
 
   @Override
-  public Optional<Administrator> findById(String id) {
-    return repository.findById(id).map(AdministratorMapper::toDomain);
+  public Optional<Administrator> findByDocumentNumber(String documentNumber) {
+    return repository.findByDocumentNumber(documentNumber).map(AdministratorMapper::toDomain);
   }
 
   @Override

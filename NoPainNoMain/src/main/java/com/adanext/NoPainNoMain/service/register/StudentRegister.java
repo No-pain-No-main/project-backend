@@ -2,41 +2,34 @@ package com.adanext.NoPainNoMain.service.register;
 
 import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.repository.StudentRepository;
-import com.adanext.NoPainNoMain.service.jsonconverter.JsonToClass;
-import com.adanext.NoPainNoMain.service.register.helpers.StudentRegisterHelper;
+import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
+import com.adanext.NoPainNoMain.service.register.helpers.PasswordHashHelper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class StudentRegister {
 
-  private final JsonToClass<Student> jsonToClass;
-  private final StudentRepository studentRepository;
-  private final StudentRegisterHelper helper;
+    private final JsonToClass<Student> jsonToClass;
+    private final StudentValidator studentValidator;
+    private final StudentRepository studentRepository;
+    private final PasswordHashHelper passwordHashHelper;
 
-  public StudentRegister(
-      JsonToClass<Student> jsonToClass,
-      StudentRepository studentRepository,
-      StudentRegisterHelper helper) {
-    this.jsonToClass = jsonToClass;
-    this.studentRepository = studentRepository;
-    this.helper = helper;
-  }
+    public StudentRegister(JsonToClass<Student> jsonToClass, StudentValidator studentValidator,
+                           StudentRepository studentRepository, PasswordHashHelper passwordHashHelper) {
+        this.jsonToClass = jsonToClass;
+        this.studentValidator = studentValidator;
+        this.studentRepository = studentRepository;
+        this.passwordHashHelper = passwordHashHelper;
+    }
 
   public Student save(String jsonRegister) {
     Student student = jsonToClass.convert(jsonRegister, Student.class);
 
-    if (helper.isDuplicateDocument(student)) {
-      throw new IllegalStateException(
-          "El estudiante con documento "
-              + student.getDocumentNumber()
-              + " ya existe en el sistema");
-    }
+        studentValidator.validate(student);
 
-    if (helper.isDuplicateEmail(student)) {
-      throw new IllegalStateException(
-          "El email " + student.getEmail() + " ya está registrado por otro estudiante");
-    }
+        String hashed = passwordHashHelper.hashPassword(student.getPasswordHash());
+        student.registerPassword(hashed);
 
-    return studentRepository.save(student);
-  }
+        return studentRepository.save(student);
+    }
 }

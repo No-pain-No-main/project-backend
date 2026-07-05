@@ -4,6 +4,7 @@ import com.adanext.NoPainNoMain.domain.Administrator;
 import com.adanext.NoPainNoMain.domain.repository.AdministratorRepository;
 import org.springframework.stereotype.Component;
 
+
 @Component
 public class AdminRegisterHelper {
 
@@ -15,7 +16,7 @@ public class AdminRegisterHelper {
 
   public boolean isDuplicateDocument(Administrator admin) {
     return admin.getDocumentNumber() != null
-        && repository.findById(admin.getDocumentNumber()).isPresent();
+        && repository.findByDocumentNumber(admin.getDocumentNumber()).isPresent();
   }
 
   public boolean isDuplicateEmail(Administrator admin) {

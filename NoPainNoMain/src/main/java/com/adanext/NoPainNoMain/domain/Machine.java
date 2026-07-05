@@ -5,67 +5,34 @@ import com.adanext.NoPainNoMain.domain.types.MachineType;
 
 public class Machine {
 
-  private Integer id; // Inmutable, nunca cambia
-  private String name;
-  private MachineType machineType;
-  private MachineStatus machineStatus;
+    private Integer id; 
+    private String name;
+    private MachineType machineType;
+    private MachineStatus machineStatus;
 
-  public Machine() {
-    // Constructor vacío para frameworks que lo requieran
-  }
-
-  // Constructor con los campos definitivos
-  public Machine(Integer id, String name, MachineType machineType, MachineStatus machineStatus) {
-    if (id == null || id <= 0) {
-      throw new IllegalArgumentException("id must be a positive number");
+    public Machine() {
     }
-    if (name == null || name.isBlank()) {
-      throw new IllegalArgumentException("name cannot be blank");
+    public Machine(Integer id, String name, MachineType machineType, MachineStatus machineStatus) {
+        this.id = id;
+        this.name = name;
+        this.machineType = machineType;
+        this.machineStatus = machineStatus;
     }
-    this.id = id;
-    this.name = name;
-    this.machineType = machineType;
-    this.machineStatus = machineStatus;
-  }
 
-  // Getters
-  public Integer getId() {
-    return id;
-  }
+    public Integer getId() { return id; }
+    public String getName() { return name; }
+    public MachineType getMachineType() { return machineType; }
+    public MachineStatus getMachineStatus() { return machineStatus; }
 
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    public void setId(Integer id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setMachineType(MachineType machineType) { this.machineType = machineType; }
+    public void setMachineStatus(MachineStatus machineStatus) { this.machineStatus = machineStatus; }
 
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public MachineType getMachineType() {
-    return machineType;
-  }
-
-  public void setMachineType(MachineType machineType) {
-    this.machineType = machineType;
-  }
-
-  public MachineStatus getMachineStatus() {
-    return machineStatus;
-  }
-
-  public void setMachineStatus(MachineStatus machineStatus) {
-    this.machineStatus = machineStatus;
-  }
-
-  // Métodos específicos para que el Administrador modifique los datos
-  public void updateDetails(String newName, MachineType newType) {
-    this.name = newName;
-    this.machineType = newType;
-  }
+    public void updateDetails(String newName, MachineType newType) {
+        this.name = newName;
+        this.machineType = newType;
+    }
 
   public void updateStatus(MachineStatus newStatus) {
     this.machineStatus = newStatus;

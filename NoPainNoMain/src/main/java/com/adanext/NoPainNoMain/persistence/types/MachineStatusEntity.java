@@ -10,10 +10,11 @@ import jakarta.persistence.Table;
 @Table(name = "MachineStatus", schema = PersistenceConstants.SCHEMA)
 public class MachineStatusEntity {
 
-  @Id private Integer id; // Se llena desde tu script (ej: 1, 2)
+    @Id
+    private Integer id; 
 
-  @Column(nullable = false, unique = true, length = 50)
-  private String name; // Ej: "AVAILABLE", "MAINTENANCE", "OUT_OF_SERVICE"
+    @Column(nullable = false, unique = true, length = 50)
+    private String name;
 
   public MachineStatusEntity() {}
 

@@ -28,8 +28,7 @@ public class TimeSlotEntity {
   @OneToMany(mappedBy = "timeSlot")
   private List<BookingEntity> bookings;
 
-  // Requerido por JPA
-  public TimeSlotEntity() {}
+    public TimeSlotEntity() {}
 
   public TimeSlotEntity(Integer id, String name, LocalTime startTime) {
     this.id = id;
@@ -37,14 +36,8 @@ public class TimeSlotEntity {
     this.startTime = startTime;
   }
 
-  // Getters y Setters
-  public Integer getId() {
-    return id;
-  }
-
-  public void setId(Integer id) {
-    this.id = id;
-  }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
   public String getName() {
     return name;
