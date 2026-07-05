@@ -56,33 +56,28 @@ public class Booking {
     }
 
     
-    public boolean hasSlotPassed() {
-        if (date == null || timeSlot == null) return false;
-
+    private LocalDateTime getSlotStartDateTime() {
+        if (date == null || timeSlot == null) return null;
         LocalTime startTime = timeSlot.getStartTime();
-        if (startTime == null) return false;
+        if (startTime == null) return null;
+        return LocalDateTime.of(date, startTime);
+    }
 
-        LocalDateTime slotStart = LocalDateTime.of(date, startTime);
-        return LocalDateTime.now().isAfter(slotStart);
+    public boolean hasSlotPassed() {
+        LocalDateTime slotStart = getSlotStartDateTime();
+        return slotStart != null && LocalDateTime.now().isAfter(slotStart);
     }
 
     
     public boolean isTooLateToRegister(int minutesBefore) {
-        if (date == null || timeSlot == null) return true;
-        LocalTime startTime = timeSlot.getStartTime();
-        if (startTime == null) return true;
-        LocalDateTime slotStart = LocalDateTime.of(date, startTime);
-        return LocalDateTime.now().isAfter(slotStart.minusMinutes(minutesBefore));
+        LocalDateTime slotStart = getSlotStartDateTime();
+        return slotStart == null || LocalDateTime.now().isAfter(slotStart.minusMinutes(minutesBefore));
     }
 
     
     public boolean canBeCancelled(int minutesBefore) {
-        if (date == null || timeSlot == null) return false;
-        LocalTime startTime = timeSlot.getStartTime();
-        if (startTime == null) return false;
-
-        LocalDateTime slotStart = LocalDateTime.of(date, startTime);
-        return !LocalDateTime.now().isAfter(slotStart.minusMinutes(minutesBefore));
+        LocalDateTime slotStart = getSlotStartDateTime();
+        return slotStart != null && !LocalDateTime.now().isAfter(slotStart.minusMinutes(minutesBefore));
     }
 
    
