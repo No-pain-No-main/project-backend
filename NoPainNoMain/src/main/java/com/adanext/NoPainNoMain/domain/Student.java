@@ -13,7 +13,7 @@ public class Student {
     private String secondLastName;
     private String email;
     private final DocumentType documentType;
-    private final String documentNumber; // PK: número de documento
+    private String documentNumber; // PK: número de documento
     private final LocalDate birthDate;
     private final String phone;
     private final Gender gender;
@@ -78,4 +78,5 @@ public class Student {
     public void setLastName(String lastName) { this.lastName = lastName; }
     public void setSecondLastName(String secondLastName) { this.secondLastName = secondLastName; }
     public void setEmail(String email) { this.email = email; }
+    public void setDocumentNumber(String documentNumber) { this.documentNumber = documentNumber; }
 }

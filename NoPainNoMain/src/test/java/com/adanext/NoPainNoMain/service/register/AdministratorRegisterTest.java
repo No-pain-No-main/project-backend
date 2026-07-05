@@ -11,7 +11,7 @@ import static org.mockito.Mockito.when;
 
 import com.adanext.NoPainNoMain.domain.Administrator;
 import com.adanext.NoPainNoMain.persistence.impl.AdministratorRepositoryImpl;
-import com.adanext.NoPainNoMain.service.jsonconverter.JsonToClass;
+import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
 import com.adanext.NoPainNoMain.service.register.helpers.AdminRegisterHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

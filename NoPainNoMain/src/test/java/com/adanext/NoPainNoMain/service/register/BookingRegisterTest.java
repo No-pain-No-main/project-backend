@@ -14,7 +14,7 @@ import com.adanext.NoPainNoMain.domain.Machine;
 import com.adanext.NoPainNoMain.domain.Student;
 import com.adanext.NoPainNoMain.domain.TimeSlot;
 import com.adanext.NoPainNoMain.persistence.impl.BookingRepositoryImpl;
-import com.adanext.NoPainNoMain.service.jsonconverter.JsonToClass;
+import com.adanext.NoPainNoMain.service.jsonConverter.JsonToClass;
 import com.adanext.NoPainNoMain.service.register.helpers.BookingRegisterHelper;
 import com.adanext.NoPainNoMain.service.update.MachineUpdate;
 import java.time.DayOfWeek;

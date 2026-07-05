@@ -36,23 +36,23 @@ class AdministratorRegisterHelperTest {
   @Test
   void isDuplicateDocument_whenDocumentExists_returnsTrue() {
     admin.setDocumentNumber("12345678");
-    when(repository.findById("12345678")).thenReturn(Optional.of(admin));
+    when(repository.findByDocumentNumber("12345678")).thenReturn(Optional.of(admin));
 
     boolean result = helper.isDuplicateDocument(admin);
 
     assertTrue(result);
-    verify(repository).findById("12345678");
+    verify(repository).findByDocumentNumber("12345678");
   }
 
   @Test
   void isDuplicateDocument_whenDocumentDoesNotExist_returnsFalse() {
     admin.setDocumentNumber("87654321");
-    when(repository.findById("87654321")).thenReturn(Optional.empty());
+    when(repository.findByDocumentNumber("87654321")).thenReturn(Optional.empty());
 
     boolean result = helper.isDuplicateDocument(admin);
 
     assertFalse(result);
-    verify(repository).findById("87654321");
+    verify(repository).findByDocumentNumber("87654321");
   }
 
   @Test
@@ -62,7 +62,7 @@ class AdministratorRegisterHelperTest {
     boolean result = helper.isDuplicateDocument(admin);
 
     assertFalse(result);
-    verify(repository, never()).findById(any());
+    verify(repository, never()).findByDocumentNumber(any());
   }
 
   // ─── isDuplicateEmail ────────────────────────────────────────────────

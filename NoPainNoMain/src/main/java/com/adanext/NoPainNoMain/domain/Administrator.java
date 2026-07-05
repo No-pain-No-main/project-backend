@@ -9,7 +9,7 @@ public class Administrator {
     private String lastName;
     private String secondLastName;
     private final DocumentType documentType;
-    private final String documentNumber; // PK: número de documento
+    private String documentNumber; // PK: número de documento
     private String email;
     private final String phone;
     private final String position;
@@ -92,4 +92,5 @@ public class Administrator {
     public void setLastName(String lastName) { this.lastName = lastName; }
     public void setSecondLastName(String secondLastName) { this.secondLastName = secondLastName; }
     public void setEmail(String email) { this.email = email; }
+    public void setDocumentNumber(String documentNumber) { this.documentNumber = documentNumber; }
 }

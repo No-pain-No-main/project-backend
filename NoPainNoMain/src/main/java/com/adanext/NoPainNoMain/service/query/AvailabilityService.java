@@ -12,12 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
-import com.adanext.NoPainNoMain.domain.Booking;
-import com.adanext.NoPainNoMain.domain.Machine;
-import com.adanext.NoPainNoMain.domain.TimeSlot;
-import com.adanext.NoPainNoMain.domain.repository.BookingRepository;
-import com.adanext.NoPainNoMain.domain.repository.MachineRepository;
-import com.adanext.NoPainNoMain.domain.repository.TimeSlotRepository;
+
 
 @Service
 public class AvailabilityService {
