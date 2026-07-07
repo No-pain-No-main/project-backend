@@ -53,6 +53,7 @@ public class StudentController {
     public Object register(@RequestBody String json) {
         try {
             Student student = studentRegister.save(json);
+            student.setPasswordHash(null);
             return student;
         } catch (IllegalStateException e) {
             return e.getMessage();
