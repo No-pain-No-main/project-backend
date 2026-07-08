@@ -16,6 +16,7 @@ public class Booking {
     private LocalDate date;
     private TimeSlot timeSlot;
     private BookingStatus bookingStatus; 
+
     public Booking() {
         this.id = null;
         this.student = null;
@@ -92,7 +93,7 @@ public class Booking {
    
     public boolean isActiveOnDate(LocalDate date) {
         boolean active= this.date != null && this.date.equals(date)
-            && bookingStatus != null && bookingStatus.getId() == BookingParameters.STATUS_ACTIVE;
+            && bookingStatus != null && bookingStatus.getId() == BookingParameters.BOOKING_STATUS_ACTIVE;
 
         return  active;
     }
