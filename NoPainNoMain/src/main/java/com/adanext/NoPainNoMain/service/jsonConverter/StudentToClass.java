@@ -12,7 +12,7 @@ public class StudentToClass {
   public Student convert(String jsonRegister) {
     Student temporaryStudent = jsonToClass.convert(jsonRegister, Student.class);
     return new Student(
-        temporaryStudent.getDocumentNumber(), // documentNumber es ahora la PK
+        temporaryStudent.getDocumentNumber(), 
         temporaryStudent.getFirstName(),
         temporaryStudent.getMiddleName(),
         temporaryStudent.getLastName(),
