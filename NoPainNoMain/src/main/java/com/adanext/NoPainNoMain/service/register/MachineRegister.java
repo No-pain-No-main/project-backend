@@ -35,22 +35,26 @@ public class MachineRegister {
             throw new IllegalStateException("La máquina '" + machine.getName() + "' ya existe en el sistema");
         }
 
-        // Resolver referencias desde la BD para evitar valores nulos en la persistencia
-        if (machine.getMachineStatus() != null && machine.getMachineStatus().getId() != null) {
-            MachineStatus resolved = machineStatusRepository
-                .findById(machine.getMachineStatus().getId())
-                .orElseThrow(() -> new IllegalStateException(
-                    "El estado de máquina con ID " + machine.getMachineStatus().getId() + " no existe"));
-            machine.setMachineStatus(resolved);
+        // Validar campos obligatorios
+        if (machine.getMachineStatus() == null || machine.getMachineStatus().getId() == null) {
+            throw new IllegalStateException("El estado de la máquina (machineStatus) es obligatorio");
+        }
+        if (machine.getMachineType() == null || machine.getMachineType().getId() == null) {
+            throw new IllegalStateException("El tipo de la máquina (machineType) es obligatorio");
         }
 
-        if (machine.getMachineType() != null && machine.getMachineType().getId() != null) {
-            MachineType resolved = machineTypeRepository
-                .findById(machine.getMachineType().getId())
-                .orElseThrow(() -> new IllegalStateException(
-                    "El tipo de máquina con ID " + machine.getMachineType().getId() + " no existe"));
-            machine.setMachineType(resolved);
-        }
+        // Resolver referencias desde la BD para evitar valores nulos en la persistencia
+        MachineStatus resolvedStatus = machineStatusRepository
+            .findById(machine.getMachineStatus().getId())
+            .orElseThrow(() -> new IllegalStateException(
+                "El estado de máquina con ID " + machine.getMachineStatus().getId() + " no existe"));
+        machine.setMachineStatus(resolvedStatus);
+
+        MachineType resolvedType = machineTypeRepository
+            .findById(machine.getMachineType().getId())
+            .orElseThrow(() -> new IllegalStateException(
+                "El tipo de máquina con ID " + machine.getMachineType().getId() + " no existe"));
+        machine.setMachineType(resolvedType);
 
         return machineRepository.save(machine);
     }

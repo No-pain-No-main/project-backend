@@ -3,6 +3,9 @@ package com.adanext.NoPainNoMain.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,13 +27,16 @@ public class MachineController {
     private final MachineQuery machineQuery;
     private final MachineRegister machineRegister;
     private final MachineUpdate machineUpdate;
+    private final ObjectMapper objectMapper;
 
     public MachineController(MachineQuery machineQuery,
                               MachineRegister machineRegister,
-                              MachineUpdate machineUpdate) {
+                              MachineUpdate machineUpdate,
+                              ObjectMapper objectMapper) {
         this.machineQuery = machineQuery;
         this.machineRegister = machineRegister;
         this.machineUpdate = machineUpdate;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping
@@ -48,11 +54,12 @@ public class MachineController {
     }
 
     @PostMapping
-    public Object register(@RequestBody String json) {
+    public Object register(@RequestBody Map<String, Object> body) {
         try {
+            String json = objectMapper.writeValueAsString(body);
             Machine machine = machineRegister.save(json);
             return machine;
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException | JsonProcessingException e) {
             return e.getMessage();
         }
     }

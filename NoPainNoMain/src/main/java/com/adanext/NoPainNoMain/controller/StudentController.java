@@ -3,6 +3,9 @@ package com.adanext.NoPainNoMain.controller;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -27,13 +30,16 @@ public class StudentController {
     private final StudentRegister studentRegister;
     private final BookingQuery bookingQuery;
     private final StudentUpdate studentUpdate;
+    private final ObjectMapper objectMapper;
 
     public StudentController(StudentQuery studentQuery, StudentRegister studentRegister,
-                              BookingQuery bookingQuery, StudentUpdate studentUpdate) {
+                              BookingQuery bookingQuery, StudentUpdate studentUpdate,
+                              ObjectMapper objectMapper) {
         this.studentQuery = studentQuery;
         this.studentRegister = studentRegister;
         this.bookingQuery = bookingQuery;
         this.studentUpdate = studentUpdate;
+        this.objectMapper = objectMapper;
     }
 
     @GetMapping
@@ -102,12 +108,13 @@ public class StudentController {
     }
 
     @PostMapping
-    public Object register(@RequestBody String json) {
+    public Object register(@RequestBody Map<String, Object> body) {
         try {
+            String json = objectMapper.writeValueAsString(body);
             Student student = studentRegister.save(json);
             student.setPasswordHash(null);
             return student;
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException | JsonProcessingException e) {
             return e.getMessage();
         }
     }
