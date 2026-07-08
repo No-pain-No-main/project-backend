@@ -74,7 +74,6 @@ public class TestJsonController {
         this.bookingConfirmService = bookingConfirmService;
     }
 
-    // ─── GET endpoints (consulta por ID) ─────────────────────────
 
     @GetMapping("/student/{documentNumber}")
     Object getStudent(@PathVariable String documentNumber) {

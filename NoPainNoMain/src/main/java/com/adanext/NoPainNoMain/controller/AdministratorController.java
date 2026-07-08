@@ -55,7 +55,8 @@ public class AdministratorController {
     @PutMapping("/{documentNumber}")
     public Object update(@PathVariable String documentNumber, @RequestBody Map<String, String> body) {
         Administrator existing = administratorQuery.byDocumentNumber(documentNumber);
-        if (existing == null) {
+        boolean adminNotFound = existing == null;
+        if (adminNotFound) {
             return "Administrador con documento " + documentNumber + " no encontrado";
         }
 

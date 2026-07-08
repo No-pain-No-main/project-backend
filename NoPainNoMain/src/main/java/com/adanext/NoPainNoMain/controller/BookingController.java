@@ -58,7 +58,8 @@ public class BookingController {
     @GetMapping("/{bookingId}")
     public Object getById(@PathVariable String bookingId) {
         Booking booking = bookingQuery.byId(bookingId);
-        if (booking == null) {
+        boolean bookingNotFound = booking == null;
+        if (bookingNotFound) {
             return "Reserva con ID " + bookingId + " no encontrada";
         }
         return booking;
@@ -78,7 +79,8 @@ public class BookingController {
     public Object updateStatus(@PathVariable String bookingId, @RequestBody Map<String, Integer> body) {
         try {
             Integer statusId = body.get("statusId");
-            if (statusId == null) {
+            boolean statusIdIsNull = statusId == null;
+            if (statusIdIsNull) {
                 return "El campo 'statusId' es requerido";
             }
             Booking booking = bookingUpdate.updateStatus(bookingId, statusId);

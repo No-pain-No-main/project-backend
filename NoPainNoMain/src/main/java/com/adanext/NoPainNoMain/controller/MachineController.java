@@ -47,7 +47,8 @@ public class MachineController {
     @GetMapping("/{machineId}")
     public Object getById(@PathVariable Integer machineId) {
         Machine machine = machineQuery.byId(machineId);
-        if (machine == null) {
+        boolean machineNotFound = machine == null;
+        if (machineNotFound) {
             return "Máquina con ID " + machineId + " no encontrada";
         }
         return machine;

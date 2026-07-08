@@ -50,7 +50,8 @@ public class StudentController {
     @GetMapping("/{documentNumber}")
     public Object getByDocumentNumber(@PathVariable String documentNumber) {
         Student student = studentQuery.studentByDocumentNumber(documentNumber);
-        if (student == null) {
+        boolean studentNotFound = student == null;
+        if (studentNotFound) {
             return "Estudiante con documento " + documentNumber + " no encontrado";
         }
         return student;
