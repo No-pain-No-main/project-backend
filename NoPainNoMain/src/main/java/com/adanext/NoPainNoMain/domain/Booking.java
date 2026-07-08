@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import com.adanext.NoPainNoMain.config.BookingParameters;
 
 import com.adanext.NoPainNoMain.domain.types.BookingStatus;
 
@@ -90,13 +91,16 @@ public class Booking {
 
    
     public boolean isActiveOnDate(LocalDate date) {
-        return this.date != null && this.date.equals(date)
-            && bookingStatus != null && bookingStatus.getId() == 1; // BOOKING_STATUS_ACTIVE
+        boolean active= this.date != null && this.date.equals(date)
+            && bookingStatus != null && bookingStatus.getId() == BookingParameters.STATUS_ACTIVE;
+
+        return  active;
     }
 
    
     public boolean isReadyForConfirmation(int windowMinutes) {
-        if (timeSlot == null || timeSlot.getStartTime() == null) return false;
+        boolean hasTimeSlot = timeSlot != null && timeSlot.getStartTime() != null;
+        if (!hasTimeSlot) return false;
         LocalTime now = LocalTime.now();
         LocalTime slotStart = timeSlot.getStartTime();
         LocalTime windowStart = slotStart.minusMinutes(windowMinutes);
