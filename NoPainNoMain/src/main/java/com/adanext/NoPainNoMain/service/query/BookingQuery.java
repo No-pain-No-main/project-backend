@@ -40,6 +40,10 @@ public class BookingQuery {
         return bookingRepository.countActiveByStudent(documentNumber);
     }
 
+  public List<Booking> findAll() {
+    return bookingRepository.findAll();
+  }
+
   public boolean hasOverlappingBooking(Booking booking) {
     if (booking == null) {
       return false;
