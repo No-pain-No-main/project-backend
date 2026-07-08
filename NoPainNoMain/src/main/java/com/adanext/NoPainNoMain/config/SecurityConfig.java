@@ -14,15 +14,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-/**
- * Configuración de seguridad de Spring Security.
- * 
- * Define qué rutas son públicas (login) y cuáles requieren autenticación
- * según el rol del usuario (STUDENT, ADMIN, VALIDATOR).
- * 
- * Deshabilita CSRF porque es una API REST sin estado (stateless).
- * Las sesiones se manejan mediante tokens JWT, no cookies de sesión.
- */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -53,49 +44,22 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                /*
-                 * Rutas públicas:
-                 *   - /api/auth/student/login    → login estudiante
-                 *   - /api/auth/admin/login      → login administrador
-                 *   - /api/auth/validator/login  → login validador
-                 *   - /api/students              → POST registro (sin autenticación)
-                 *   - /api/test/**               → respaldo (TestJsonController, sin token)
-                 */
                 .requestMatchers("/api/auth/student/login").permitAll()
                 .requestMatchers("/api/auth/admin/login").permitAll()
                 .requestMatchers("/api/auth/validator/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/students").permitAll()
                 .requestMatchers("/api/test/**").permitAll()
-
-                /*
-                 * GET de máquinas → cualquier autenticado (estudiantes ven catálogo)
-                 * POST y demás → solo ADMIN (gestión de máquinas)
-                 */
                 .requestMatchers(HttpMethod.GET, "/api/machines").authenticated()
                 .requestMatchers(HttpMethod.GET, "/api/machines/*").authenticated()
-                .requestMatchers("/api/machines/**").hasRole(JwtParameters.ROLE_ADMIN)
 
-                /*
-                 * Rutas protegidas por rol específico:
-                 *   - /api/administrators/** → solo ADMIN
-                 *   - /api/validator/**     → solo VALIDATOR
-                 */
+                .requestMatchers("/api/machines/**").hasRole(JwtParameters.ROLE_ADMIN)
                 .requestMatchers("/api/administrators/**").hasRole(JwtParameters.ROLE_ADMIN)
                 .requestMatchers("/api/validator/**").hasRole(JwtParameters.ROLE_VALIDATOR)
 
-                /*
-                 * Rutas accesibles con cualquier autenticación (sin restricción de rol):
-                 *   - /api/students/**     → consultar y registrar estudiantes
-                 *   - /api/bookings/**     → crear, cancelar y consultar reservas
-                 *   - /api/availability/** → consultar disponibilidad
-                 */
                 .requestMatchers("/api/students/**").authenticated()
                 .requestMatchers("/api/bookings/**").authenticated()
                 .requestMatchers("/api/availability/**").authenticated()
 
-                /*
-                 * Cualquier otra ruta requiere autenticación.
-                 */
                 .anyRequest().authenticated()
             )
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
