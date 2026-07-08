@@ -19,9 +19,6 @@ public class TimeSlotController {
         this.timeSlotRepository = timeSlotRepository;
     }
 
-    /**
-     * Devuelve todas las franjas horarias disponibles con su id y nombre.
-     */
     @GetMapping
     public List<TimeSlot> getAll() {
         return timeSlotRepository.findAll();

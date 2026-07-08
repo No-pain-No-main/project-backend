@@ -18,10 +18,7 @@ public class ValidatorController {
         this.bookingConfirmService = bookingConfirmService;
     }
 
-    /**
-     * El validador ingresa el número de documento del estudiante
-     * para confirmar su reserva más próxima.
-     */
+    
     @PostMapping("/confirm/{studentDocumentNumber}")
     public Object confirmBooking(@PathVariable String studentDocumentNumber) {
         try {

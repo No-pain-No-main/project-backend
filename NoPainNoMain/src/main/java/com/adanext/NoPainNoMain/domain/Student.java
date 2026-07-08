@@ -13,7 +13,7 @@ public class Student {
     private String secondLastName;
     private String email;
     private final DocumentType documentType;
-    private String documentNumber; // PK: número de documento
+    private String documentNumber; 
     private final LocalDate birthDate;
     private final String phone;
     private final Gender gender;
@@ -54,7 +54,8 @@ public class Student {
 
    
     public void registerPassword(String newHash) {
-        if (newHash == null || newHash.isBlank()) {
+        boolean isHashValid = newHash != null && !newHash.isBlank();
+        if (!isHashValid) {
             throw new IllegalArgumentException("El hash de contraseña no puede ser nulo o vacío");
         }
         this.passwordHash = newHash;

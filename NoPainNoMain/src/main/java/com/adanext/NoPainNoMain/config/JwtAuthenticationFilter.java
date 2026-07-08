@@ -16,15 +16,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-/**
- * Filtro que intercepta cada petición HTTP para validar el token JWT
- * y establecer la autenticación en el contexto de Spring Security.
- * 
- * Se ejecuta antes de que la petición llegue al controlador.
- * Si el token es válido, extrae el número de documento y el rol del usuario
- * y los registra en SecurityContextHolder para que los endpoints protegidos
- * puedan identificar quién hace la petición.
- */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -39,26 +30,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        // Ignorar completamente las peticiones OPTIONS (preflight CORS)
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             filterChain.doFilter(request, response);
             return;
         }
-
-        /*
-         * El token JWT debe venir en el header:
-         *   Authorization: Bearer <token>
-         * 
-         * El constructor UsernamePasswordAuthenticationToken recibe:
-         *   - principal   → documentNumber del usuario autenticado
-         *   - credentials → null (no se necesita la contraseña porque
-         *                    el token JWT ya fue validado con su firma)
-         *   - authorities → lista con el rol (ej: ROLE_STUDENT)
-         * 
-         * credentials se pasa como null porque no queremos almacenar
-         * contraseñas en la sesión de seguridad — el JWT ya garantiza
-         * que el usuario está autenticado y su rol es válido.
-         */
 
         String header = request.getHeader(JwtParameters.AUTH_HEADER);
 

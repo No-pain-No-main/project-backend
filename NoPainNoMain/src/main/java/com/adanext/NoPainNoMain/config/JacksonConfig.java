@@ -58,7 +58,6 @@ public class JacksonConfig {
         
         SimpleModule catalogoModule = new SimpleModule();
 
-    // Usamos una expresión lambda para desempaquetar el Optional de tus repositorios
     catalogoModule.addDeserializer(
         DocumentType.class,
         new ReferenceDeserializer<>(

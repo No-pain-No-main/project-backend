@@ -22,9 +22,6 @@ public class AvailabilityController {
         this.availabilityService = availabilityService;
     }
 
-    /**
-     * Devuelve los horarios libres de una máquina específica en una fecha.
-     */
     @GetMapping("/{machineId}/{date}")
     public Object getByMachine(@PathVariable Integer machineId, @PathVariable String date) {
         LocalDate day = LocalDate.parse(date);
@@ -32,9 +29,6 @@ public class AvailabilityController {
         return freeSlots.stream().map(TimeSlot::getName).collect(Collectors.toList());
     }
 
-    /**
-     * Devuelve los horarios libres de todas las máquinas en una fecha.
-     */
     @GetMapping("/{date}")
     public Object getAll(@PathVariable String date) {
         LocalDate day = LocalDate.parse(date);

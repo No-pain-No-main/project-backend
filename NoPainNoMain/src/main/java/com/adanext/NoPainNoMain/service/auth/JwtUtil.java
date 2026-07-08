@@ -20,9 +20,6 @@ public class JwtUtil {
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
-    /**
-     * Genera un token JWT para un usuario con su rol y tiempo de expiración específico.
-     */
     public String generateToken(String documentNumber, String role, long expirationMs) {
         Date now = new Date();
         Date expiration = new Date(now.getTime() + expirationMs);
@@ -36,23 +33,14 @@ public class JwtUtil {
                 .compact();
     }
 
-    /**
-     * Extrae el subject (documentNumber) del token.
-     */
     public String getDocumentNumber(String token) {
         return getClaims(token).getSubject();
     }
 
-    /**
-     * Extrae el rol del token.
-     */
     public String getRole(String token) {
         return getClaims(token).get("role", String.class);
     }
 
-    /**
-     * Valida si el token es válido (no ha expirado y tiene firma correcta).
-     */
     public boolean validateToken(String token) {
         try {
             getClaims(token);
@@ -62,9 +50,6 @@ public class JwtUtil {
         }
     }
 
-    /**
-     * Obtiene todos los claims del token.
-     */
     private Claims getClaims(String token) {
         return Jwts.parser()
                 .verifyWith(secretKey)

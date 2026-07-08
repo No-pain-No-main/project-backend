@@ -16,9 +16,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
-/**
- * Servicio para generar un archivo Excel (.xlsx) con el listado de reservas.
- */
+
 @Service
 public class BookingExcelExport {
 
@@ -34,12 +32,6 @@ public class BookingExcelExport {
     private static final int COL_TIME_SLOT = 5;
     private static final int COL_STATUS = 6;
 
-    /**
-     * Genera un archivo Excel (.xlsx) en memoria con la lista de reservas.
-     *
-     * @param bookings lista de reservas a incluir
-     * @return ByteArrayInputStream con el contenido del archivo Excel
-     */
     public ByteArrayInputStream export(List<Booking> bookings) {
         try (Workbook workbook = new XSSFWorkbook();
              ByteArrayOutputStream out = new ByteArrayOutputStream()) {
