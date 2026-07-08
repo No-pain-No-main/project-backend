@@ -34,4 +34,8 @@ public class AdministratorRegister {
 
     return administratorRepository.save(admin);
   }
+
+  public Administrator save(Administrator admin) {
+    return administratorRepository.save(admin);
+  }
 }

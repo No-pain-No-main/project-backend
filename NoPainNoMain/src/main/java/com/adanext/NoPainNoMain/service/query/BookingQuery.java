@@ -36,9 +36,17 @@ public class BookingQuery {
         return bookingRepository.findByStudent(student);
     }
 
+    public List<Booking> byStudentDocumentNumber(String documentNumber) {
+        return bookingRepository.findByStudentDocumentNumber(documentNumber);
+    }
+
     public int countActiveByStudent(String documentNumber) {
         return bookingRepository.countActiveByStudent(documentNumber);
     }
+
+  public List<Booking> findAll() {
+    return bookingRepository.findAll();
+  }
 
   public boolean hasOverlappingBooking(Booking booking) {
     if (booking == null) {

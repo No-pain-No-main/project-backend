@@ -17,7 +17,7 @@ public class Student {
     private final LocalDate birthDate;
     private final String phone;
     private final Gender gender;
-    private final UserStatus userStatus;
+    private UserStatus userStatus;
     private String passwordHash;
 
     public Student() {
@@ -79,4 +79,12 @@ public class Student {
     public void setSecondLastName(String secondLastName) { this.secondLastName = secondLastName; }
     public void setEmail(String email) { this.email = email; }
     public void setDocumentNumber(String documentNumber) { this.documentNumber = documentNumber; }
+    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+
+    public void updateStatus(UserStatus newStatus) {
+        if (newStatus == null) {
+            throw new IllegalArgumentException("El estado no puede ser nulo");
+        }
+        this.userStatus = newStatus;
+    }
 }

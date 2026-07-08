@@ -94,6 +94,12 @@
             <version>0.12.6</version>
             <scope>runtime</scope>
         </dependency>
+		<!-- Apache POI para generar archivos Excel -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.4.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

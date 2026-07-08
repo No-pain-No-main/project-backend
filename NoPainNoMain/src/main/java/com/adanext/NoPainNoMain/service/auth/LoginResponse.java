@@ -7,15 +7,17 @@ public class LoginResponse {
     private String documentNumber;
     private String firstName;
     private String lastName;
+    private String email;
 
     public LoginResponse() {}
 
-    public LoginResponse(String token, String role, String documentNumber, String firstName, String lastName) {
+    public LoginResponse(String token, String role, String documentNumber, String firstName, String lastName, String email) {
         this.token = token;
         this.role = role;
         this.documentNumber = documentNumber;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.email = email;
     }
 
     public String getToken() { return token; }
@@ -32,4 +34,7 @@ public class LoginResponse {
 
     public String getLastName() { return lastName; }
     public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 }
