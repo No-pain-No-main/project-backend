@@ -1,10 +1,13 @@
 package com.adanext.NoPainNoMain.controller;
 
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,6 +52,29 @@ public class MachineController {
         try {
             Machine machine = machineRegister.save(json);
             return machine;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
+    }
+
+    @PutMapping("/{machineId}")
+    public Object updateMachine(@PathVariable Integer machineId, @RequestBody Map<String, Object> body) {
+        try {
+            String name = (String) body.get("name");
+            Integer typeId = body.get("typeId") != null ? ((Number) body.get("typeId")).intValue() : null;
+            Integer statusId = body.get("statusId") != null ? ((Number) body.get("statusId")).intValue() : null;
+            Machine machine = machineUpdate.updateMachine(machineId, name, typeId, statusId);
+            return machine;
+        } catch (IllegalStateException e) {
+            return e.getMessage();
+        }
+    }
+
+    @DeleteMapping("/{machineId}")
+    public Object deleteMachine(@PathVariable Integer machineId) {
+        try {
+            machineUpdate.deleteMachine(machineId);
+            return "Máquina con ID " + machineId + " eliminada correctamente";
         } catch (IllegalStateException e) {
             return e.getMessage();
         }
