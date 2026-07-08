@@ -50,6 +50,11 @@ public class BookingController {
         return bookingQuery.findAll();
     }
 
+    @GetMapping("/student/{documentNumber}")
+    public List<Booking> getByStudent(@PathVariable String documentNumber) {
+        return bookingQuery.byStudentDocumentNumber(documentNumber);
+    }
+
     @GetMapping("/{bookingId}")
     public Object getById(@PathVariable String bookingId) {
         Booking booking = bookingQuery.byId(bookingId);

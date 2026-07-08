@@ -1,10 +1,12 @@
 package com.adanext.NoPainNoMain.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -48,5 +50,33 @@ public class AdministratorController {
         } catch (IllegalStateException e) {
             return e.getMessage();
         }
+    }
+
+    @PutMapping("/{documentNumber}")
+    public Object update(@PathVariable String documentNumber, @RequestBody Map<String, String> body) {
+        Administrator existing = administratorQuery.byDocumentNumber(documentNumber);
+        if (existing == null) {
+            return "Administrador con documento " + documentNumber + " no encontrado";
+        }
+
+        String firstName = body.getOrDefault("firstName", existing.getFirstName());
+        String lastName = body.getOrDefault("lastName", existing.getLastName());
+        String email = body.getOrDefault("email", existing.getEmail());
+
+        Administrator updated = new Administrator(
+            existing.getDocumentNumber(),
+            firstName,
+            existing.getMiddleName(),
+            lastName,
+            existing.getSecondLastName(),
+            existing.getDocumentType(),
+            email,
+            existing.getPhone(),
+            existing.getPosition(),
+            existing.getPasswordHash(),
+            existing.getSecretPhrase()
+        );
+
+        return administratorRegister.save(updated);
     }
 }
